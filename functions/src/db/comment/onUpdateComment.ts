@@ -1,0 +1,65 @@
+import * as functions from 'firebase-functions';
+import { updateProductRating } from './helpers/updateProductRating';
+import { updateCommentList } from './helpers/updateCommentList';
+import { updateCommentStatistic } from './helpers/updateCommentStatistic';
+import { CommentData } from '../../models/comment/CommentData';
+import { addDeletedComment } from './helpers/addDeletedComment';
+
+export const onUpdateComment = functions.firestore
+  .document('comments/{commentId}')
+  .onUpdate(async (change, context) => {
+    const { commentId } = context.params;
+
+    const commentSnapAfter = change.after;
+    const commentSnapBefore = change.before;
+
+    const commentDataAfter = commentSnapAfter.data() as CommentData;
+    const commentDataBefore = commentSnapBefore.data() as CommentData;
+
+    const { productId, userId } = commentDataAfter;
+
+    if (commentDataBefore.published === false && commentDataAfter.published === true) {
+      // The comment is created
+      // update product rating
+      await updateProductRating({ mode: 'create', productId, ratingAfter: commentDataAfter.rating });
+
+      // update comment statistic
+      await updateCommentStatistic({ mode: 'increment' });
+
+      // update the comment list
+      await updateCommentList({ productId, commentId, userId, commentDataAfter, mode: 'create' });
+      return;
+    }
+
+    if (commentDataBefore.published === true && commentDataAfter.deletedAt === undefined) {
+      // The comment is updated
+      // update product rating
+      await updateProductRating({
+        mode: 'update',
+        productId,
+        ratingAfter: commentDataAfter.rating,
+        ratingBefore: commentDataBefore.rating,
+      });
+
+      // update the comment list
+      await updateCommentList({ productId, commentId, userId, commentDataBefore, commentDataAfter, mode: 'update' });
+    }
+
+    if (commentDataAfter.deletedAt !== undefined) {
+      // The comment is deleted
+      // update product rating
+      await updateProductRating({ mode: 'delete', productId, ratingBefore: commentDataBefore.rating });
+
+      // update comment statistic
+      await updateCommentStatistic({
+        mode: 'decrement',
+        date: commentDataAfter.createdAt,
+      });
+
+      // update the comment list
+      await updateCommentList({ productId, commentId, userId, commentDataBefore, mode: 'delete' });
+
+      // update the deleted comments
+      await addDeletedComment({ commentId, commentData: commentDataAfter });
+    }
+  });

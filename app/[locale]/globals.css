@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .no-tailwind * {
+    all: unset;
+  }
+  .scrollbar::-webkit-scrollbar {
+    width: 0.4rem;
+    height: 0.4rem;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: theme('colors.scrollbar');
+    opacity: 0.7;
+  }
+  .scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  .scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: theme('colors.scrollbar');
+  }
+  .select-arrow-none {
+    -webkit-appearance: none; /* Safari and Chrome */
+    appearance: none;
+  }
+  .number-input-no-scroll {
+    appearance: none;
+  }
+  .number-input-no-scroll::-webkit-inner-spin-button,
+  .number-input-no-scroll::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Safari and Chrome */
+    margin: 0;
+  }
+  .range-input {
+    appearance: none;
+    -webkit-appearance: none; /* Safari and Chrome */
+    -moz-appearance: none;
+    pointer-events: none;
+  }
+  .range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 9999px;
+    width: 16px;
+    height: 16px;
+    background-color: theme('colors.primary.bg');
+    z-index: 50;
+    position: relative;
+    pointer-events: all;
+  }
+  .range-input::-webkit-slider-thumb:hover {
+    opacity: 0.85;
+  }
+}
+
+@media print {
+  @page {
+    margin: 16mm 16mm 16mm 16mm;
+    overflow: none;
+  }
+}

@@ -1,3 +1,18 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "plugins": ["react", "./no-import-from-next-navigation.js"],
+  "rules": {
+    "no-import-from-next-navigation": {
+      "create": "./no-import-from-next-navigation.js",
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "Warn when imports are from 'next/navigation'",
+          "category": "Possible Errors",
+          "recommended": false
+        },
+        "schema": [] // no options
+      }
+    }
+  }
 }

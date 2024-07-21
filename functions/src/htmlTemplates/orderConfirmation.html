@@ -1,0 +1,41 @@
+<div style="width: 100%; background-color: #f6f6f6; padding-top: 16px; padding-bottom: 16px">
+  <div
+    style="
+      max-width: 600px;
+      width: 100%;
+      background-color: white;
+      border-radius: 8px;
+      margin: auto;
+      padding: 40px;
+      border: 1px solid rgba(15, 23, 42, 0.2);
+      font-family: Arial, sans-serif;
+      line-height: 1;
+    "
+  >
+    <h2 style="color: #333">Order Confirmation</h2>
+    <p>Hi {{customerName}},</p>
+    <p>Thank you for your order!</p>
+    <p>
+      Your order
+      <strong><a href="{{orderUrl}}" style="color: #0ea5e9; text-decoration: none"> #{{orderId}}</a></strong> has been
+      placed!
+    </p>
+    <p>Query code: <strong>{{queryCode}}</strong></p>
+    <p>We recommended you to save the id and query code.</p>
+    <p>We will process your order for delivery as soon as possible.</p>
+    <p>A total of <strong>{{totalQuantity}}</strong> items and a total of <strong>${{amountToPay}}</strong>.</p>
+    <p>
+      You can view your order details
+      <strong>
+        <a href="{{orderUrl}}" style="color: #0ea5e9; text-decoration: none"> here</a>
+      </strong>
+    </p>
+    <p>
+      <span>Or use the url here: </span>
+      <a href="{{orderUrl}}" style="color: #0ea5e9; font-weight: normal; text-decoration: underline"> {{orderUrl}} </a>
+    </p>
+    <p>Thank you for shopping with us!</p>
+    <p>Best regards,</p>
+    <p>Slate</p>
+  </div>
+</div>
