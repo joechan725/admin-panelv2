@@ -481,6 +481,7 @@ export const useOrder = () => {
         const { productId, quantity, nameZH, nameEN, descriptionZH, descriptionEN, image } = orderItems[i];
         const commentData: AddBlankCommentFirestoreData = removeEmptyFieldFormObject({
           boughtQuantity: quantity,
+          orderId,
           productId,
           productNameZH: nameZH,
           productNameEN: nameEN,
