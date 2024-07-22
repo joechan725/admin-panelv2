@@ -1,3 +1,5 @@
+'use client';
+
 import IconContainerWithBadgeCount from '@/components/ui/button/IconContainerWithBadgeCount';
 import DropDown from '@/components/ui/popup/DropDown';
 import { useWishlistStore } from '@/stores/useWishlistStore';

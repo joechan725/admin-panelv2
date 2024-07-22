@@ -6,7 +6,7 @@ export interface HeroBlock {
   content?: string;
   subContentBlocks?: undefined;
   list?: undefined;
-  image?: Image;
+  image?: Omit<Image, 'id'> & { id?: string };
   link?: string;
   linkDescription?: string;
 }

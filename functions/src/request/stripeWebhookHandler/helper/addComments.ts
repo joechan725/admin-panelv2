@@ -6,6 +6,7 @@ import { OrderData } from '../../../models/order/OrderData';
 
 interface AddCommentsParameters {
   pendingOrderData: OrderData;
+  pendingOrderId: string;
 }
 
 interface AddCommentData extends Omit<Comment, 'id' | 'rating' | 'createdAt' | 'updatedAt' | 'title' | 'content'> {
@@ -22,7 +23,7 @@ const db = admin.firestore();
  * @returns The modified order items with commentId
  */
 
-export const addComments = async ({ pendingOrderData }: AddCommentsParameters) => {
+export const addComments = async ({ pendingOrderData, pendingOrderId }: AddCommentsParameters) => {
   const batch = db.batch();
   const { orderItems, userId, userRole, userAvatar, userEmail, userFirstName, userLastName } = pendingOrderData;
 
@@ -31,6 +32,7 @@ export const addComments = async ({ pendingOrderData }: AddCommentsParameters) =
     const commentRef = db.collection('comments').doc();
     const commentData: AddCommentData = {
       boughtQuantity: quantity,
+      orderId: pendingOrderId,
       productId,
       productNameZH: nameZH,
       productNameEN: nameEN,

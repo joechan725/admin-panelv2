@@ -3,6 +3,7 @@ import { Reply } from '../reply/Reply';
 
 export interface Comment {
   id: string;
+  orderId: string;
   productId: string;
   productNameZH: string;
   productNameEN: string;

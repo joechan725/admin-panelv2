@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { ContentBlock } from '@/models/content/ContentBlock';
 import ContentBlockList from '@/components/content/ContentBlockList';
 import { useLocale } from 'next-intl';
+import { Link } from '@/navigation';
 
 interface Params {
   locale: string;
@@ -58,7 +59,11 @@ const Home = ({ params: { locale } }: HomeProps) => {
   unstable_setRequestLocale(locale);
   const localeHook = useLocale();
 
-  return <ContentBlockList contentBlocks={localeHook === 'en' ? contentBlocksEN : contentBlocksZH} />;
+  return (
+    <Link href="/products/page/1" className="group">
+      <ContentBlockList contentBlocks={localeHook === 'en' ? contentBlocksEN : contentBlocksZH} />
+    </Link>
+  );
 };
 
 export default Home;

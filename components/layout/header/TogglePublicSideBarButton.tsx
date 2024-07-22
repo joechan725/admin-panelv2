@@ -1,3 +1,5 @@
+'use client';
+
 import Bar3 from '@/components/icon/Bar3';
 import StoreFront from '@/components/icon/StoreFront';
 import PopUpLeftBar from '@/components/ui/popup/PopUpLeftBar';

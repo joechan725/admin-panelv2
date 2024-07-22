@@ -1,3 +1,5 @@
+'use client';
+
 import Cart from '@/components/icon/Cart';
 import IconContainerWithBadgeCount from '@/components/ui/button/IconContainerWithBadgeCount';
 import DropDown from '@/components/ui/popup/DropDown';

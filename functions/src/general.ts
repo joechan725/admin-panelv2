@@ -1,1 +1,1 @@
-export const companyName = 'Mogami';
+export const companyName = '好物之家';

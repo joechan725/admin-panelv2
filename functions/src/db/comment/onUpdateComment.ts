@@ -4,6 +4,7 @@ import { updateCommentList } from './helpers/updateCommentList';
 import { updateCommentStatistic } from './helpers/updateCommentStatistic';
 import { CommentData } from '../../models/comment/CommentData';
 import { addDeletedComment } from './helpers/addDeletedComment';
+import { updateCommentedOrderItem } from './helpers/updateCommentedOrderItem';
 
 export const onUpdateComment = functions.firestore
   .document('comments/{commentId}')
@@ -16,10 +17,13 @@ export const onUpdateComment = functions.firestore
     const commentDataAfter = commentSnapAfter.data() as CommentData;
     const commentDataBefore = commentSnapBefore.data() as CommentData;
 
-    const { productId, userId } = commentDataAfter;
+    const { productId, userId, orderId } = commentDataAfter;
 
     if (commentDataBefore.published === false && commentDataAfter.published === true) {
       // The comment is created
+      // update commented order item
+      await updateCommentedOrderItem({ orderId, productId });
+
       // update product rating
       await updateProductRating({ mode: 'create', productId, ratingAfter: commentDataAfter.rating });
 

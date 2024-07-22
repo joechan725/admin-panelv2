@@ -1,5 +1,4 @@
 import { handleImagesUpload } from '@/firebase/api/image/handleImagesUpload';
-import { updateOrder, UpdateOrderFirestoreData } from '@/firebase/api/order/updateOrder';
 import { getComment } from '@/firebase/api/product/comment/getComment';
 import { getProductCommentLists } from '@/firebase/api/product/comment/getProductCommentLists';
 import { updateComment, UpdateCommentFirestoreData } from '@/firebase/api/product/comment/updateComment';
@@ -8,7 +7,7 @@ import { Comment } from '@/models/comment/Comment';
 import { ImageInput } from '@/models/ImageInput';
 import { CommentSchema } from '@/schemas/commentSchema';
 import { useSessionStore } from '@/stores/useSessionStore';
-import { arrayUnion, serverTimestamp } from 'firebase/firestore';
+import { serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { useToast } from '../toast/useToast';
 
@@ -81,13 +80,6 @@ export const useComment = () => {
     setError(undefined);
 
     try {
-      // Update the order with commented product id
-      const orderData: UpdateOrderFirestoreData = {
-        commentedProductIds: arrayUnion(productId),
-        updatedAt: serverTimestamp(),
-      };
-      await updateOrder({ orderId, orderData });
-
       const imagesData = await handleImagesUpload('/images/products/comments', images, 'Comment image');
       const commentData: UpdateCommentFirestoreData = removeEmptyFieldFormObject({
         ...formData,

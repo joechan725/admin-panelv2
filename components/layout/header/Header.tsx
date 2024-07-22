@@ -1,6 +1,3 @@
-'use client';
-
-import StoreFront from '@/components/icon/StoreFront';
 import HoriNavItemList from './HoriNavItemList';
 import { getPublicNavLinks } from './getPublicNavLinks';
 import Link from 'next/link';
@@ -11,6 +8,7 @@ import TogglePublicSideBarButton from './TogglePublicSideBarButton';
 import WishlistButton from '@/components/features/wishlist/WishlistButton';
 import ChangeLanguageButton from '@/components/features/language/ChangeLanguageButton';
 import { useTranslations } from 'next-intl';
+import ImageShow from '@/components/ui/image/ImageShow';
 
 interface HeaderProps {}
 
@@ -26,11 +24,8 @@ const Header = ({}: HeaderProps) => {
           <TogglePublicSideBarButton />
           {/* Logo and website name */}
           <Link href="/" className="flex gap-2 items-center group">
-            <StoreFront
-              sizeClassName="size-8"
-              className="transition-all text-primary-text group-hover:text-secondary-bg group-active:text-secondary-bg/70"
-            />
-            <div className="transition-all text-primary-text group-hover:text-secondary-bg group-active:text-secondary-bg/70 font-bold text-xl">
+            <ImageShow image={{ alt: 'Icon', url: '/header-icon.png' }} sizeClassName="size-8" />
+            <div className="min-w-max transition-all text-primary-text group-hover:text-secondary-bg group-active:text-secondary-bg/70 font-bold text-lg md:text-xl">
               {tGeneral('companyName')}
             </div>
           </Link>

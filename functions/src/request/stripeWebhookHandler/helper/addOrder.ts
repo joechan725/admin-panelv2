@@ -27,7 +27,7 @@ export const addOrder = async ({ pendingOrderId, pendingOrderData, charge }: Add
 
   try {
     // add comments for each order items
-    const orderItems = await addComments({ pendingOrderData });
+    const orderItems = await addComments({ pendingOrderData, pendingOrderId });
 
     // create the order
     const newOrder: ExtendWithFieldValue<OrderData> = {

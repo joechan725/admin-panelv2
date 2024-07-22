@@ -1,19 +1,335 @@
 rules_version = '2';
 
 service cloud.firestore {
-  match /databases/{database}/documents {
+  function isAuth() {
+    return request.auth != null;
+  }
+  function isAdmin() {
+    return isAuth()
+      && request.auth.token.admin == true;
+  }
+  function isOwner() {
+    return request.auth.uid == resource.data.userId;
+  }
+  function isSelf(userId) {
+    return request.auth.uid == userId;
+  }
+  function fieldNotExist(fieldName) {
+    return !(fieldName in resource.data);
+  }
+  function isPublic() {
+    return resource.data.isPublic == true;
+  }
+  function isFieldUnchanged(fieldName) {
+    return fieldNotExist(fieldName) || request.resource.data[fieldName] == resource.data[fieldName];
+  }
+  function notEditingOrderInformation() {
+    return isFieldUnchanged('queryCode')
+      && isFieldUnchanged('totalQuantity')
+      && isFieldUnchanged('orderItems')
+      && isFieldUnchanged('couponsUsed')
+      && isFieldUnchanged('totalPriceBeforeDiscount')
+      && isFieldUnchanged('totalPriceAfterDiscount')
+      && isFieldUnchanged('discountAmount')
+      && isFieldUnchanged('deliveryChargeAtThisOrder')
+      && isFieldUnchanged('amountToPay')
+      && isFieldUnchanged('status')
+      && isFieldUnchanged('statusHistories')
+      && isFieldUnchanged('isPaid')
+      && isFieldUnchanged('paidAt')
+      && isFieldUnchanged('chargeInfo')
+      && isFieldUnchanged('chargeId')
+      && isFieldUnchanged('amountCapturedCurrent')
+      && isFieldUnchanged('paymentIntentId')
+      && isFieldUnchanged('paymentMethodId')
+      && isFieldUnchanged('paymentMethodDetails')
+      && isFieldUnchanged('amountRefunded')
+      && isFieldUnchanged('stripeRefunds')
+      && isFieldUnchanged('applicationForRefund')
+      && isFieldUnchanged('refundReason')
+      && isFieldUnchanged('refundImages');
+  }
 
-    // This rule allows anyone with your Firestore database reference to view, edit,
-    // and delete all data in your Firestore database. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Firestore database will be denied.
-    //
-    // Make sure to write security rules for your app before that time, or else
-    // all client requests to your Firestore database will be denied until you Update
-    // your rules
-    match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2024, 8, 11);
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read: if isSelf(userId) || isAdmin();
+      allow create, update: if isSelf(userId) || isAdmin();
+      allow delete: if false;
+
+      match /pendingOrders/{pendingOrderId} {
+        allow read: if isSelf(userId) || isAdmin();
+        allow create, update: if isAdmin();
+        allow delete: if false;
+      }
+
+      match /notifications/{notificationId} {
+        allow read: if isSelf(userId) || isAdmin();
+        allow create, update: if isAdmin();
+        allow delete: if isSelf(userId) || isAdmin();
+      }
+
+      match /addresses/{addressId} {
+        allow read: if isSelf(userId) || isAdmin();
+        allow create, update: if isSelf(userId) || isAdmin();
+        allow delete: if false;
+      }
+
+      match /cartItems/{cartItemId} {
+        allow read: if isSelf(userId) || isAdmin();
+        allow write: if isSelf(userId) || isAdmin();
+      }
+
+      match /wishlistItems/{cartItemId} {
+        allow read: if isSelf(userId) || isAdmin();
+        allow write: if isSelf(userId) || isAdmin();
+      }
+
+      match /orderLists/{listId} {
+        allow read: if isSelf(userId) || isAdmin();
+        allow write: if false;
+      }
+      
+      match /commentLists/{listId} {
+        allow read: if isSelf(userId) || isAdmin();
+        allow write: if false;
+      }
+
+      match /lists/{listName} {
+        allow read: if isSelf(userId) || isAdmin();
+        allow write: if false;
+      }
+    }
+    
+    match /privateUserLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow update: if isOwner() || isAdmin();
+      allow delete: if false;
+    }
+        
+    match /replies/{replyId} {
+      allow read: if true;
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /products/{productId} {
+      allow read: if isPublic() || isAdmin();
+      allow create, update: if isAdmin();
+      allow delete: if false;
+
+      match /commentLists/{listId} {
+        allow read: if true;
+        allow write: if false;
+      }
+
+      match /others/subscriberList {
+        allow read: if true;
+        allow create, update: if true;
+        allow delete: if false;
+      }
+    }
+
+    match /privateProductLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /productLists/{listId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    match /privateCommentLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /orders/{orderId} {
+      allow read: if isOwner()
+        || isAdmin();
+      allow create: if isAdmin();
+      allow update: if (isOwner() && notEditingOrderInformation())
+        || isAdmin();
+      allow delete: if false;
+    }
+
+    match /privateOrderLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /coupons/{couponId} {
+      allow read, create, update: if isAdmin();
+      allow delete: if false;
+
+      match /usageRecords/{couponUsageRecordId} {
+        allow read: if isAdmin();
+        allow write: if false;
+      }
+
+      match /usageRecordLists/{listId} {
+        allow read: if isAdmin();
+        allow write: if false;
+      }
+    }
+
+    match /privateCouponLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+    
+    match /couponLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /deliveryOptions/{deliveryOptionId} {
+      allow read, create, update: if isAdmin();
+      allow delete: if false;
+
+      match /usageRecords/{couponUsageRecordId} {
+        allow read: if isAdmin();
+        allow write: if false;
+      }
+
+      match /usageRecordLists/{listId} {
+        allow read: if isAdmin();
+        allow write: if false;
+      }
+    }
+
+    match /privateDeliveryOptionLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /deliveryOptionLists/{listId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /brands/{brandId} {
+      allow read, create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /categories/{categoryId} {
+      allow read, create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /collections/{collectionId} {
+      allow read, create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /tags/{tagId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /privateLists/{listName} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /lists/{listName} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /dailyStatistics/{date} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /monthlyStatistics/{date} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /monthlyStatistics/{month} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /yearlyStatistics/{year} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /allHistoryStatistic/{name} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /admin/{aggregatorName} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /smartBars/{smartBarId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /privateSmartBarLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /smartBarLists/{listId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /storeAddresses/{storeAddressId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /store/{aggregatorName} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /salesRecords/{salesRecordId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /salesRecordLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /mail/{mailId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /notifications/{mailId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /promotions/{promotionId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /promotionLists/{listId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /promotion/subscriberList {
+      allow read: if isAdmin();
+      allow write: if true;
     }
   }
 }

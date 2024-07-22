@@ -1,6 +1,6 @@
 {
   "General": {
-    "companyName": "Mogami"
+    "companyName": "好物の家"
   },
   "Metadata": {
     "home": "首頁",
@@ -131,7 +131,7 @@
       "incorrectPassword": "密碼不正確",
       "emptyCart": "您的購物車為空。現在開始添加您最喜歡的產品吧!",
       "invalidCartItem": "您的購物車中包含無效的產品。請調整數量或從購物車中移除它們",
-      "noPromotionMethodSelected": "未選擇任何促銷方式",
+      "noPromotionMethodSelected": "未選擇任何推廣方式",
       "noLongerAvailable": "抱歉,該產品已從我們的庫存中刪除,不再可用",
       "outOfStock": "抱歉,該產品目前缺貨",
       "notEnoughStock": "抱歉,只有 {stock} 件的產品庫存",
@@ -283,7 +283,7 @@
     "policyStatementPart1": "* 當您在我們的網站上註冊時,您同意我們的 ",
     "privacyPolicy": "隱私政策",
     "termsOfService": "服務條款",
-    "policyStatementPart2": ",並願意接收 {companyName} 提供的最新促銷優惠和相關服務信息。您可以在註冊後隨時選擇退出。"
+    "policyStatementPart2": ",並願意接收 {companyName} 提供的最新推廣優惠和相關服務信息。您可以在註冊後隨時選擇退出。"
   },
   "Pagination": {
     "indicator": "顯示由{start}到{end}共{itemsLength}個{itemName}"
@@ -370,7 +370,7 @@
       "orderBy": "排序方式",
       "ascending": "遞增",
       "descending": "遞減",
-      "onSale": "促銷中",
+      "onSale": "特價中",
       "inStock": "有庫存",
       "categories": "類別",
       "brands": "品牌",
