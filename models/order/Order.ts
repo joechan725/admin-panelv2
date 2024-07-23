@@ -59,8 +59,8 @@ export interface Order {
   deliveryOptionDescriptionEN?: string;
   deliveryOptionDescriptionZH?: string;
   deliveryOptionDeliveryCharge: number;
-  deliveryOptionEstimatedTimeEN: string;
-  deliveryOptionEstimatedTimeZH: string;
+  deliveryOptionEstimatedTimeEN?: string;
+  deliveryOptionEstimatedTimeZH?: string;
   deliveryOptionFreeDeliveryThreshold?: number;
   deliveryOptionApplyThresholdBeforeCoupons: boolean;
   deliveryOptionDeliveryProviderEN?: string;

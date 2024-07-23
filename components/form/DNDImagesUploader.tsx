@@ -9,6 +9,7 @@ import LoadingShimmer from '../loading/LoadingShimmer';
 import ArrowsPointingOut from '../icon/ArrowsPointingOut';
 import IconCircleButton from '../ui/button/IconCircleButton';
 import { ImageInput } from '@/models/ImageInput';
+import { useTranslations } from 'next-intl';
 
 interface DNDImagesUploaderProps {
   title?: string;
@@ -27,6 +28,8 @@ const DNDImagesUploader = ({
   setImages,
   shape = 'video',
 }: DNDImagesUploaderProps) => {
+  const t = useTranslations('ImageUpload');
+
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -98,13 +101,13 @@ const DNDImagesUploader = ({
       >
         {disabled && <LoadingShimmer gradient="stone" roundedClassName="rounded-lg" />}
         {isDragging ? (
-          <div className="text-safe text-xl font-semibold text-center">Drop images here</div>
+          <div className="text-safe text-xl font-semibold text-center">{t('dropImagesHere')}</div>
         ) : (
           <>
-            <div className="text-xl font-semibold text-primary-text text-center">Drag and drop your images here</div>
-            <div className="text-sm font-semibold text-primary-text text-center">or</div>
+            <div className="text-xl font-semibold text-primary-text text-center">{t('dragAndDropYourImagesHere')}</div>
+            <div className="text-sm font-semibold text-primary-text text-center">{t('or')}</div>
             <BoxButton theme="primary" type="button" disabled={false} fontSize="sm">
-              Browse Image
+              {t('browseImage')}
             </BoxButton>
           </>
         )}

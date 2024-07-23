@@ -10,7 +10,7 @@ import { Collection } from '@/models/classification/collection/Collection';
 import { ImageInput } from '@/models/ImageInput';
 import { Tag } from '@/models/tag/Tag';
 import { productSchema, ProductSchema } from '@/schemas/productSchema';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/navigation';
 import ProductForm from './ProductForm';
 
 interface CreateProductFormProps {

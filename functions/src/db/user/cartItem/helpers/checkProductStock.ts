@@ -60,7 +60,7 @@ export const checkProductStock = async ({ cartItemData, cartItemRef }: CheckProd
       cartItemData.nameEN !== foundProductData.nameEN ||
       cartItemData.nameZH !== foundProductData.nameZH ||
       cartItemData.rating !== foundProductData.rating ||
-      cartItemData.image?.url !== foundProductData.images?.[0].url ||
+      cartItemData.image?.url !== foundProductData.images?.[0]?.url ||
       cartItemData.descriptionEN !== foundProductData.descriptionEN ||
       cartItemData.descriptionZH !== foundProductData.descriptionZH
     ) {

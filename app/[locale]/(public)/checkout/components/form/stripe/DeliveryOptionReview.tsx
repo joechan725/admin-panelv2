@@ -5,7 +5,7 @@ interface DeliveryOptionReviewProps {
   name: string;
   description?: string;
   deliveryCharge: number;
-  estimatedTime: string;
+  estimatedTime?: string;
   freeDeliveryThreshold?: number;
   deliveryProvider?: string;
   deliveryChargeAtThisOrder?: number;

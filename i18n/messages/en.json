@@ -121,6 +121,7 @@
       "orderIncorrectQueryCode": "Incorrect query code. Please check your order ID and try again with another query code or login to view you orders.",
       "refundAmountShallBeSmallerThanTheOrderAmount": "Refund amount shall be smaller than the order amount",
       "selectProduct": "Please select a product",
+      "pleaseUploadImage": "Please upload an image",
       "maximum3ImagesAllowed": "Maximum of 3 images allowed",
       "eachTagMustBeAtLeastOneCharacterLong": "Each tag must be at least one character long",
       "eachCodeMustBeAtLeastOneCharacterLong": "Each code must be at least one character long",
@@ -493,11 +494,19 @@
       "total": "Total: "
     },
     "checkoutForm": {
-      "payNow": "Pay Now",
+      "uploadProofOfPayment": "Upload Proof of Payment",
+      "description": "Use 'Faster Payment Service' to scan the QR code below or enter the FPS ID '113399927' to make payment, then upload the proof of payment.",
+      "place": "Place the order",
       "paymentSucceeded": "Payment Succeeded!",
       "paymentProcessing": "Your payment is processing.",
       "paymentNotSuccessful": "Your payment was not successful, please try again.",
-      "somethingWentWrong": "Something went wrong."
+      "somethingWentWrong": "Something went wrong.",
+      "policyStatementPart1": "* By clicking the \"Place the order\" button, you agree to our ",
+      "privacyPolicy": "Privacy Policy",
+      "and1": ", ",
+      "termsOfService": "Terms of Service",
+      "and2": ", and ",
+      "returnAndExchangePolicy": "Return and Exchange Policy"
     },
     "confirmation": {
       "thankYou": "Thank you!",
@@ -1285,5 +1294,14 @@
     "connectWithUs": "Connect With Us",
     "contactUs": "Contact Us",
     "copyRight": "{year} © {companyName}, All Rights Reserved"
+  },
+  "ImageUpload": {
+    "dropImageHere": "Drop image here",
+    "dropImagesHere": "Drop images here",
+    "dragAndDropYourImageHere": "Drag and drop your image here",
+    "dragAndDropYourImagesHere": "Drag and drop your images here",
+    "or": "or",
+    "browseImage": "Browse Image",
+    "pickAnImage": "Pick an Image"
   }
 }

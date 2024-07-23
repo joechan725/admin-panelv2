@@ -12,7 +12,7 @@ import { PrivateProduct } from '@/models/product/PrivateProduct';
 import { Product } from '@/models/product/Product';
 import { Tag } from '@/models/tag/Tag';
 import { ProductSchema, productSchema } from '@/schemas/productSchema';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/navigation';
 import ProductForm from './ProductForm';
 
 interface EditProductFormProps {

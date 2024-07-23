@@ -48,25 +48,13 @@ const DeliveryOptionSelectorItem = ({
     setValue('deliveryOptionId', id);
     setValue('deliveryOptionNameZH', nameZH);
     setValue('deliveryOptionNameEN', nameEN);
-    setValue(
-      'deliveryOptionDescriptionZH',
-      (descriptionZH ?? '') as OrderPlacementSchema['deliveryOptionDescriptionZH']
-    );
-    setValue(
-      'deliveryOptionDescriptionEN',
-      (descriptionEN ?? '') as OrderPlacementSchema['deliveryOptionDescriptionEN']
-    );
+    setValue('deliveryOptionDescriptionZH', descriptionZH ?? '');
+    setValue('deliveryOptionDescriptionEN', descriptionEN ?? '');
     setValue('deliveryOptionDeliveryCharge', deliveryCharge ?? '');
-    setValue(
-      'deliveryOptionDeliveryProviderZH',
-      (deliveryProviderZH ?? '') as OrderPlacementSchema['deliveryOptionDeliveryProviderZH']
-    );
-    setValue(
-      'deliveryOptionDeliveryProviderEN',
-      (deliveryProviderEN ?? '') as OrderPlacementSchema['deliveryOptionDeliveryProviderEN']
-    );
-    setValue('deliveryOptionEstimatedTimeZH', estimatedTime);
-    setValue('deliveryOptionEstimatedTimeZH', estimatedTime);
+    setValue('deliveryOptionDeliveryProviderZH', deliveryProviderZH ?? '');
+    setValue('deliveryOptionDeliveryProviderEN', deliveryProviderEN ?? '');
+    setValue('deliveryOptionEstimatedTimeZH', estimatedTimeZH ?? '');
+    setValue('deliveryOptionEstimatedTimeEN', estimatedTimeEN ?? '');
     setValue(
       'deliveryOptionFreeDeliveryThreshold',
       (freeDeliveryThreshold ?? '') as OrderPlacementSchema['deliveryOptionFreeDeliveryThreshold']
@@ -77,12 +65,9 @@ const DeliveryOptionSelectorItem = ({
       setValue('addressRemark', '');
       setValue('deliveryDistrict', (storeAddressDistrict ?? '') as OrderPlacementSchema['deliveryDistrict']);
       setValue('deliveryRegion', (storeAddressRegion ?? '') as OrderPlacementSchema['deliveryRegion']);
-      setValue(
-        'deliveryDetailAddress',
-        (storeAddressDetailAddress ?? '') as OrderPlacementSchema['deliveryDetailAddress']
-      );
-      setValue('storeName', (storeAddressName ?? '') as OrderPlacementSchema['storeName']);
-      setValue('storePhoneNumber', (storeAddressPhoneNumber ?? '') as OrderPlacementSchema['storePhoneNumber']);
+      setValue('deliveryDetailAddress', storeAddressDetailAddress ?? '');
+      setValue('storeName', storeAddressName ?? '');
+      setValue('storePhoneNumber', storeAddressPhoneNumber ?? '');
       setValue('storeBusinessHours', storeAddressBusinessHours ?? '');
     } else {
       setValue('storeName', '');

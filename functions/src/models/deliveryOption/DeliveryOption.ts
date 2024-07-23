@@ -8,8 +8,8 @@ export interface DeliveryOption {
   descriptionEN?: string;
   descriptionZH?: string;
   deliveryCharge: number;
-  estimatedTimeEN: string;
-  estimatedTimeZH: string;
+  estimatedTimeEN?: string;
+  estimatedTimeZH?: string;
   isPublic: boolean;
   freeDeliveryThreshold?: number;
   applyThresholdBeforeCoupons: boolean;

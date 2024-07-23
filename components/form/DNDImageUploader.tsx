@@ -7,6 +7,7 @@ import LoadingShimmer from '../loading/LoadingShimmer';
 import Image from 'next/image';
 import Edit from '../icon/Edit';
 import { ImageInput } from '@/models/ImageInput';
+import { useTranslations } from 'next-intl';
 
 interface DNDImageUploaderProps {
   title?: string;
@@ -25,6 +26,8 @@ const DNDImageUploader = ({
   setImage,
   shape = 'video',
 }: DNDImageUploaderProps) => {
+  const t = useTranslations('ImageUpload');
+
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -101,16 +104,16 @@ const DNDImageUploader = ({
         )}
 
         {!image && isDragging ? (
-          <div className="text-base md:text-xl font-semibold text-safe text-center">Drop image here</div>
+          <div className="text-base md:text-xl font-semibold text-safe text-center">{t('dropImageHere')}</div>
         ) : (
           !image && (
             <>
               <div className="text-base md:text-xl font-semibold text-primary-text text-center">
-                Drag and drop your image here
+                {t('dragAndDropYourImageHere')}
               </div>
-              <div className="text-sm font-semibold text-primary-text text-center">or</div>
+              <div className="text-sm font-semibold text-primary-text text-center">{t('or')}</div>
               <BoxButton theme="primary" type="button" disabled={false} fontSize="sm">
-                Browse Image
+                {t('browseImage')}
               </BoxButton>
             </>
           )

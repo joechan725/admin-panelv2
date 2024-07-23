@@ -1,32 +1,34 @@
-import Link from 'next/link';
+import { Link } from '@/navigation';
+import { useTranslations } from 'next-intl';
 
 interface PolicyStatementProps {}
 
 const PolicyStatement = ({}: PolicyStatementProps) => {
+  const t = useTranslations('Order.checkoutForm');
+
   return (
     <div className="text-xs font-medium text-tertiary-text mt-2">
-      * By clicking the "Pay Now" button, you agree to our{' '}
+      {t('policyStatementPart1')}
       <Link
         className="underline-offset-1 underline text-link transition-all hover:text-opacity-85 active:text-opacity-70"
         href="/privacy-policy"
       >
-        Privacy Policy
+        {t('privacyPolicy')}
       </Link>
-      ,{' '}
+      {t('and1')}
       <Link
         className="underline-offset-1 underline text-link transition-all hover:text-opacity-85 active:text-opacity-70"
         href="/terms-of-service"
       >
-        Terms of Service
+        {t('termsOfService')}
       </Link>
-      , and{' '}
+      {t('and2')}
       <Link
         className="underline-offset-1 underline text-link transition-all hover:text-opacity-85 active:text-opacity-70"
         href="/return-and-exchange-policy"
       >
-        Return and Exchange Policy
+        {t('returnAndExchangePolicy')}
       </Link>
-      .
     </div>
   );
 };

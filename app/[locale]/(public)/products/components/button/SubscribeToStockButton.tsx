@@ -13,7 +13,7 @@ const SubscribeToStockButton = ({ roundedClassName }: SubscribeToStockButtonProp
     <BarButton type="button" disabled={false} theme="primary" roundedClassName={roundedClassName}>
       <div className="flex gap-2 items-center">
         <Bell sizeClassName="size-4 md:size-6" />
-        <div className="text-sm lg:text-base">{t('RestockNotification')}</div>
+        <div className="text-sm lg:text-base">{t('restockNotification')}</div>
       </div>
     </BarButton>
   );
