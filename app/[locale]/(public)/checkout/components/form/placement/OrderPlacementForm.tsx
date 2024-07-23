@@ -93,7 +93,7 @@ const OrderPlacementForm = ({ placeOrder, error }: OrderPlacementFormProps) => {
         />
       </LightBorder>
       <div className="space-y-2">
-        <BarButton disabled={isSubmitting} type="button" theme="stripe" onClick={handleSubmit(handlePlaceOrder)}>
+        <BarButton disabled={isSubmitting} type="button" theme="paypal" onClick={handleSubmit(handlePlaceOrder)}>
           {t('checkout')}
         </BarButton>
         <ErrorTranslation error={errors.root?.message} />

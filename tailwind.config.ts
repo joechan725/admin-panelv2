@@ -31,6 +31,7 @@ const config: Config = {
         scrollbar: colors.slate[500],
         warning: colors.amber[500],
         stripe: colors.indigo[500],
+        paypal: '#006ab1',
         skeleton: 'rgb(156 163 175 / 0.1)',
         youtube: '#FF0000',
         facebook: '#4267B2',

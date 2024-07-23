@@ -1,25 +1,31 @@
-import { PaymentElement } from '@stripe/react-stripe-js';
-import { StripePaymentElementOptions } from '@stripe/stripe-js';
-import { useConfirmPayment } from '@/lib/hooks/stripe/useConfirmPayment';
-import LoadingSpin from '@/components/loading/LoadingSpin';
 import CouponView from '@/components/features/order/detail/CouponReview';
 import DeliveryOptionReview from './DeliveryOptionReview';
 import PriceReview from '@/components/features/order/detail/PriceReview';
-import PolicyStatement from './PolicyStatement';
 import LightBorder from '@/components/layout/container/LightBorder';
 import AddressReview from '@/components/features/order/detail/AddressReview';
 import { Order } from '@/models/order/Order';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
+import PayPalPayment from './PayPalPayment';
+import StripeProvider from './StripeProvider';
+import StripePayment from './StripePayment';
+import PayPalProvider from './PayPalProvider';
 
-interface CheckoutFormProps {
+type CheckoutFormProps = StripeCheckoutFormProps | PaypalCheckoutFormProps;
+
+interface StripeCheckoutFormProps {
+  paymentMethod: 'stripe';
+  clientSecret: string;
   pendingOrder: Order;
-  isShow: boolean;
 }
 
-const CheckoutForm = ({ pendingOrder, isShow }: CheckoutFormProps) => {
-  const t = useTranslations('Order.checkoutForm');
+interface PaypalCheckoutFormProps {
+  paymentMethod: 'paypal';
+  clientSecret?: undefined;
+  pendingOrder: Order;
+}
+
+const CheckoutForm = ({ paymentMethod, clientSecret, pendingOrder }: CheckoutFormProps) => {
   const locale = useLocale();
-  const { confirmPayment, isLoading, message, stripe, elements } = useConfirmPayment();
 
   const {
     id,
@@ -55,19 +61,6 @@ const CheckoutForm = ({ pendingOrder, isShow }: CheckoutFormProps) => {
   const deliveryOptionDeliveryProvider =
     locale === 'en' ? deliveryOptionDeliveryProviderEN : deliveryOptionDeliveryProviderZH;
   const deliveryOptionEstimatedTime = locale === 'en' ? deliveryOptionEstimatedTimeEN : deliveryOptionEstimatedTimeZH;
-
-  const paymentElementOptions: StripePaymentElementOptions = {
-    layout: 'tabs',
-  };
-
-  const handleConfirmPayment = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await confirmPayment(id);
-  };
-
-  if (!isShow) {
-    return null;
-  }
 
   return (
     <div className="space-y-8">
@@ -111,19 +104,16 @@ const CheckoutForm = ({ pendingOrder, isShow }: CheckoutFormProps) => {
         />
       </LightBorder>
       <LightBorder>
-        <form className="w-full self-center" onSubmit={handleConfirmPayment}>
-          <PaymentElement options={paymentElementOptions} className="mb-6" />
-          <button
-            disabled={isLoading || !stripe || !elements}
-            className="hover:bg-opacity-85 active:bg-opacity-70 disabled:bg-opacity-70 bg-indigo-500 text-white rounded-md px-4 py-3 font-semibold transition-all shadow-md shadow-black/5 w-full flex justify-center items-center"
-            type="submit"
-          >
-            {isLoading ? <LoadingSpin theme="white" layout="local" sizeClassName="size-6" /> : t('payNow')}
-          </button>
-          <PolicyStatement />
-          {/* Show any error or success messages */}
-          {message && <div className="font-medium text-tertiary-text pt-3 text-center">{t(message)}</div>}
-        </form>
+        {paymentMethod === 'stripe' && (
+          <StripeProvider clientSecret={clientSecret}>
+            <StripePayment pendingOrderId={id} />
+          </StripeProvider>
+        )}
+        {paymentMethod === 'paypal' && (
+          <PayPalProvider>
+            <PayPalPayment pendingOrderId={id} amountToPay={amountToPay} />
+          </PayPalProvider>
+        )}
       </LightBorder>
     </div>
   );

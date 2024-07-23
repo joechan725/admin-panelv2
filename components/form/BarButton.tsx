@@ -14,7 +14,8 @@ interface BarButtonProps {
     | 'transparent'
     | 'white'
     | 'facebook'
-    | 'stripe';
+    | 'stripe'
+    | 'paypal';
   fontSize?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl';
   roundedClassName?: string;
   children: React.ReactNode;
@@ -52,6 +53,7 @@ const BarButton = ({
         theme === 'secondary' && 'text-white bg-secondary-bg ring-secondary-bg/20',
         theme === 'black' && 'text-white bg-black ring-black/20',
         theme === 'stripe' && 'text-white bg-stripe ring-stripe/20',
+        theme === 'paypal' && 'text-white bg-paypal ring-paypal/20',
         roundedClassName
       )}
       onClick={onClick}

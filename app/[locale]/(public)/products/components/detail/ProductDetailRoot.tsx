@@ -10,7 +10,7 @@ interface ProductDetailRootProps {
 const ProductDetailRoot = ({ productId }: ProductDetailRootProps) => {
   const t = useTranslations('Product.detail');
 
-  const shareUrl = `${process.env.HOST}/products/${productId}`;
+  const shareUrl = `${process.env.NEXT_PUBLIC_HOST}/products/${productId}`;
 
   return (
     <div className="max-w-screen-lg mx-auto">

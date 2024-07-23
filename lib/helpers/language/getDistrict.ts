@@ -26,7 +26,7 @@ export const getDistrict = (district: District | undefined, tDistrict: Translati
     case 'Southern District':
       return tDistrict('district.southernDistrict');
     case 'Tai Po District':
-      return tDistrict('district.taipoDistrict');
+      return tDistrict('district.taiPoDistrict');
     case 'Tsuen Wan District':
       return tDistrict('district.tsuenWanDistrict');
     case 'Tuen Mun District':

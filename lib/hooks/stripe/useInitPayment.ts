@@ -1,4 +1,4 @@
-import { initOrderAndCreatePaymentIntent } from '@/firebase/callable/initOrderAndCreatePaymentIntent';
+import { initOrderWithStripe } from '@/firebase/callable/initOrderWithStripe';
 import { auth } from '@/firebase/config';
 import { Order } from '@/models/order/Order';
 import { OrderPlacementSchema } from '@/schemas/order/orderPlacementSchema';
@@ -41,7 +41,7 @@ export const useInitPayment = () => {
     setIsLoading(true);
 
     try {
-      const res = await initOrderAndCreatePaymentIntent({ formData });
+      const res = await initOrderWithStripe({ formData });
 
       const data = res.data;
       setPendingOrder(data.pendingOrder);

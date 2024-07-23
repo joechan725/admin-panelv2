@@ -13,6 +13,7 @@
     "@blocknote/mantine": "^0.14.6",
     "@blocknote/react": "^0.14.6",
     "@hookform/resolvers": "^3.9.0",
+    "@paypal/react-paypal-js": "^8.5.0",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
     "clsx": "^2.1.1",
