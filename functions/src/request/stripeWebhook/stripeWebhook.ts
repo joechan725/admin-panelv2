@@ -7,7 +7,7 @@ import { sendOrderConfirmationEmail } from './helper/sendOrderConfirmationEmail'
 import { handleRefundUpdate } from './helper/handleRefundUpdate';
 
 // Reference: https://dev.to/perennialautodidact/connecting-stripe-webhooks-to-firebase-cloud-functions-on-localhost-using-localtunnel-55o9#stripe-event-cloud-function
-export const stripeWebhookHandler = onRequest({ cors: [/stripe\.com$/] }, async (req, res) => {
+export const stripeWebhook = onRequest({ cors: [/stripe\.com$/] }, async (req, res) => {
   if (req.method === 'POST') {
     const signature = req.headers['stripe-signature'] as string;
 
@@ -32,7 +32,7 @@ export const stripeWebhookHandler = onRequest({ cors: [/stripe\.com$/] }, async 
         const pendingOrderId = charge.metadata?.pendingOrderId;
 
         // get the pending order
-        const pendingOrderData = await getPendingOrder(userId, pendingOrderId);
+        const pendingOrderData = await getPendingOrder(pendingOrderId);
 
         // create the order
         await addOrder({ pendingOrderId, pendingOrderData, charge });

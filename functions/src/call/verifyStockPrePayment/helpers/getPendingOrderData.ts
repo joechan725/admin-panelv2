@@ -3,12 +3,11 @@ import { OrderData } from '../../../models/order/OrderData';
 import { HttpsError } from 'firebase-functions/v1/auth';
 
 interface GetPendingOrderDataParameters {
-  userId: string;
   pendingOrderId: string;
 }
 
-export const getPendingOrderData = async ({ pendingOrderId, userId }: GetPendingOrderDataParameters) => {
-  const pendingOrderRef = db.collection('users').doc(userId).collection('pendingOrders').doc(pendingOrderId);
+export const getPendingOrderData = async ({ pendingOrderId }: GetPendingOrderDataParameters) => {
+  const pendingOrderRef = db.collection('pendingOrders').doc(pendingOrderId);
 
   const pendingOrderSnap = await pendingOrderRef.get();
 

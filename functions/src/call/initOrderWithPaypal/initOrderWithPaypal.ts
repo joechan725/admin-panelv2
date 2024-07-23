@@ -7,7 +7,6 @@ import { validateCoupon } from './helpers/validateCoupon';
 import { addPendingOrder } from './helpers/addPendingOrder';
 import { getUser } from './helpers/getUser';
 import { calculateDeliveryCharge } from './helpers/calculateDeliveryCharge';
-import { stripe } from '../../stripe/config';
 import { Order } from '../../models/order/Order';
 import { District } from '../../types/District';
 import { Region } from '../../types/Region';
@@ -18,7 +17,6 @@ interface Request {
 }
 
 interface Response {
-  clientSecret: string | null;
   pendingOrder: Order;
 }
 
@@ -47,7 +45,7 @@ interface OrderPlacementFormData {
   deliveryOptionDeliverySchema?: number;
 }
 
-export const initOrderAndCreatePaymentIntent = onCall<Request, Promise<Response>>(async (request) => {
+export const initOrderWithPaypal = onCall<Request, Promise<Response>>(async (request) => {
   try {
     const userAuth = request.auth;
     if (!userAuth) {
@@ -126,22 +124,7 @@ export const initOrderAndCreatePaymentIntent = onCall<Request, Promise<Response>
       deliveryChargeAtThisOrder: deliveryChargeInDollar,
     });
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: amountToPayInCents,
-      currency: 'hkd',
-      automatic_payment_methods: {
-        enabled: true,
-      },
-      receipt_email: userData.email,
-      metadata: {
-        userId,
-        pendingOrderId: pendingOrder.id,
-      },
-      description: `User id: ${userId} / Pending order id: ${pendingOrder.id}`,
-    });
-
     return {
-      clientSecret: paymentIntent.client_secret,
       pendingOrder,
     };
   } catch (error) {

@@ -15,11 +15,9 @@ export const verifyStockPrePayment = onCall<Request, Promise<void>>(async (reque
       throw new HttpsError('unauthenticated', 'No user information');
     }
 
-    const userId = userAuth.uid;
-
     const { pendingOrderId } = request.data;
 
-    const pendingOrderData = await getPendingOrderData({ userId, pendingOrderId });
+    const pendingOrderData = await getPendingOrderData({ pendingOrderId });
 
     await checkProductStock({ pendingOrderData });
   } catch (error) {

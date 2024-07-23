@@ -63,7 +63,7 @@ export const addPendingOrder = async ({
   deliveryOptionData,
   deliveryChargeAtThisOrder,
 }: AddPendingOrderParameters): Promise<Order> => {
-  const pendingOrdersRef = db.collection('users').doc(userId).collection('pendingOrders');
+  const pendingOrdersRef = db.collection('pendingOrders');
 
   const orderItems: OrderItem[] = cartItemsData.map(
     (cartItem): OrderItem => ({

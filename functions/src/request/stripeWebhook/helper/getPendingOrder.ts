@@ -3,8 +3,8 @@ import { OrderData } from '../../../models/order/OrderData';
 
 const db = admin.firestore();
 
-export const getPendingOrder = async (userId: string, pendingOrderId: string) => {
-  const pendingOrderRef = db.collection('users').doc(userId).collection('pendingOrders').doc(pendingOrderId);
+export const getPendingOrder = async (pendingOrderId: string) => {
+  const pendingOrderRef = db.collection('pendingOrders').doc(pendingOrderId);
 
   const pendingOrderSnap = await pendingOrderRef.get();
 

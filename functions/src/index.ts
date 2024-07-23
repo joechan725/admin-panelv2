@@ -94,8 +94,11 @@ import { onUpdateUserNotification } from './db/user/notification/onUpdateUserNot
 export { onCreateUserNotification, onDeleteUserNotification, onUpdateUserNotification };
 
 // callable functions
-import { initOrderAndCreatePaymentIntent } from './call/initOrderAndCreatePaymentIntent/initOrderAndCreatePaymentIntent';
-export { initOrderAndCreatePaymentIntent };
+import { initOrderWithStripe } from './call/initOrderWithStripe/initOrderWithStripe';
+export { initOrderWithStripe };
+
+import { initOrderWithPaypal } from './call/initOrderWithPaypal/initOrderWithPaypal';
+export { initOrderWithPaypal };
 
 import { verifyStockPrePayment } from './call/verifyStockPrePayment/verifyStockPrePayment';
 export { verifyStockPrePayment };
@@ -116,5 +119,8 @@ import { applyForRefund } from './call/applyForRefund/applyForRefund';
 export { applyForRefund };
 
 // request functions
-import { stripeWebhookHandler } from './request/stripeWebhookHandler/stripeWebhookHandler';
-export { stripeWebhookHandler };
+import { stripeWebhook } from './request/stripeWebhook/stripeWebhook';
+export { stripeWebhook };
+
+import { paypalWebhook } from './request/paypalWebhook/paypalWebhook';
+export { paypalWebhook };
