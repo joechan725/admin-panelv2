@@ -446,7 +446,9 @@
       "deliveryOption": "Delivery option: ",
       "paidAt": "Paid at",
       "viewDetail": "View Detail",
-      "quantity": "Quantity: "
+      "quantity": "Quantity: ",
+      "viewLess": "View Less",
+      "viewMore": "View More"
     },
     "adminList": {
       "title": "Order List",

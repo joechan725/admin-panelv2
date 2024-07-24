@@ -41,7 +41,7 @@ export const generateFakeDeliveryOption = ({
     descriptionEN: description,
     deliveryProviderEN: deliveryProvider,
     deliveryProviderZH: deliveryProvider,
-    deliveryCharge: faker.number.int({ min: 10, max: 100 }),
+    deliveryCharge: isPickUp ? faker.number.int({ min: 10, max: 100 }) : 0,
     estimatedTimeZH: `${estimatedTime}天`,
     estimatedTimeEN: `${estimatedTime} days`,
     isPublic: faker.datatype.boolean(),

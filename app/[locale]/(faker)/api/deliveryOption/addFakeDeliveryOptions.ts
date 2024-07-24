@@ -8,7 +8,7 @@ export const addFakeDeliveryOptions = async (numberOfDeliveryOptions: number) =>
 
   const deliveryOptionsRef = collection(db, '/deliveryOptions');
   for (let i = 0; i < numberOfDeliveryOptions; i++) {
-    const storeAddress = await generateFakeDeliveryOption({ storeAddresses });
+    const storeAddress = generateFakeDeliveryOption({ storeAddresses });
     await addDoc(deliveryOptionsRef, storeAddress);
     console.log(`Create Fake Delivery Options ${i + 1}/${numberOfDeliveryOptions}`);
   }

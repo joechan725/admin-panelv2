@@ -5,12 +5,15 @@ import { useState } from 'react';
 import OrderedProductPreviewItem from './OrderedProductPreviewItem';
 import { motion } from 'framer-motion';
 import clsx from 'clsx/lite';
+import { useTranslations } from 'next-intl';
 
 interface OrderedProductPreviewListProps {
   orderItems: OrderItem[];
 }
 
 const OrderedProductPreviewList = ({ orderItems }: OrderedProductPreviewListProps) => {
+  const t = useTranslations('Order.list');
+
   const [isViewMore, setIsViewMore] = useState(false);
 
   const isMoreThanThreeProducts = orderItems.length > 3;
@@ -40,7 +43,7 @@ const OrderedProductPreviewList = ({ orderItems }: OrderedProductPreviewListProp
       </div>
       {orderItems.length > 3 && (
         <div role="button" className="text-xs font-medium text-secondary-text" onClick={toggleView}>
-          View {isViewMore ? 'Less' : 'More'}
+          {isViewMore ? t('viewLess') : t('viewMore')}
         </div>
       )}
     </div>

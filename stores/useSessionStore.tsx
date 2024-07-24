@@ -103,6 +103,7 @@ export const useSessionStore = create<UserStore>((set, get) => ({
       // load user from db
       await loadUser();
     } catch (error: unknown | FirebaseError) {
+      console.log(error);
       if (error instanceof FirebaseError) {
         set({
           fireAuthError: error.message,

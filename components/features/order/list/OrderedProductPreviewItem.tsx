@@ -8,7 +8,7 @@ interface OrderedProductItemPreviewProps {
 }
 
 const OrderedProductItemPreview = ({ orderItem }: OrderedProductItemPreviewProps) => {
-  const t = useTranslations('Order');
+  const t = useTranslations('Order.list');
   const locale = useLocale();
 
   const { nameEN, nameZH, image, quantity } = orderItem;

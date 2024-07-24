@@ -12,7 +12,7 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
   return (
     <div
       className={clsx(
-        'text-xs py-0.5 px-1 rounded-md max-w-max font-medium',
+        'text-xs py-0.5 px-1 rounded-md max-w-max whitespace-nowrap font-medium',
         status === 'Placed' && 'bg-gray-500/10 text-gray-500',
         status === 'Paid' && 'bg-success/10 text-success',
         status === 'Delivering' && 'bg-warning/10 text-warning',

@@ -139,9 +139,9 @@
       "emptyCart": "您的購物車為空。現在開始添加您最喜歡的產品吧!",
       "invalidCartItem": "您的購物車中包含無效的產品。請調整數量或從購物車中移除它們",
       "noPromotionMethodSelected": "未選擇任何推廣方式",
-      "noLongerAvailable": "抱歉,該產品已從我們的庫存中刪除,不再可用",
-      "outOfStock": "抱歉,該產品目前缺貨",
-      "notEnoughStock": "抱歉,只有 {stock} 件的產品庫存",
+      "noLongerAvailable": "抱歉，已從我們的庫存中移除。",
+      "outOfStock": "抱歉，該產品目前缺貨",
+      "notEnoughStock": "抱歉，只有 {stock} 件的產品庫存",
       "productAlreadyInWishlist": "該產品已在您的願望清單中",
       "actionsTooQuickly": "您正在過快地進行太多操作。請稍後再試。",
       "accountAlreadyExists": "帳戶已存在"
@@ -430,7 +430,7 @@
       "noItems": "您尚未下過任何訂單。",
       "noItemsMatchSearching": "沒有符合您搜索條件的訂單。",
       "id": "訂單號碼",
-      "status": "訂單狀態",
+      "status": "狀態",
       "deliveryAddress": "送貨地址",
       "orderedProducts": "已訂購產品",
       "price": "價格",
@@ -446,7 +446,9 @@
       "deliveryOption": "送貨方式: ",
       "paidAt": "付款時間",
       "viewDetail": "查看詳情",
-      "quantity": "數量: "
+      "quantity": "數量: ",
+      "viewLess": "收起",
+      "viewMore": "查看更多"
     },
     "adminList": {
       "title": "訂單列表",

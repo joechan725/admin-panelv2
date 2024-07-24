@@ -33,7 +33,9 @@ const UserCommentTable = ({ isLoading, error, comments, displayComments, mode }:
             {/* comment */}
             <Th searchParamsValue="comment">{t('comment')}</Th>
             {/* time */}
-            <Th searchParamsValue="updateAt">{t('time')}</Th>
+            <Th searchParamsValue="updateAt" hidden="md">
+              {t('time')}
+            </Th>
             {/* actions */}
             <Th>{t('actions')}</Th>
           </TrHead>

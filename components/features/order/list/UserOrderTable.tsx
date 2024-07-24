@@ -30,23 +30,29 @@ const UserOrderTable = ({ displayOrders, isLoading, orders, error, mode }: UserO
           <thead>
             <TrHead>
               {/* id */}
-              <Th searchParamsValue="id">{t('id')}</Th>
+              <Th searchParamsValue="id" hidden="xl">
+                {t('id')}
+              </Th>
               {/* status */}
-              <Th searchParamsValue="status">{t('status')}</Th>
+              <Th searchParamsValue="status" className="whitespace-nowrap">
+                {t('status')}
+              </Th>
               {/* deliveryAddress */}
-              <Th>{t('deliveryAddress')}</Th>
+              <Th hidden="lg">{t('deliveryAddress')}</Th>
               {/* orderItems */}
               <Th>{t('orderedProducts')}</Th>
               {/* price */}
-              <Th searchParamsValue="price">
+              <Th searchParamsValue="price" hidden="sm">
                 <div>{t('price')}</div>
                 <div className="text-xs">({t('discount')})</div>
                 <div className="text-xs">({t('deliveryCharge')})</div>
               </Th>
               {/* time */}
-              <Th searchParamsValue="paidAt">{t('time')}</Th>
+              <Th searchParamsValue="paidAt" hidden="xl">
+                {t('time')}
+              </Th>
               {/* actions */}
-              <Th>{t('actions')}</Th>
+              <Th className="whitespace-nowrap">{t('actions')}</Th>
             </TrHead>
           </thead>
           <tbody>

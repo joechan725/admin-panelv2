@@ -10,7 +10,7 @@ interface OrderViewDetailLinkProps {
 }
 
 const OrderViewDetailLink = ({ orderId, mode }: OrderViewDetailLinkProps) => {
-  const t = useTranslations('Order');
+  const t = useTranslations('Order.list');
 
   const href = mode === 'user' ? `/orders/${orderId}` : `/admin/orders/${orderId}`;
 

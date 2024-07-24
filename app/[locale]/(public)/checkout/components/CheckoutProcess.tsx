@@ -17,7 +17,7 @@ const CheckoutProcess = ({}: CheckoutProcessProps) => {
 
   return (
     <div className="pb-20">
-      <Stepper step={pendingOrder === undefined ? 'payment' : 'placement'} />
+      <Stepper step={pendingOrder === undefined ? 'placement' : 'payment'} />
       <div className="grid gap-8 grid-cols-1 md:grid-cols-14">
         <div className="md:col-span-9">
           <LightBorder>

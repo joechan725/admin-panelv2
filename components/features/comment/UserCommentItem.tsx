@@ -4,7 +4,6 @@ import HoverPopup from '@/components/ui/popup/HoverPopup';
 import { formatDate } from '@/lib/helpers/date/formatDate';
 import ImageShow from '@/components/ui/image/ImageShow';
 import StarBar from '@/components/ui/StarBar';
-import { useState } from 'react';
 import UserCommentDeleteButton from './UserCommentDeleteButton';
 import TrBody from '@/components/table/TrBody';
 import Td from '@/components/table/Td';
@@ -20,8 +19,6 @@ interface UserCommentItemProps {
 const UserCommentItem = ({ comment, mode }: UserCommentItemProps) => {
   const t = useTranslations('Comment.list');
   const locale = useLocale();
-
-  const [isViewMore, setIsViewMore] = useState(false);
 
   const {
     id,
@@ -46,18 +43,18 @@ const UserCommentItem = ({ comment, mode }: UserCommentItemProps) => {
     <TrBody>
       {/* product */}
       <Td>
-        <div className="max-w-96">
+        <div className="max-w-48 md:max-w-96">
           <Link href={`/products/${productId}`} className="group hover:opacity-85 active:opacity-70">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
               <div className="flex-0">
                 <ImageShow sizeClassName="size-10" image={productImage} />
               </div>
               <div className="flex flex-col">
-                <div className="truncate text-sm font-semibold text-primary-text group-hover:underline underline-offset-1">
+                <div className="text-ellipsis line-clamp-1 text-sm font-semibold text-primary-text group-hover:underline underline-offset-1">
                   {productName}
                 </div>
                 {productDescription !== undefined && (
-                  <div className="text-xs text-ellipsis line-clamp-3 font-medium text-secondary-text group-hover:underline underline-offset-1">
+                  <div className="text-ellipsis line-clamp-3 text-xs font-medium text-secondary-text group-hover:underline underline-offset-1">
                     {productDescription}
                   </div>
                 )}
@@ -76,7 +73,7 @@ const UserCommentItem = ({ comment, mode }: UserCommentItemProps) => {
             {splitNewLine(content)}
           </div>
           <div className="flex gap-1 flex-wrap">
-            {images.slice(0, 3).map((image) => (
+            {images.map((image) => (
               <HoverPopup
                 background={false}
                 message={<ImageShow key={image.id} image={image} sizeClassName="size-32" />}
@@ -84,35 +81,12 @@ const UserCommentItem = ({ comment, mode }: UserCommentItemProps) => {
                 <ImageShow key={image.id} image={image} sizeClassName="size-8" />
               </HoverPopup>
             ))}
-            {isViewMore &&
-              images.slice(3).map((image) => (
-                <HoverPopup
-                  background={false}
-                  message={<ImageShow key={image.id} image={image} sizeClassName="size-32" />}
-                >
-                  <ImageShow key={image.id} image={image} sizeClassName="size-8" />
-                </HoverPopup>
-              ))}
-            {images?.length > 3 && !isViewMore && (
-              <button onClick={() => setIsViewMore(true)}>
-                <div className="flex justify-center items-center w-full h-full bg-gray-300 rounded-md">
-                  <div className="max-w-min max-h-min font-semibold text-tertiary-text text-[50%]">{t('viewMore')}</div>
-                </div>
-              </button>
-            )}
-            {images?.length > 3 && isViewMore && (
-              <button onClick={() => setIsViewMore(false)}>
-                <div className="flex justify-center items-center w-full h-full bg-gray-300 rounded-md">
-                  <div className="max-w-min max-h-min font-semibold text-tertiary-text text-[50%]">{t('viewLess')}</div>
-                </div>
-              </button>
-            )}
           </div>
         </div>
       </Td>
 
       {/* time */}
-      <Td>
+      <Td hidden="md">
         <div className="space-y-0.5">
           <div className="text-xs font-medium text-secondary-text">{t('updatedAt')}</div>
           <div className="text-xs font-semibold text-primary-text">

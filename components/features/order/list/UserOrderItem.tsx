@@ -48,7 +48,7 @@ const UserOrderItem = ({ order, mode }: UserOrderItemProps) => {
   return (
     <TrBody>
       {/* id */}
-      <Td>
+      <Td hidden="xl">
         <Link href={mode === 'user' ? `/orders/${id}` : `/admin/orders/${id}`}>
           <div className="transition-all text-xs text-sky-500 hover:underline underline-offset-1 hover:text-opacity-85 active:text-opacity-70 font-medium">
             {id}
@@ -62,7 +62,7 @@ const UserOrderItem = ({ order, mode }: UserOrderItemProps) => {
       </Td>
 
       {/* deliveryAddress */}
-      <Td>
+      <Td hidden="lg">
         <div className="flex flex-col max-w-64 leading-4">
           {isPickUp && (
             <span className="text-xs py-0.5 px-1 rounded-md max-w-fit font-medium bg-success/10 text-success">
@@ -104,7 +104,7 @@ const UserOrderItem = ({ order, mode }: UserOrderItemProps) => {
       </Td>
 
       {/* price */}
-      <Td>
+      <Td hidden="sm">
         <div className="text-sm font-medium text-secondary-text">${totalPriceBeforeDiscount.toFixed(2)}</div>
         {discountAmount !== undefined && discountAmount > 0 && (
           <div className="text-xs font-medium text-secondary-text">(-${discountAmount.toFixed(2)})</div>
@@ -119,7 +119,7 @@ const UserOrderItem = ({ order, mode }: UserOrderItemProps) => {
       </Td>
 
       {/* time */}
-      <Td>
+      <Td hidden="xl">
         <div className="space-y-1 text-xs max-w-24">
           <div className="space-y-0.5">
             <div className="font-medium text-secondary-text">{t('paidAt')}</div>

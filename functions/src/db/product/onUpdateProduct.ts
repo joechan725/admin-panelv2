@@ -43,12 +43,39 @@ export const onUpdateProduct = functions.firestore
         mode: 'update',
       });
 
+      // Send the product restock email if the product is back in stock and public
       if (
         privateProductDataBefore.stock <= 0 &&
         privateProductDataAfter.stock > 0 &&
         privateProductDataAfter.isPublic
       ) {
         await sendBackInStockEmailsAndNotifications({ productData: privateProductDataAfter, productId });
+      }
+
+      // Update the classification count
+      if (privateProductDataBefore.isPublic === privateProductDataAfter.isPublic) {
+        if (privateProductDataAfter.isPublic) {
+          await updateClassificationCount({
+            mode: 'unchanged-public',
+            brandIdBefore: privateProductDataBefore.brandId,
+            brandIdAfter: privateProductDataAfter.brandId,
+            categoryIdBefore: privateProductDataBefore.categoryId,
+            categoryIdAfter: privateProductDataAfter.categoryId,
+            collectionIdBefore: privateProductDataBefore.collectionId,
+            collectionIdAfter: privateProductDataAfter.collectionId,
+          });
+        }
+        if (!privateProductDataAfter.isPublic) {
+          await updateClassificationCount({
+            mode: 'unchanged-private',
+            brandIdBefore: privateProductDataBefore.brandId,
+            brandIdAfter: privateProductDataAfter.brandId,
+            categoryIdBefore: privateProductDataBefore.categoryId,
+            categoryIdAfter: privateProductDataAfter.categoryId,
+            collectionIdBefore: privateProductDataBefore.collectionId,
+            collectionIdAfter: privateProductDataAfter.collectionId,
+          });
+        }
       }
 
       if (!privateProductDataBefore.isPublic && privateProductDataAfter.isPublic) {
@@ -103,9 +130,9 @@ export const onUpdateProduct = functions.firestore
         await updateProductCount({ mode: 'delete-public' });
         await updateClassificationCount({
           mode: 'delete-public',
-          brandIdAfter: privateProductDataAfter.brandId,
-          categoryIdAfter: privateProductDataAfter.categoryId,
-          collectionIdAfter: privateProductDataAfter.collectionId,
+          brandIdBefore: privateProductDataBefore.brandId,
+          categoryIdBefore: privateProductDataBefore.categoryId,
+          collectionIdBefore: privateProductDataBefore.collectionId,
         });
       }
 
@@ -113,9 +140,9 @@ export const onUpdateProduct = functions.firestore
         await updateProductCount({ mode: 'delete-private' });
         await updateClassificationCount({
           mode: 'delete-private',
-          brandIdAfter: privateProductDataAfter.brandId,
-          categoryIdAfter: privateProductDataAfter.categoryId,
-          collectionIdAfter: privateProductDataAfter.collectionId,
+          brandIdBefore: privateProductDataBefore.brandId,
+          categoryIdBefore: privateProductDataBefore.categoryId,
+          collectionIdBefore: privateProductDataBefore.collectionId,
         });
       }
 

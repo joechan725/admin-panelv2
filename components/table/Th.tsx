@@ -9,9 +9,10 @@ interface ThProps {
   children?: React.ReactNode;
   className?: string;
   searchParamsValue?: string;
+  hidden?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
-const Th = ({ children, className, searchParamsValue }: ThProps) => {
+const Th = ({ children, className, searchParamsValue, hidden }: ThProps) => {
   const { searchParams, loadSetSearchParams } = useSearching();
 
   let modifiedSearchParamsValue = searchParamsValue ? searchParamsValue.trim() : undefined;
@@ -28,7 +29,17 @@ const Th = ({ children, className, searchParamsValue }: ThProps) => {
   };
 
   return (
-    <th className={clsx('p-2', className)}>
+    <th
+      className={clsx(
+        'p-2',
+        className,
+        hidden === 'sm' && 'hidden sm:table-cell',
+        hidden === 'md' && 'hidden md:table-cell',
+        hidden === 'lg' && 'hidden lg:table-cell',
+        hidden === 'xl' && 'hidden xl:table-cell',
+        hidden === '2xl' && 'hidden 2xl:table-cell'
+      )}
+    >
       <div
         className={clsx(
           'w-full text-left flex justify-between items-center',
