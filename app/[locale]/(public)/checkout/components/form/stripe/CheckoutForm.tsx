@@ -15,16 +15,18 @@ type CheckoutFormProps = StripeCheckoutFormProps | PaypalCheckoutFormProps;
 interface StripeCheckoutFormProps {
   paymentMethod: 'stripe';
   clientSecret: string;
+  paypalOrderId?: undefined;
   pendingOrder: Order;
 }
 
 interface PaypalCheckoutFormProps {
   paymentMethod: 'paypal';
   clientSecret?: undefined;
+  paypalOrderId: string;
   pendingOrder: Order;
 }
 
-const CheckoutForm = ({ paymentMethod, clientSecret, pendingOrder }: CheckoutFormProps) => {
+const CheckoutForm = ({ paymentMethod, clientSecret, pendingOrder, paypalOrderId }: CheckoutFormProps) => {
   const locale = useLocale();
 
   const {
@@ -111,7 +113,7 @@ const CheckoutForm = ({ paymentMethod, clientSecret, pendingOrder }: CheckoutFor
         )}
         {paymentMethod === 'paypal' && (
           <PayPalProvider>
-            <PayPalPayment pendingOrderId={id} amountToPay={amountToPay} />
+            <PayPalPayment paypalOrderId={paypalOrderId} />
           </PayPalProvider>
         )}
       </LightBorder>

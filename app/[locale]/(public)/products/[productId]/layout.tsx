@@ -6,6 +6,7 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 import PublicPageContainer from '@/components/layout/container/PublicPageContainer';
 import RelatedProductRoot from '../components/relatedProduct/RelatedProductRoot';
 import ProductDetailRoot from '../components/detail/ProductDetailRoot';
+import { notFound } from 'next/navigation';
 
 interface ProductParams {
   productId: string;
@@ -48,11 +49,12 @@ export const generateMetadata = async ({
       title: locale === 'en' ? nameEN : nameZH,
     };
   } catch (error) {
-    // if (error instanceof Error) {
-    //   if (error.toString().includes("false for 'get'") || error.toString().includes('Null value error')) {
-    //     notFound();
-    //   }
-    // }
+    if (error instanceof Error) {
+      // The firebase rule protects if the product is not public and throw an error
+      if (error.toString().includes("false for 'get'")) {
+        notFound();
+      }
+    }
     return {
       title: 'Product detail',
     };

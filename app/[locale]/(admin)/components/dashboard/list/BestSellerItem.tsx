@@ -1,7 +1,7 @@
 import ImageShow from '@/components/ui/image/ImageShow';
 import { SalesRecord } from '@/models/salesRecord/SalesRecord';
 import { useLocale } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 interface BestSellerItemProps {
   salesRecord: Omit<SalesRecord, 'orderId'>;

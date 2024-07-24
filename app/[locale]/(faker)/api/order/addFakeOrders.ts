@@ -14,17 +14,18 @@ export const addFakeOrders = async (numberOfOrders: number) => {
   const deliveryOptions = await getDeliveryOptions({ isPublicOnly: true });
   const coupons = await getCoupons();
 
-  const productAndCommentIds: { productId: string; commentId?: string }[] = [];
+  const ids: { productId: string; commentId?: string; orderId: string }[] = [];
 
   for (let i = 0; i < numberOfOrders; i++) {
     const order = await generateFakeOrder({ users, deliveryOptions, products, coupons });
-    await addDoc(ordersRef, order);
+    const res = await addDoc(ordersRef, order);
+    const orderId = res.id;
     console.log(`Create Fake Orders ${i + 1}/${numberOfOrders}`);
     order.orderItems.forEach((orderItem) => {
       const { productId, commentId } = orderItem;
-      productAndCommentIds.push({ productId, commentId });
+      ids.push({ productId, commentId, orderId });
     });
   }
 
-  return productAndCommentIds;
+  return ids;
 };

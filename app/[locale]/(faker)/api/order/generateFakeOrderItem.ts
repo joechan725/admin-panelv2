@@ -7,7 +7,8 @@ import { db } from '@/firebase/config';
 import { Comment } from '@/models/comment/Comment';
 import { User } from '@/models/user/User';
 
-interface AddCommentData extends Omit<Comment, 'id' | 'rating' | 'createdAt' | 'updatedAt' | 'title' | 'content'> {
+interface AddCommentData
+  extends Omit<Comment, 'id' | 'rating' | 'createdAt' | 'orderId' | 'updatedAt' | 'title' | 'content'> {
   createdAt: FieldValue;
   updatedAt: FieldValue;
 }

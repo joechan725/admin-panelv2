@@ -11,16 +11,13 @@ interface PlaceOrderParameters {
   formData: OrderPlacementSchema;
 }
 
-interface getCreateOrderParameters {
-  pendingOrderId: string;
-  amountToPay: number;
-}
-
 export const usePaypal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isWriting, setIsWriting] = useState(false);
-  const [pendingOrder, setPendingOrder] = useState<undefined | Order>(undefined);
   const [error, setError] = useState<undefined | string>(undefined);
+
+  const [pendingOrder, setPendingOrder] = useState<undefined | Order>(undefined);
+  const [paypalOrderId, setPaypalOrderId] = useState<undefined | string>(undefined);
 
   const router = useRouter();
 
@@ -54,6 +51,7 @@ export const usePaypal = () => {
 
       const data = res.data;
       setPendingOrder(data.pendingOrder);
+      setPaypalOrderId(data.paypalOrderId);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -63,37 +61,6 @@ export const usePaypal = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const getCreateOrder = ({
-    pendingOrderId,
-    amountToPay,
-  }: getCreateOrderParameters): PayPalButtonsComponentProps['createOrder'] => {
-    const createOrder: PayPalButtonsComponentProps['createOrder'] = async (data, actions) => {
-      setIsWriting(true);
-      setError(undefined);
-      try {
-        return actions.order.create({
-          intent: 'CAPTURE',
-          purchase_units: [
-            {
-              amount: {
-                currency_code: 'HKD',
-                value: amountToPay.toFixed(2),
-              },
-              reference_id: pendingOrderId,
-              custom_id: pendingOrderId,
-            },
-          ],
-        });
-      } catch (error) {
-        setError('unexpectedError');
-        return '';
-      } finally {
-        setIsWriting(false);
-      }
-    };
-    return createOrder;
   };
 
   const onApprove: PayPalButtonsComponentProps['onApprove'] = async (data, actions) => {
@@ -115,8 +82,8 @@ export const usePaypal = () => {
     isWriting,
     error,
     pendingOrder,
+    paypalOrderId,
     placeOrder,
-    getCreateOrder,
     onApprove,
   };
 };

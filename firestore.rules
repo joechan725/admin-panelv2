@@ -14,46 +14,330 @@ service cloud.firestore {
   function isSelf(userId) {
     return request.auth.uid == userId;
   }
-  function fieldNotExist(fieldName) {
-    return !(fieldName in resource.data);
+  function fieldNotExist(field) {
+    return !(field in resource.data);
   }
   function isPublic() {
     return resource.data.isPublic == true;
   }
-  function isFieldUnchanged(fieldName) {
-    return fieldNotExist(fieldName) || request.resource.data[fieldName] == resource.data[fieldName];
+  function isFieldUnchanged(field) {
+    return fieldNotExist(field) || request.resource.data[field] == resource.data[field];
   }
-  function notEditingOrderInformation() {
-    return isFieldUnchanged('queryCode')
-      && isFieldUnchanged('totalQuantity')
-      && isFieldUnchanged('orderItems')
-      && isFieldUnchanged('couponsUsed')
-      && isFieldUnchanged('totalPriceBeforeDiscount')
-      && isFieldUnchanged('totalPriceAfterDiscount')
-      && isFieldUnchanged('discountAmount')
-      && isFieldUnchanged('deliveryChargeAtThisOrder')
-      && isFieldUnchanged('amountToPay')
-      && isFieldUnchanged('status')
-      && isFieldUnchanged('statusHistories')
-      && isFieldUnchanged('isPaid')
-      && isFieldUnchanged('paidAt')
-      && isFieldUnchanged('chargeInfo')
-      && isFieldUnchanged('chargeId')
-      && isFieldUnchanged('amountCapturedCurrent')
-      && isFieldUnchanged('paymentIntentId')
-      && isFieldUnchanged('paymentMethodId')
-      && isFieldUnchanged('paymentMethodDetails')
-      && isFieldUnchanged('amountRefunded')
-      && isFieldUnchanged('stripeRefunds')
-      && isFieldUnchanged('applicationForRefund')
-      && isFieldUnchanged('refundReason')
-      && isFieldUnchanged('refundImages');
+  function isString(field) {
+  return field is string;
+  }
+  function isNumber(field) {
+    return field is number;
+  }
+  function isBoolean(field) {
+    return field is boolean;
+  }
+  function isUndefined(field) {
+    return !(field in request.resource.data);
+  }
+  function isTimestamp(field) {
+    return field is timestamp;
+  }
+  function isObject(field) {
+    return field is map;
+  }
+  function isImage(image) {
+    return isObject(image)
+          isString(image.id) &&
+          isString(image.url) &&
+          isString(image.alt);
+  }
+  function isStrings(field) {
+    return field is list && field.every(element => isString(element));
+  }
+  function isImages(field) {
+    return field is list && field.every(image => isImage(image));
+  }
+  function limitLengthEqualThree(field) {
+    return field is list && field.size() <= 3;
+  }
+  function isValidUser(data) {
+  return (isUndefined(data.firstName) || isString(data.firstName)) &&
+         (isUndefined(data.lastName) || isString(data.lastName)) &&
+         (isUndefined(data.username) || isString(data.username)) &&
+         (isUndefined(data.email) || isString(data.email)) &&
+         (isUndefined(data.gender) || (data.gender in ['Men', 'Women', 'NotWilling'])) &&
+         (isUndefined(data.phoneNumber) || isString(data.phoneNumber)) &&
+         (isUndefined(data.avatar) || isImage(data.avatar)) &&
+         (isUndefined(data.subscribeToPromotion) || isBoolean(data.subscribeToPromotion)) &&
+         (isUndefined(data.isAdmin) || isBoolean(data.isAdmin)) &&
+         (isUndefined(data.isAnonymous) || isBoolean(data.isAnonymous)) &&
+         (isUndefined(data.role) || (data.role in ['anonymous', 'user', 'admin'])) &&
+         (isUndefined(data.emailVerified) || isBoolean(data.emailVerified)) &&
+         (isUndefined(data.dateOfBirth) || isTimestamp(data.dateOfBirth)) &&
+         (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+         (isUndefined(data.registeredAt) || isTimestamp(data.registeredAt)) &&
+         (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+         (isUndefined(data.lastLoggedInAt) || isTimestamp(data.lastLoggedInAt)) &&
+         (isUndefined(data.totalSpent)) &&
+         (isUndefined(data.orderCount)) &&
+         (isUndefined(data.totalDiscountAmount)) &&
+         (isUndefined(data.couponUsedCount));
+  }
+
+  function isValidAddress(data) {
+    return (isUndefined(data.remark) || isString(data.remark)) &&
+          (isUndefined(data.region) || isString(data.region)) &&
+          (isUndefined(data.district) || isString(data.district)) &&
+          (isUndefined(data.detailAddress) || isString(data.detailAddress)) &&
+          (isUndefined(data.contactName) || isString(data.contactName)) &&
+          (isUndefined(data.contactPhoneNumber) || isString(data.contactPhoneNumber)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidCartItem(data) {
+    return (isUndefined(data.productId) || isString(data.productId)) &&
+          (isUndefined(data.nameZH) || isString(data.nameZH)) &&
+          (isUndefined(data.nameEN) || isString(data.nameEN)) &&
+          (isUndefined(data.descriptionZH) || isString(data.descriptionZH)) &&
+          (isUndefined(data.descriptionEN) || isString(data.descriptionEN)) &&
+          (isUndefined(data.image) || isImage(data.image)) &&
+          (isUndefined(data.sellingPrice) || isNumber(data.sellingPrice)) &&
+          (isUndefined(data.markedPrice) || isNumber(data.markedPrice)) &&
+          (isUndefined(data.stock) || isNumber(data.stock)) &&
+          (isUndefined(data.collectionId) || isString(data.collectionId)) &&
+          (isUndefined(data.collectionNameZH) || isString(data.collectionNameZH)) &&
+          (isUndefined(data.collectionNameEN) || isString(data.collectionNameEN)) &&
+          (isUndefined(data.brandId) || isString(data.brandId)) &&
+          (isUndefined(data.brandNameZH) || isString(data.brandNameZH)) &&
+          (isUndefined(data.brandNameEN) || isString(data.brandNameEN)) &&
+          (isUndefined(data.categoryId) || isString(data.categoryId)) &&
+          (isUndefined(data.categoryNameZH) || isString(data.categoryNameZH)) &&
+          (isUndefined(data.categoryNameEN) || isString(data.categoryNameEN)) &&
+          (isUndefined(data.commentCount) || isNumber(data.commentCount)) &&
+          (isUndefined(data.rating) || isNumber(data.rating)) &&
+          (isUndefined(data.quantity) || isNumber(data.quantity)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt));
+  }
+
+  function isValidWishlistItem(data) {
+    return (isUndefined(data.productId) || isString(data.productId)) &&
+          (isUndefined(data.nameZH) || isString(data.nameZH)) &&
+          (isUndefined(data.nameEN) || isString(data.nameEN)) &&
+          (isUndefined(data.descriptionZH) || isString(data.descriptionZH)) &&
+          (isUndefined(data.descriptionEN) || isString(data.descriptionEN)) &&
+          (isUndefined(data.image) || isImage(data.image)) &&
+          (isUndefined(data.sellingPrice) || isNumber(data.sellingPrice)) &&
+          (isUndefined(data.markedPrice) || isNumber(data.markedPrice)) &&
+          (isUndefined(data.stock) || isNumber(data.stock)) &&
+          (isUndefined(data.collectionId) || isString(data.collectionId)) &&
+          (isUndefined(data.collectionNameZH) || isString(data.collectionNameZH)) &&
+          (isUndefined(data.collectionNameEN) || isString(data.collectionNameEN)) &&
+          (isUndefined(data.brandId) || isString(data.brandId)) &&
+          (isUndefined(data.brandNameZH) || isString(data.brandNameZH)) &&
+          (isUndefined(data.brandNameEN) || isString(data.brandNameEN)) &&
+          (isUndefined(data.categoryId) || isString(data.categoryId)) &&
+          (isUndefined(data.categoryNameZH) || isString(data.categoryNameZH)) &&
+          (isUndefined(data.categoryNameEN) || isString(data.categoryNameEN)) &&
+          (isUndefined(data.commentCount) || isNumber(data.commentCount)) &&
+          (isUndefined(data.rating) || isNumber(data.rating)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt));
+  }
+
+  function isValidComment(data) {
+    return (isUndefined(data.orderId) || isString(data.orderId)) &&
+          (isUndefined(data.productId) || isString(data.productId)) &&
+          (isUndefined(data.productNameZH) || isString(data.productNameZH)) &&
+          (isUndefined(data.productNameEN) || isString(data.productNameEN)) &&
+          (isUndefined(data.productDescriptionZH) || isString(data.productDescriptionZH)) &&
+          (isUndefined(data.productDescriptionEN) || isString(data.productDescriptionEN)) &&
+          (isUndefined(data.productImage) || isImage(data.productImage)) &&
+          (isUndefined(data.boughtQuantity) || isNumber(data.boughtQuantity)) &&
+          (isUndefined(data.userId) || isString(data.userId)) &&
+          (isUndefined(data.userFirstName) || isString(data.userFirstName)) &&
+          (isUndefined(data.userLastName) || isString(data.userLastName)) &&
+          (isUndefined(data.userEmail) || isString(data.userEmail)) &&
+          (isUndefined(data.userAvatar) || isImage(data.userAvatar)) &&
+          (isUndefined(data.userRole) || (data.userRole in ['anonymous', 'user', 'admin'])) &&
+          (isUndefined(data.title) || isString(data.title)) &&
+          (isUndefined(data.content) || isString(data.content)) &&
+          (isUndefined(data.images) || (isImages(data.images) && limitLengthEqualThree(data.images))) &&
+          (isUndefined(data.rating) || (data.rating in [1, 2, 3, 4, 5])) &&
+          (isUndefined(data.published) || isBoolean(data.published)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidReply(data) {
+    return (isUndefined(data.productId) || isString(data.productId)) &&
+          (isUndefined(data.commentId) || isString(data.commentId)) &&
+          (isUndefined(data.userId) || isString(data.userId)) &&
+          (isUndefined(data.userFirstName) || isString(data.userFirstName)) &&
+          (isUndefined(data.userLastName) || isString(data.userLastName)) &&
+          (isUndefined(data.userEmail) || isString(data.userEmail)) &&
+          (isUndefined(data.userAvatar) || isImage(data.userAvatar)) &&
+          (isUndefined(data.userRole) || (data.userRole in ['anonymous', 'user', 'admin'])) &&
+          (isUndefined(data.title) || isString(data.title)) &&
+          (isUndefined(data.content) || isString(data.content)) &&
+          (isImages(data.images) && limitLengthEqualThree(data.images)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidProduct(data) {
+    return (isUndefined(data.nameEN) || isString(data.nameEN)) &&
+          (isUndefined(data.nameZH) || isString(data.nameZH)) &&
+          (isUndefined(data.isPublic) || isBoolean(data.isPublic)) &&
+          (isUndefined(data.descriptionZH) || isString(data.descriptionZH)) &&
+          (isUndefined(data.descriptionEN) || isString(data.descriptionEN)) &&
+          (isUndefined(data.images) || isImages(data.images)) &&
+          (isUndefined(data.sellingPrice) || isNumber(data.sellingPrice)) &&
+          (isUndefined(data.markedPrice) || isNumber(data.markedPrice)) &&
+          (isUndefined(data.stock) || isNumber(data.stock)) &&
+          (isUndefined(data.collectionId) || isString(data.collectionId)) &&
+          (isUndefined(data.collectionNameZH) || isString(data.collectionNameZH)) &&
+          (isUndefined(data.collectionNameEN) || isString(data.collectionNameEN)) &&
+          (isUndefined(data.brandId) || isString(data.brandId)) &&
+          (isUndefined(data.brandNameZH) || isString(data.brandNameZH)) &&
+          (isUndefined(data.brandNameEN) || isString(data.brandNameEN)) &&
+          (isUndefined(data.categoryId) || isString(data.categoryId)) &&
+          (isUndefined(data.categoryNameZH) || isString(data.categoryNameZH)) &&
+          (isUndefined(data.categoryNameEN) || isString(data.categoryNameEN)) &&
+          (isUndefined(data.tags) || isStrings(data.tags)) &&
+          (isUndefined(data.detailZH) || isString(data.detailZH)) &&
+          (isUndefined(data.detailEN) || isString(data.detailEN)) &&
+          (isUndefined(data.detailImages) || isImages(data.detailImages)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidSubscriberList(data) {
+    return isObject(data.subscribers) && isString(data.subscribers.userId) && isString(email) && isTimestamp(data.updatedAt)
+  }
+
+  function isValidCoupon(data) {
+    return (isUndefined(data.code) || isString(data.code)) &&
+          (isUndefined(data.discountType) || (data.discountType in ['fixed', 'percentage'])) &&
+          (isUndefined(data.discountAmount) || isNumber(data.discountAmount)) &&
+          (isUndefined(data.maximumDiscount) || isNumber(data.maximumDiscount)) &&
+          (isUndefined(data.minimumSpend) || isNumber(data.minimumSpend)) &&
+          (isUndefined(data.startDate) || isNumber(data.startDate)) &&
+          (isUndefined(data.endDate) || isNumber(data.endDate)) &&
+          (isUndefined(data.usageLimit) || isNumber(data.usageLimit)) &&
+          (isUndefined(data.usageLimitPerUser) || isNumber(data.usageLimitPerUser)) &&
+          (isUndefined(data.registeredUserOnly) || isBoolean(data.registeredUserOnly)) &&
+          (isUndefined(data.isPublic) || isBoolean(data.isPublic)) &&
+          (isUndefined(data.canBeUsedTogether) || isBoolean(data.canBeUsedTogether)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidDeliveryOption(data) {
+    return (isUndefined(data.id) || isString(data.id)) &&
+          (isUndefined(data.nameEN) || isString(data.nameEN)) &&
+          (isUndefined(data.nameZH) || isString(data.nameZH)) &&
+          (isUndefined(data.descriptionEN) || isString(data.descriptionEN)) &&
+          (isUndefined(data.descriptionZH) || isString(data.descriptionZH)) &&
+          (isUndefined(data.deliveryCharge) || isNumber(data.deliveryCharge)) &&
+          (isUndefined(data.estimatedTimeEN) || isString(data.estimatedTimeEN)) &&
+          (isUndefined(data.estimatedTimeZH) || isString(data.estimatedTimeZH)) &&
+          (isUndefined(data.isPublic) || isBoolean(data.isPublic)) &&
+          (isUndefined(data.freeDeliveryThreshold) || isNumber(data.freeDeliveryThreshold)) &&
+          (isUndefined(data.applyThresholdBeforeCoupons) || isBoolean(data.applyThresholdBeforeCoupons)) &&
+          (isUndefined(data.deliveryProviderEN) || isString(data.deliveryProviderEN)) &&
+          (isUndefined(data.deliveryProviderZH) || isString(data.deliveryProviderZH)) &&
+          (isUndefined(data.isPickUp) || isBoolean(data.isPickUp)) &&
+          (isUndefined(data.storeAddressId) || isString(data.storeAddressId)) &&
+          (isUndefined(data.storeAddressName) || isString(data.storeAddressName)) &&
+          (isUndefined(data.storeAddressRegion) || isString(data.storeAddressRegion)) &&
+          (isUndefined(data.storeAddressDistrict) || isString(data.storeAddressDistrict)) &&
+          (isUndefined(data.storeAddressDetailAddress) || isString(data.storeAddressDetailAddress)) &&
+          (isUndefined(data.storeAddressPhoneNumber) || isString(data.storeAddressPhoneNumber)) &&
+          (isUndefined(data.storeAddressBusinessHours) || isString(data.storeAddressBusinessHours)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidSmartBar(data) {
+    return (isUndefined(data.titleZH) || isString(data.titleZH)) &&
+          (isUndefined(data.titleEN) || isString(data.titleEN)) &&
+          (isUndefined(data.messageZH) || isString(data.messageZH)) &&
+          (isUndefined(data.messageEN) || isString(data.messageEN)) &&
+          (isUndefined(data.link) || isString(data.link)) &&
+          (isUndefined(data.linkDescriptionZH) || isString(data.linkDescriptionZH)) &&
+          (isUndefined(data.linkDescriptionEN) || isString(data.linkDescriptionEN)) &&
+          (isUndefined(data.backgroundColor) || isString(data.backgroundColor)) &&
+          (isUndefined(data.textColor) || isString(data.textColor)) &&
+          (isUndefined(data.isPublic) || isBoolean(data.isPublic)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidStoreAddress(data) {
+    return (isUndefined(data.name) || isString(data.name)) &&
+          (isUndefined(data.region) || isString(data.region)) &&
+          (isUndefined(data.district) || isString(data.district)) &&
+          (isUndefined(data.detailAddress) || isString(data.detailAddress)) &&
+          (isUndefined(data.phoneNumber) || isString(data.phoneNumber)) &&
+          (isUndefined(data.businessHours) || isString(data.businessHours)) &&
+          (isUndefined(data.images) || isImages(data.images)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidClassification(data) {
+    return (isUndefined(data.nameZH) || isString(data.nameZH)) &&
+          (isUndefined(data.nameEN) || isString(data.nameEN)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt)) &&
+          (isUndefined(data.deletedAt) || isTimestamp(data.deletedAt));
+  }
+
+  function isValidEmail(data) {
+    return (isUndefined(data.to) || isStrings(data.to)) &&
+          (isUndefined(data.cc) || isStrings(data.cc)) &&
+          (isUndefined(data.bcc) || isStrings(data.bcc)) &&
+          (isUndefined(data.message) || (isObject(data.message) && 
+            (isUndefined(data.message.subject) || isString(data.message.subject)) &&
+            (isUndefined(data.message.text) || isString(data.message.text)) &&
+            (isUndefined(data.message.html) || isString(data.message.html))));
+  }
+
+  function isValidNotification(data) {
+    return (isUndefined(data.category) || isString(data.category)) &&
+          (isUndefined(data.type) || (data.type in ['Promotion'])) &&
+          (isUndefined(data.message) || isString(data.message)) &&
+          (isUndefined(data.subject) || isString(data.subject)) &&
+          (isUndefined(data.html) || isString(data.html)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.updatedAt));
+  }
+
+  function isValidPromotion(data) {
+    return (isUndefined(data.emailId) || isString(data.emailId)) &&
+          (isUndefined(data.notificationId) || isString(data.notificationId)) &&
+          (isUndefined(data.promoteByEmail) || isBoolean(data.promoteByEmail)) &&
+          (isUndefined(data.promoteByNotification) || isBoolean(data.promoteByNotification)) &&
+          (isUndefined(data.to) || isStrings(data.to)) &&
+          (isUndefined(data.cc) || isStrings(data.cc)) &&
+          (isUndefined(data.bcc) || isStrings(data.bcc)) &&
+          (isUndefined(data.subject) || isString(data.subject)) &&
+          (isUndefined(data.text) || isString(data.text)) &&
+          (isUndefined(data.html) || isString(data.html)) &&
+          (isUndefined(data.createdAt) || isTimestamp(data.createdAt)) &&
+          (isUndefined(data.updatedAt) || isTimestamp(data.updatedAt));
   }
 
   match /databases/{database}/documents {
     match /users/{userId} {
       allow read: if isSelf(userId) || isAdmin();
-      allow create, update: if isSelf(userId) || isAdmin();
+      allow create, update: if (isSelf(userId) || isAdmin()) && isValidUser(request.resource.data);
       allow delete: if false;
 
       match /pendingOrders/{pendingOrderId} {
@@ -70,18 +354,18 @@ service cloud.firestore {
 
       match /addresses/{addressId} {
         allow read: if isSelf(userId) || isAdmin();
-        allow create, update: if isSelf(userId) || isAdmin();
+        allow create, update: if (isSelf(userId) || isAdmin()) && isValidAddress(request.resource.data);
         allow delete: if false;
       }
 
       match /cartItems/{cartItemId} {
         allow read: if isSelf(userId) || isAdmin();
-        allow write: if isSelf(userId) || isAdmin();
+        allow write: if (isSelf(userId) || isAdmin()) && isValidCartItem(request.resource.data);
       }
 
       match /wishlistItems/{cartItemId} {
         allow read: if isSelf(userId) || isAdmin();
-        allow write: if isSelf(userId) || isAdmin();
+        allow write: if (isSelf(userId) || isAdmin()) && isValidWishlistItem(request.resource.data);
       }
 
       match /orderLists/{listId} {
@@ -107,20 +391,20 @@ service cloud.firestore {
 
     match /comments/{commentId} {
       allow read: if true;
-      allow create: if isAdmin();
-      allow update: if isOwner() || isAdmin();
+      allow create: if isAdmin() && isValidComment();
+      allow update: if (isOwner() || isAdmin()) && isValidComment(request.resource.data);
       allow delete: if false;
     }
         
     match /replies/{replyId} {
       allow read: if true;
-      allow create, update: if isAdmin();
+      allow create, update: if isAdmin() && isValidReply(request.resource.data);
       allow delete: if false;
     }
 
     match /products/{productId} {
       allow read: if isPublic() || isAdmin();
-      allow create, update: if isAdmin();
+      allow create, update: if isAdmin() && isValidProduct(request.resource.data);
       allow delete: if false;
 
       match /commentLists/{listId} {
@@ -130,7 +414,7 @@ service cloud.firestore {
 
       match /others/subscriberList {
         allow read: if true;
-        allow create, update: if true;
+        allow create, update: if isValidSubscriberList(request.resource.data);
         allow delete: if false;
       }
     }
@@ -154,8 +438,7 @@ service cloud.firestore {
       allow read: if isOwner()
         || isAdmin();
       allow create: if isAdmin();
-      allow update: if (isOwner() && notEditingOrderInformation())
-        || isAdmin();
+      allow update: if isAdmin();
       allow delete: if false;
     }
 
@@ -165,7 +448,7 @@ service cloud.firestore {
     }
 
     match /coupons/{couponId} {
-      allow read, create, update: if isAdmin();
+      allow read, create, update: if isAdmin() && isValidCoupon(request.resource.data);
       allow delete: if false;
 
       match /usageRecords/{couponUsageRecordId} {
@@ -190,7 +473,8 @@ service cloud.firestore {
     }
 
     match /deliveryOptions/{deliveryOptionId} {
-      allow read, create, update: if isAdmin();
+      allow read: if isAdmin();
+      create, update: if isAdmin() && isValidDeliveryOption(request.resource.data);
       allow delete: if false;
 
       match /usageRecords/{couponUsageRecordId} {
@@ -215,17 +499,20 @@ service cloud.firestore {
     }
 
     match /brands/{brandId} {
-      allow read, create, update: if isAdmin();
+      allow read: if isAdmin()
+      allow create, update: if isAdmin() && isValidClassification(request.resource.data);
       allow delete: if false;
     }
 
     match /categories/{categoryId} {
-      allow read, create, update: if isAdmin();
+      allow read: if isAdmin()
+      allow create, update: if isAdmin() && isValidClassification(request.resource.data);
       allow delete: if false;
     }
 
     match /collections/{collectionId} {
-      allow read, create, update: if isAdmin();
+      allow read: if isAdmin()
+      allow create, update: if isAdmin() && isValidClassification(request.resource.data);
       allow delete: if false;
     }
 
@@ -276,7 +563,7 @@ service cloud.firestore {
 
     match /smartBars/{smartBarId} {
       allow read: if isAdmin();
-      allow create, update: if isAdmin();
+      allow create, update: if isAdmin() && isValidSmartBar(request.resource.data);
       allow delete: if false;
     }
 
@@ -292,7 +579,7 @@ service cloud.firestore {
 
     match /storeAddresses/{storeAddressId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if isAdmin() && isValidStoreAddress(request.resource.data);
     }
 
     match /store/{aggregatorName} {
@@ -311,15 +598,15 @@ service cloud.firestore {
     }
 
     match /mail/{mailId} {
-      allow read, write: if isAdmin();
+      allow read, write: if isAdmin() && isValidEmail(request.resource.data);
     }
 
     match /notifications/{mailId} {
-      allow read, write: if isAdmin();
+      allow read, write: if isAdmin() && isValidNotification(request.resource.data);
     }
 
     match /promotions/{promotionId} {
-      allow read, write: if isAdmin();
+      allow read, write: if isAdmin() && isValidPromotion(request.resource.data);
     }
 
     match /promotionLists/{listId} {
@@ -329,7 +616,8 @@ service cloud.firestore {
 
     match /promotion/subscriberList {
       allow read: if isAdmin();
-      allow write: if true;
+      allow create, update: if isValidSubscriberList(request.resource.data);
+      allow delete: if false;
     }
   }
 }

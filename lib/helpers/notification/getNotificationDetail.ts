@@ -3,76 +3,82 @@ import { TranslationFunction } from '@/types/TranslationFunction';
 
 interface GetNotificationDetailParameters {
   notification: Notification;
-  t: TranslationFunction;
+  userFullName: string;
+  tNotification: TranslationFunction;
 }
 
-export const getNotificationDetail = ({ notification, t }: GetNotificationDetailParameters) => {
+export const getNotificationDetail = ({
+  notification,
+  userFullName,
+  tNotification,
+}: GetNotificationDetailParameters) => {
   let title: string | undefined = undefined;
   let content: string | undefined = undefined;
   let href: string | undefined = undefined;
 
-  const { category, orderId, productId, productName, type, amountToPay, totalQuantity, userFullName } = notification;
+  const { category, orderId, productId, productName, type, amountToPay, totalQuantity, userFirstName, userLastName } =
+    notification;
 
   switch (category) {
     case 'Back in Stock':
       href = `/products/${productId}`;
-      title = t('backInStock.title', { productName });
-      content = t('backInStock.content', { productName });
+      title = tNotification('backInStock.title', { productName });
+      content = tNotification('backInStock.content', { productName });
       break;
     case 'Order':
       switch (type) {
         case 'user-Paid':
           href = `/orders/${orderId}`;
-          title = t('order.userPaid.title', { orderId });
-          content = t('order.userPaid.content', { totalQuantity, amountToPay: amountToPay?.toFixed(2) });
+          title = tNotification('order.userPaid.title', { orderId });
+          content = tNotification('order.userPaid.content', { totalQuantity, amountToPay: amountToPay?.toFixed(2) });
           break;
 
         case 'admin-Paid':
           href = `/admin/orders/${orderId}`;
-          title = t('order.adminPaid.title', { userFullName, orderId });
-          content = t('order.adminPaid.content', { totalQuantity, amountToPay: amountToPay?.toFixed(2) });
+          title = tNotification('order.adminPaid.title', { userFullName, orderId });
+          content = tNotification('order.adminPaid.content', { totalQuantity, amountToPay: amountToPay?.toFixed(2) });
           break;
 
         case 'user-Delivering':
           href = `/orders/${orderId}`;
-          title = t('order.userDelivering.title');
-          content = t('order.userDelivering.content', { orderId });
+          title = tNotification('order.userDelivering.title');
+          content = tNotification('order.userDelivering.content', { orderId });
           break;
 
         case 'user-Delivered':
-          title = t('order.userDelivered.title');
-          content = t('order.userDelivered.content', { orderId });
+          title = tNotification('order.userDelivered.title');
+          content = tNotification('order.userDelivered.content', { orderId });
           href = `/orders/${orderId}`;
           break;
 
         case 'user-Ready for Pickup':
           href = `/orders/${orderId}`;
-          title = t('order.userReadyForPickup.title');
-          content = t('order.userReadyForPickup.content', { orderId });
+          title = tNotification('order.userReadyForPickup.title');
+          content = tNotification('order.userReadyForPickup.content', { orderId });
           break;
 
         case 'user-Picked Up':
           href = `/orders/${orderId}`;
-          title = t('order.userPickedUp.title');
-          content = t('order.userPickedUp.content', { orderId });
+          title = tNotification('order.userPickedUp.title');
+          content = tNotification('order.userPickedUp.content', { orderId });
           break;
 
         case 'user-Application for Refund':
           href = `/orders/${orderId}`;
-          title = t('order.userApplicationForRefund.title');
-          content = t('order.userApplicationForRefund.content', { orderId });
+          title = tNotification('order.userApplicationForRefund.title');
+          content = tNotification('order.userApplicationForRefund.content', { orderId });
           break;
 
         case 'admin-Application for Refund':
           href = `/admin/orders/${orderId}`;
-          title = t('order.adminApplicationForRefund.title');
-          content = t('order.adminApplicationForRefund.content', { userFullName, orderId });
+          title = tNotification('order.adminApplicationForRefund.title');
+          content = tNotification('order.adminApplicationForRefund.content', { userFullName, orderId });
           break;
 
         case 'user-Refunded':
           href = `/orders/${orderId}`;
-          title = t('order.userRefunded.title');
-          content = t('order.userRefunded.content', { orderId });
+          title = tNotification('order.userRefunded.title');
+          content = tNotification('order.userRefunded.content', { orderId });
           break;
 
         default:

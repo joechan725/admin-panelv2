@@ -165,6 +165,7 @@
     "noNotifications": "You have no new notifications.",
     "viewMore": "View More",
     "endOfNotifications": "End of notifications.",
+    "close": "Close",
     "backInStock": {
       "title": "Product Back in Stock: {productName}",
       "content": "Good News! The product {productName} is back in stock."
@@ -397,6 +398,8 @@
     },
     "detail": {
       "shareTo": "Share to",
+      "outOfStock": "Sorry! This product is currently out of stock. Check back soon!",
+      "comments": "{commentCount, plural, =0 {0 comment} =1 {1 comment} other {# comments}}",
       "productDetail": "Product Detail",
       "clientsComments": "Clients' Comments",
       "relatedProducts": "Related Products",
@@ -966,11 +969,12 @@
         "sales": "Sales",
         "revenue": "Revenue"
       },
-      "mostAddedToCart": {
-        "title": "Most popular in cart",
-        "noItems": "There are currently no added to cart record.",
-        "product": "Product",
-        "times": "TImes"
+      "bestBrand": {
+        "title": "Most Popular Brand",
+        "noItems": "There are currently no sales record.",
+        "brand": "Brand",
+        "sales": "Sales",
+        "revenue": "Revenue"
       }
     },
     "setting": {

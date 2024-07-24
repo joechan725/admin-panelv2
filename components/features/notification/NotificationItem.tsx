@@ -3,15 +3,13 @@
 import clsx from 'clsx/lite';
 import AvatarShow from '@/components/ui/image/AvatarShow';
 import ImageShow from '@/components/ui/image/ImageShow';
-import { convertToPastTimeDescription } from '@/lib/helpers/date/convertToPastTimeDescription';
 import { Notification } from '@/models/user/notification/Notification';
 import { useRouter } from '@/navigation';
 import { useEffect, useState } from 'react';
 import UserNotificationDeleteButton from './UserNotificationDeleteButton';
 import AdminNotificationDeleteButton from './AdminNotificationDeleteButton';
-import { getNotificationDetail } from '@/lib/helpers/notification/getNotificationDetail';
 import BlockNoteViewer from '@/components/ui/blocknote/BlockNoteViewer';
-import { useTranslations } from 'next-intl';
+import { useLanguage } from '@/lib/hooks/language/useLanguage';
 
 interface NotificationItemProps {
   notification: Notification;
@@ -19,22 +17,22 @@ interface NotificationItemProps {
 }
 
 const NotificationItem = ({ notification, mode }: NotificationItemProps) => {
+  const { convertPastTimeDescription, convertNotificationDetail } = useLanguage();
+
   const { id, message, updatedAt, image, imageType, subject, html } = notification;
 
-  const t = useTranslations('Notification');
-
   const current = new Date();
-  const pastTimeDescription = convertToPastTimeDescription(current, updatedAt, t);
+  const pastTimeDescription = convertPastTimeDescription(current, updatedAt);
   const [displayPastTimeDescription, setDisplayPastTimeDescription] = useState(pastTimeDescription);
 
   const router = useRouter();
 
-  const { href, content, title } = getNotificationDetail({ notification, t });
+  const { href, content, title } = convertNotificationDetail(notification);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const current = new Date();
-      const pastTimeDescription = convertToPastTimeDescription(current, updatedAt, t);
+      const pastTimeDescription = convertPastTimeDescription(current, updatedAt);
       setDisplayPastTimeDescription(pastTimeDescription);
     }, 5 * 1000);
 

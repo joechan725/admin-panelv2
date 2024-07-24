@@ -7,12 +7,12 @@ import { sortObjectsByKey } from '@/lib/helpers/objects/sortObjectsByKey';
 import { SalesRecord } from '@/models/salesRecord/SalesRecord';
 import { useFormatter, useTranslations } from 'next-intl';
 
-interface BestSellerCardProps {
+interface BestBrandCardProps {
   isLoading?: boolean;
   salesRecords: SalesRecord[];
 }
 
-const BestSellerCard = ({ isLoading, salesRecords }: BestSellerCardProps) => {
+const BestBrandCard = ({ isLoading, salesRecords }: BestBrandCardProps) => {
   const tTime = useTranslations('Admin.dashboard.time');
   const t = useTranslations('Admin.dashboard.bestSeller');
   const format = useFormatter();
@@ -34,7 +34,7 @@ const BestSellerCard = ({ isLoading, salesRecords }: BestSellerCardProps) => {
   }
 
   const recordsFilteredByDate = salesRecords.filter((record) => record.soldAt > targetDate.getTime());
-  const accumulatedRecords = accumulateFieldOfObjects(recordsFilteredByDate, 'productId', ['sales', 'revenue']);
+  const accumulatedRecords = accumulateFieldOfObjects(recordsFilteredByDate, 'brandId', ['sales', 'revenue']);
   const sortedRecords = sortObjectsByKey(accumulatedRecords, 'sales', 'desc');
   const recordsToShow = sortedRecords.slice(0, 5);
 
@@ -67,4 +67,4 @@ const BestSellerCard = ({ isLoading, salesRecords }: BestSellerCardProps) => {
   );
 };
 
-export default BestSellerCard;
+export default BestBrandCard;

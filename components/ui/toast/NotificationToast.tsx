@@ -5,13 +5,12 @@ import AvatarShow from '@/components/ui/image/AvatarShow';
 import { useRouter } from 'next/navigation';
 import { Notification } from '@/models/user/notification/Notification';
 import ImageShow from '../image/ImageShow';
-import { convertToPastTimeDescription } from '@/lib/helpers/date/convertToPastTimeDescription';
 import { useEffect, useState } from 'react';
 import CustomToast from './CustomToast';
 import clsx from 'clsx/lite';
-import { getNotificationDetail } from '@/lib/helpers/notification/getNotificationDetail';
 import BlockNoteViewer from '../blocknote/BlockNoteViewer';
 import { useTranslations } from 'next-intl';
+import { useLanguage } from '@/lib/hooks/language/useLanguage';
 
 interface NotificationToastProps {
   notification: Notification;
@@ -19,16 +18,18 @@ interface NotificationToastProps {
 }
 
 const NotificationToast = ({ notification, t }: NotificationToastProps) => {
-  const { message, updatedAt, image, imageType, subject, html, type } = notification;
-  const tran = useTranslations('Notification');
+  const { message, updatedAt, image, imageType, subject, html } = notification;
+  const tNotification = useTranslations('Notification');
+  const { convertPastTimeDescription, convertNotificationDetail } = useLanguage();
 
   const current = new Date();
-  const pastTimeDescription = convertToPastTimeDescription(current, updatedAt, tran);
+  const pastTimeDescription = convertPastTimeDescription(current, updatedAt);
+
   const [displayPastTimeDescription, setDisplayPastTimeDescription] = useState(pastTimeDescription);
 
   const router = useRouter();
 
-  const { href, content, title } = getNotificationDetail({ notification, t: tran });
+  const { href, content, title } = convertNotificationDetail(notification);
 
   const handleView = () => {
     if (href) {
@@ -40,7 +41,7 @@ const NotificationToast = ({ notification, t }: NotificationToastProps) => {
   useEffect(() => {
     const interval = setInterval(() => {
       const current = new Date();
-      const pastTimeDescription = convertToPastTimeDescription(current, updatedAt, tran);
+      const pastTimeDescription = convertPastTimeDescription(current, updatedAt);
       setDisplayPastTimeDescription(pastTimeDescription);
     }, 5 * 1000);
 
@@ -79,7 +80,7 @@ const NotificationToast = ({ notification, t }: NotificationToastProps) => {
             onClick={() => toast.dismiss(t.id)}
             className="w-full border border-transparent rounded-lg flex items-center justify-center text-xs md:text-sm font-medium text-red-500 hover:text-red-500/85 active:text-red-500/70 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
-            Close
+            {tNotification('close')}
           </button>
         </div>
       </div>

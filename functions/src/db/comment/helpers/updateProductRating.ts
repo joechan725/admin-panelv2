@@ -47,6 +47,10 @@ export const updateProductRating = async ({
   ratingAfter,
   ratingBefore,
 }: UpdateProductRatingParameters) => {
+  if (ratingAfter === ratingBefore) {
+    return;
+  }
+
   try {
     const productRef = db.collection('products').doc(productId);
     const productSnap = await productRef.get();

@@ -19,12 +19,12 @@ export const useUserStoredListListener = () => {
     }
     const userId = user.id;
 
-    const cartAndWishlistRef = doc(db, `/users/${userId}/lists/userStoredList`).withConverter(userStoredListConverter);
+    const userStoredListRef = doc(db, `/users/${userId}/lists/userStoredList`).withConverter(userStoredListConverter);
     const unsubscribe = onSnapshot(
-      cartAndWishlistRef,
+      userStoredListRef,
       (snapshot) => {
-        const cartItemAndWishlistItemList = snapshot.data() ?? { cartItems: [], wishlistItems: [], addresses: [] };
-        const { cartItems, wishlistItems, addresses } = cartItemAndWishlistItemList;
+        const userStoredList = snapshot.data() ?? { cartItems: [], wishlistItems: [], addresses: [] };
+        const { cartItems, wishlistItems, addresses } = userStoredList;
         loadCart(cartItems);
         loadWishlist(wishlistItems);
         loadAddress(addresses);

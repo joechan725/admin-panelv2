@@ -5,6 +5,7 @@ interface CombineFNameAndLNameProps {
   lastName: string | null | undefined;
   fallbackName: string;
 }
+
 const combineFNameAndLName = ({ firstName, lastName, fallbackName }: CombineFNameAndLNameProps) => {
   if (firstName && lastName) {
     const capitalizedFirstName = capitalizeFirstLetterOfEachWord(firstName);
@@ -24,4 +25,5 @@ const combineFNameAndLName = ({ firstName, lastName, fallbackName }: CombineFNam
 
   return fallbackName;
 };
+
 export default combineFNameAndLName;

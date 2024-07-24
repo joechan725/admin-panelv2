@@ -1,5 +1,3 @@
-import { AddToCartRecord } from './record/AddToCartRecord';
-
 export interface MonthlyStatistic {
   // order related
   revenueThisMonth?: number;
@@ -109,8 +107,6 @@ export interface MonthlyStatistic {
   addToCartItemCount9MonthAgo?: number;
   addToCartItemCount10MonthAgo?: number;
   addToCartItemCount11MonthAgo?: number;
-
-  addToCartRecords?: AddToCartRecord[];
 
   // user related
   firstTimeVisitorCountThisMonth?: number;

@@ -1,5 +1,3 @@
-import { AddToCartRecord } from './record/AddToCartRecord';
-
 export interface YearlyStatistic {
   // order related
   revenueThisYear?: number;
@@ -29,8 +27,6 @@ export interface YearlyStatistic {
   // cartItem related
   addToCartItemCountThisYear?: number;
   addToCartItemCount1YearAgo?: number;
-
-  addToCartRecords?: AddToCartRecord[];
 
   // user related
   firstTimeVisitorCountThisYear?: number;

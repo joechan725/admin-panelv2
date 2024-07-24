@@ -57,12 +57,12 @@ const FakerForm = ({}: FakerFormProps) => {
       await addFakeSmartBars(numberOfSmartBars);
       await addFakeProducts(numberOfProducts);
       await addFakeUsers(numberOfUsers);
+      const ids = await addFakeOrders(numberOfOrders);
+      await addFakeComments(ids);
+      await addFakeReplies(ids);
       await addFakeAddresses(maxNumberOfAddresses);
       await addFakeCartItems(maxNumberOfCartItems);
       await addFakeWishlistItems(maxNumberOfWishlistItems);
-      const productAndCommentIds = await addFakeOrders(numberOfOrders);
-      await addFakeComments(productAndCommentIds);
-      await addFakeReplies(productAndCommentIds);
       await addFakeStoreInformation();
       await addFakePromotions(numberOfPromotions);
       toast.success('Success');

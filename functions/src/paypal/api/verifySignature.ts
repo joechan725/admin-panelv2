@@ -1,6 +1,6 @@
 import { Request } from 'firebase-functions/v2/https';
-import { paypalVerifyUrl, webhookId } from '../../../paypal/config';
-import { getPayPalAccessToken } from './getPayPalAccessToken';
+import { paypalVerifyUrl, webhookId } from '../config';
+import { getPaypalAccessToken } from './getPaypalAccessToken';
 
 export const verifySignature = async (req: Request) => {
   const transmissionId = req.get('paypal-transmission-id');
@@ -19,7 +19,7 @@ export const verifySignature = async (req: Request) => {
     webhook_event: req.body,
   };
 
-  const accessToken = await getPayPalAccessToken();
+  const accessToken = await getPaypalAccessToken();
 
   const verifyResponse = await fetch(paypalVerifyUrl, {
     method: 'POST',

@@ -35,13 +35,13 @@ export const userStoredListConverter = {
   },
   fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions): UserStoredList => {
     const userStoredListData = snapshot.data(options) as UserStoredListData;
-    const cartWishlistArray = Object.entries(userStoredListData);
+    const userStoredListArray = Object.entries(userStoredListData);
 
     const cartItems: CartItem[] = [];
     const wishlistItems: WishlistItem[] = [];
     const addresses: Address[] = [];
 
-    cartWishlistArray.forEach(([objectKey, data]) => {
+    userStoredListArray.forEach(([objectKey, data]) => {
       const [type, id] = objectKey.split('_');
 
       if (type === 'cartItem') {

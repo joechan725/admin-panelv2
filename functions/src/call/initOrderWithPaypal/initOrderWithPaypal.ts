@@ -11,6 +11,7 @@ import { Order } from '../../models/order/Order';
 import { District } from '../../types/District';
 import { Region } from '../../types/Region';
 import { logger } from 'firebase-functions/v1';
+import { createPaypalOrder } from '../../paypal/api/createPaypalOrder';
 
 interface Request {
   formData: OrderPlacementFormData;
@@ -18,6 +19,7 @@ interface Request {
 
 interface Response {
   pendingOrder: Order;
+  paypalOrderId: string;
 }
 
 interface OrderPlacementFormData {
@@ -76,28 +78,22 @@ export const initOrderWithPaypal = onCall<Request, Promise<Response>>(async (req
 
     const modifiedCartItems = await validateCartItems(cartItemsData);
 
-    const { totalPriceInCents, totalPriceInDollar, totalQuantity } = calculateTotalAmount(modifiedCartItems);
+    const { totalPriceInDollar, totalQuantity } = calculateTotalAmount(modifiedCartItems);
 
-    const { discountAmountInCents, discountAmountInDollar, couponsUsedData } = await validateCoupon({
+    const { discountAmountInDollar, couponsUsedData } = await validateCoupon({
       userId,
       couponCodes,
       orderTotalPrice: totalPriceInDollar,
       isAnonymous: userData.isAnonymous,
     });
 
-    const { deliveryChargeInCents, deliveryChargeInDollar, deliveryOptionData } = await calculateDeliveryCharge({
+    const { deliveryChargeInDollar, deliveryOptionData } = await calculateDeliveryCharge({
       deliveryOptionId,
       totalPriceAfterCouponInDollar: totalPriceInDollar - discountAmountInDollar,
       totalPriceBeforeCouponInDollar: totalPriceInDollar,
     });
 
-    const minimumPriceByStripInCent = 400;
-    const amountToPayInCents = totalPriceInCents - discountAmountInCents + deliveryChargeInCents;
-    const amountToPayInDollar = amountToPayInCents / 100;
-
-    if (amountToPayInCents <= minimumPriceByStripInCent) {
-      throw new HttpsError('invalid-argument', `Not meet minimum spent ($${minimumPriceByStripInCent / 100})`);
-    }
+    const amountToPayInDollar = totalPriceInDollar - discountAmountInDollar + deliveryChargeInDollar;
 
     const pendingOrder = await addPendingOrder({
       userId,
@@ -124,8 +120,11 @@ export const initOrderWithPaypal = onCall<Request, Promise<Response>>(async (req
       deliveryChargeAtThisOrder: deliveryChargeInDollar,
     });
 
+    const paypalOrderId = await createPaypalOrder({ amount: amountToPayInDollar, pendingOrderId: pendingOrder.id });
+
     return {
       pendingOrder,
+      paypalOrderId,
     };
   } catch (error) {
     if (error instanceof HttpsError) {

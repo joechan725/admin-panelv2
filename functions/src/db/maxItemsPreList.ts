@@ -12,9 +12,9 @@ export const maxDeliveryOptionsPreList = 500;
 
 export const maxDeliveryOptionUsageRecordsPreList = 500;
 
-export const maxOrdersPreList = 50;
+export const maxOrdersPreList = 100;
 
-export const maxCommentsPreList = 500;
+export const maxCommentsPreList = 100;
 
 export const maxSmartBarsPreList = 500;
 

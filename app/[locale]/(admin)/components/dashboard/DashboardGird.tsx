@@ -10,7 +10,6 @@ import VisitedCount from './widget/VisitorCount';
 import CouponUsed from './widget/CouponUsed';
 import DeliveryCharge from './widget/DeliveryCharge';
 import BestSeller from './widget/BestSeller';
-import MostAddToCart from './widget/MostAddToCart';
 import DateSearchSuspense from '@/components/search/DateSearchSuspense';
 import { AllHistoryStatistic } from '@/models/statistic/AllHistoryStatistic';
 import { DailyStatistic } from '@/models/statistic/DailyStatistic';
@@ -103,11 +102,7 @@ const DashboardGird = ({
           <BestSeller salesRecords={salesRecords} />
         </div>
         <div className="col-span-2 row-span-2">
-          <MostAddToCart
-            dailyStatistic={dailyStatistic}
-            monthlyStatistic={monthlyStatistic}
-            yearlyStatistic={yearlyStatistic}
-          />
+          <></>
         </div>
         <div>
           <DeliveryCharge

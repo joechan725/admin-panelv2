@@ -24,7 +24,8 @@ interface OrderNotification {
   productName?: undefined;
   // For order only
   orderId: string;
-  userFullName?: string;
+  userFirstName?: string;
+  userLastName?: string;
   totalQuantity?: number;
   amountToPay?: number;
   // For promotion only
@@ -49,7 +50,8 @@ interface BackInStockNotification {
   productName: string;
   // For order only
   orderId?: undefined;
-  userFullName?: undefined;
+  userFirstName?: undefined;
+  userLastName?: undefined;
   totalQuantity?: undefined;
   amountToPay?: undefined;
   // For promotion only
@@ -74,7 +76,8 @@ interface PromotionNotification {
   productName?: undefined;
   // For order only
   orderId?: undefined;
-  userFullName?: undefined;
+  userFirstName?: undefined;
+  userLastName?: undefined;
   totalQuantity?: undefined;
   amountToPay?: undefined;
   // For promotion only

@@ -32,7 +32,7 @@ const GeneralInformation = ({ order }: GeneralInformationProps) => {
             <span className="text-sm font-semibold text-primary-text">{t('queryCode')}</span>
             <span className="text-sm font-medium text-secondary-text">{queryCode}</span>
           </div>
-          <div className="text-xs font-medium text-secondary-text">{t('queryCodeDescription')}</div>
+          <div className="text-sm font-medium text-secondary-text">{t('queryCodeDescription')}</div>
         </div>
         <div className="text-sm font-medium text-secondary-text">{t('processStatement')}</div>
       </div>

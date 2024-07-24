@@ -9,14 +9,14 @@ interface BestSellerListProps {
 }
 
 const BestSellerList = ({ isLoading, salesRecords }: BestSellerListProps) => {
-  const t = useTranslations('Admin.dashboard.bestSeller');
+  const t = useTranslations('Admin.dashboard.bestBrand');
 
   return (
     <div>
       <table className="w-full">
         <thead>
           <tr className="border-y border-slate-900/10">
-            <th className="p-2 text-sm text-slate-600 font-semibold">{t('product')}</th>
+            <th className="p-2 text-sm text-slate-600 font-semibold">{t('brand')}</th>
             <th className="p-2 text-sm text-slate-600 font-semibold">{t('sales')}</th>
             <th className="p-2 text-sm text-slate-600 font-semibold">{t('revenue')}</th>
           </tr>

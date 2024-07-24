@@ -8,13 +8,15 @@ import PurchaseButton from '../button/PurchaseButton';
 import SubscribeToStockButtonContainer from '../button/SubscribeToStockButtonContainer.tsx';
 import SubscribeToStockButton from '../button/SubscribeToStockButton';
 import ToggleWishlistButton from '../button/ToggleWishlistButton';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface ProductDetailProps {
   product: Product | undefined;
 }
 
 const ProductDetail = ({ product }: ProductDetailProps) => {
+  const t = useTranslations('Product.detail');
+
   const locale = useLocale();
 
   if (!product) {
@@ -30,8 +32,8 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
     markedPrice,
     descriptionEN,
     descriptionZH,
-    rating = 0,
-    commentCount = 0,
+    rating,
+    commentCount,
     stock,
     tags,
   } = product;
@@ -65,11 +67,11 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           )}
           <div>
             <div className="flex items-center gap-1">
-              <StarBar activeStar={rating} sizeClassName="size-4 md:size-5" />
-              <div className="text-sm md:text-base font-medium text-secondary-text">({rating.toFixed(1)})</div>
+              <StarBar activeStar={rating ?? 0} sizeClassName="size-4 md:size-5" />
+              <div className="text-sm md:text-base font-medium text-secondary-text">({(rating ?? 0).toFixed(1)})</div>
             </div>
             <div className="text-xs font-medium text-secondary-text ">
-              {commentCount} comment{commentCount > 1 ? 's' : ''}
+              {t('comments', { commentCount: commentCount ?? 0 })}
             </div>
           </div>
           <div className="flex gap-2 items-end">
@@ -90,9 +92,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           <ToggleWishlistButton product={product} />
           {stock <= 0 && (
             <div className="space-y-4">
-              <div className="text-sm font-medium text-secondary-text">
-                Sorry! This product is currently out of stock. Check back soon!
-              </div>
+              <div className="text-sm font-medium text-secondary-text">{t('outOfStock')}</div>
               <SubscribeToStockButtonContainer productId={id}>
                 <SubscribeToStockButton />
               </SubscribeToStockButtonContainer>

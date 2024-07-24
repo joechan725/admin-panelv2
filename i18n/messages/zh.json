@@ -75,7 +75,7 @@
   },
   "Error": {
     "notFound": "找不到此頁面。",
-    "noPermission": "您無權訪問此頁面。",
+    "noPermission": "您沒有權限訪問此頁面。",
     "unexpectedError": "發生意外錯誤。請稍後再試。"
   },
   "FormSubmit": {
@@ -117,7 +117,7 @@
       "pleaseSelectPickUpAddress": "請選擇自取地址",
       "districtIsNotMatchTheRegion": "所選地區與地區不匹配",
       "orderNotFound": "找不到該訂單。請檢查您的訂單編號或登入以查看您的訂單。",
-      "orderNoPermission": "您無權查看此訂單。請使用查詢代碼再試一次,或登入以查看您的訂單。",
+      "orderNoPermission": "您沒有權限查看此訂單。請使用查詢代碼再試一次,或登入以查看您的訂單。",
       "orderIncorrectQueryCode": "查詢代碼不正確。請檢查您的訂單編號、再次使用另一個查詢代碼或登入以查看您的訂單。",
       "refundAmountShallBeSmallerThanTheOrderAmount": "退款金額應小於訂單金額",
       "selectProduct": "請選擇一個產品",
@@ -165,6 +165,7 @@
     "noNotifications": "您沒有新的通知。",
     "viewMore": "查看更多",
     "endOfNotifications": "已顯示所有通知。",
+    "close": "關閉",
     "backInStock": {
       "title": "產品{productName}已經補貨",
       "content": "好消息!產品{productName}已經補貨了。"
@@ -397,6 +398,8 @@
     },
     "detail": {
       "shareTo": "分享至",
+      "outOfStock": "非常抱歉!此商品目前缺貨。請稍後再來查看!",
+      "comments": "{commentCount}則評論",
       "productDetail": "產品詳情",
       "clientsComments": "客戶評論",
       "relatedProducts": "相關產品",
@@ -966,11 +969,12 @@
         "sales": "銷量",
         "revenue": "收入"
       },
-      "mostAddedToCart": {
-        "title": "購物車熱門產品",
-        "noItems": "目前沒有任何加入購物車的記錄。",
-        "product": "產品",
-        "times": "次數"
+      "bestBrand": {
+        "title": "熱門品牌",
+        "noItems": "目前沒有任何銷售記錄。",
+        "brand": "品牌",
+        "sales": "銷量",
+        "revenue": "收入"
       }
     },
     "setting": {

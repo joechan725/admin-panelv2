@@ -6,7 +6,6 @@ import { MonthlyStatistic } from '../../../../models/statistic/MonthlyStatistic'
 import { YearlyStatistic } from '../../../../models/statistic/YearlyStatistic';
 import { AllHistoryStatistic } from '../../../../models/statistic/AllHistoryStatistic';
 import { CartItemData } from '../../../../models/user/cartItem/CartItemData';
-import { AddToCartRecord } from '../../../../models/statistic/record/AddToCartRecord';
 import { BigBatch } from '../../../../classes/BigBatch';
 import { db } from '../../../../admin';
 import { logger } from 'firebase-functions/v1';
@@ -51,22 +50,10 @@ export const updateCartItemStatistic = async ({
     const allHistoryStatisticRef = db.collection('allHistoryStatistic').doc('allHistoryStatistic');
 
     if (mode === 'create') {
-      const newAddToCartRecord: AddToCartRecord = {
-        userId,
-        productId: cartItemData.productId,
-        productNameEN: cartItemData.nameEN,
-        productNameZH: cartItemData.nameZH,
-        productDescriptionEN: cartItemData.descriptionEN,
-        productDescriptionZH: cartItemData.descriptionZH,
-        productImage: cartItemData.image,
-      };
-      const unionAddToCartRecords = FieldValue.arrayUnion(newAddToCartRecord);
-
       dailyStatisticRefs.forEach((dailyRef, index) => {
         if (index === 0) {
           const dailyStatisticData: ExtendWithFieldValue<DailyStatistic> = {
             addToCartItemCountToday: FieldValue.increment(1),
-            addToCartRecords: unionAddToCartRecords,
           };
           bigBatch.set(dailyRef, dailyStatisticData, { merge: true });
         } else {
@@ -81,7 +68,6 @@ export const updateCartItemStatistic = async ({
         if (index === 0) {
           const monthlyStatisticData: ExtendWithFieldValue<MonthlyStatistic> = {
             addToCartItemCountThisMonth: FieldValue.increment(1),
-            addToCartRecords: unionAddToCartRecords,
           };
           bigBatch.set(monthlyRef, monthlyStatisticData, { merge: true });
         } else {
@@ -96,7 +82,6 @@ export const updateCartItemStatistic = async ({
         if (index === 0) {
           const yearlyStatisticData: ExtendWithFieldValue<YearlyStatistic> = {
             addToCartItemCountThisYear: FieldValue.increment(1),
-            addToCartRecords: unionAddToCartRecords,
           };
           bigBatch.set(yearlyRef, yearlyStatisticData, { merge: true });
         } else {

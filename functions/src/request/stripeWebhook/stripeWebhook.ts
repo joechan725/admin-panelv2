@@ -1,10 +1,10 @@
 import { onRequest } from 'firebase-functions/v2/https';
-import { getPendingOrder } from './helper/getPendingOrder';
-import { addOrder } from './helper/addOrder';
-import { emptyCartItems } from './helper/emptyCartItems';
+import { getPendingOrder } from './helpers/getPendingOrder';
+import { addOrder } from './helpers/addOrder';
+import { emptyCartItems } from './helpers/emptyCartItems';
 import { stripe, webhookSecret } from '../../stripe/config';
-import { sendOrderConfirmationEmail } from './helper/sendOrderConfirmationEmail';
-import { handleRefundUpdate } from './helper/handleRefundUpdate';
+import { sendOrderConfirmationEmail } from './helpers/sendOrderConfirmationEmail';
+import { handleRefundUpdate } from './helpers/handleRefundUpdate';
 
 // Reference: https://dev.to/perennialautodidact/connecting-stripe-webhooks-to-firebase-cloud-functions-on-localhost-using-localtunnel-55o9#stripe-event-cloud-function
 export const stripeWebhook = onRequest({ cors: [/stripe\.com$/] }, async (req, res) => {

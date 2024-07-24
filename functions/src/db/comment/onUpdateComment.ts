@@ -38,12 +38,14 @@ export const onUpdateComment = functions.firestore
     if (commentDataBefore.published === true && commentDataAfter.deletedAt === undefined) {
       // The comment is updated
       // update product rating
-      await updateProductRating({
-        mode: 'update',
-        productId,
-        ratingAfter: commentDataAfter.rating,
-        ratingBefore: commentDataBefore.rating,
-      });
+      if (commentDataBefore.rating !== commentDataAfter.rating) {
+        await updateProductRating({
+          mode: 'update',
+          productId,
+          ratingAfter: commentDataAfter.rating,
+          ratingBefore: commentDataBefore.rating,
+        });
+      }
 
       // update the comment list
       await updateCommentList({ productId, commentId, userId, commentDataBefore, commentDataAfter, mode: 'update' });

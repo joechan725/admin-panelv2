@@ -1,6 +1,10 @@
-import { paypalClientId, paypalClientSecret, paypalOAuthUrl } from '../../../paypal/config';
+import { paypalClientId, paypalClientSecret, paypalOAuthUrl } from '../config';
 
-export const getPayPalAccessToken = async () => {
+interface PayPalAccessTokenResponse {
+  access_token: string;
+}
+
+export const getPaypalAccessToken = async (): Promise<string> => {
   const auth = Buffer.from(`${paypalClientId}:${paypalClientSecret}`).toString('base64');
   const response = await fetch(paypalOAuthUrl, {
     method: 'POST',
@@ -11,6 +15,6 @@ export const getPayPalAccessToken = async () => {
     body: 'grant_type=client_credentials',
   });
 
-  const data = await response.json();
+  const data: PayPalAccessTokenResponse = await response.json();
   return data.access_token;
 };

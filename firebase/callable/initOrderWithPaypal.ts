@@ -10,6 +10,7 @@ interface Request {
 
 interface Response {
   pendingOrder: Order;
+  paypalOrderId: string;
 }
 
 interface OrderPlacementFormData {

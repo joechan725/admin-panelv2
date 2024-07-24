@@ -1,7 +1,6 @@
 import { ExtendWithFieldValue } from '../../../types/ExtendWithFieldValue';
 import { Notification } from '../../../models/user/notification/Notification';
 import { FieldValue } from 'firebase-admin/firestore';
-import combineFNameAndLName from '../../../lib/helpers/string/combineFNameAndLName';
 import { OrderData } from '../../../models/order/OrderData';
 import { Order } from '../../../models/order/Order';
 import { BigBatch } from '../../../classes/BigBatch';
@@ -47,16 +46,11 @@ export const createOrderNotifications = async ({ orderId, orderData, status }: C
       bigBatch.set(userNotificationRef, userNotificationData);
 
       // construct the admin's notification
-      const userFullName = combineFNameAndLName({
-        firstName: userFirstName,
-        lastName: userLastName,
-        fallbackName: 'Anonymous user',
-      });
-
       const adminNotificationData: ExtendWithFieldValue<Omit<Notification, 'id'>> = {
         category: 'Order',
         type: 'admin-Paid',
-        userFullName,
+        userFirstName,
+        userLastName,
         amountToPay,
         totalQuantity,
         image: userAvatar,
@@ -82,7 +76,6 @@ export const createOrderNotifications = async ({ orderId, orderData, status }: C
       // construct the user's notification
       const userNotificationData: ExtendWithFieldValue<Omit<Notification, 'id'>> = {
         category: 'Order',
-
         type: 'user-Delivering',
         imageType: 'image',
         image: orderItems.at(0)?.image,
@@ -97,9 +90,7 @@ export const createOrderNotifications = async ({ orderId, orderData, status }: C
       // construct the user's notification
       const userNotificationData: ExtendWithFieldValue<Omit<Notification, 'id'>> = {
         category: 'Order',
-
         type: 'user-Delivered',
-
         imageType: 'image',
         image: orderItems.at(0)?.image,
         orderId: orderId,
@@ -113,7 +104,6 @@ export const createOrderNotifications = async ({ orderId, orderData, status }: C
       // construct the user's notification
       const userNotificationData: ExtendWithFieldValue<Omit<Notification, 'id'>> = {
         category: 'Order',
-
         type: 'user-Ready for Pickup',
         imageType: 'image',
         image: orderItems.at(0)?.image,
@@ -128,7 +118,6 @@ export const createOrderNotifications = async ({ orderId, orderData, status }: C
       // construct the user's notification
       const userNotificationData: ExtendWithFieldValue<Omit<Notification, 'id'>> = {
         category: 'Order',
-
         type: 'user-Picked Up',
         imageType: 'image',
         image: orderItems.at(0)?.image,
@@ -143,7 +132,6 @@ export const createOrderNotifications = async ({ orderId, orderData, status }: C
       // construct the user's notification
       const userNotificationData: ExtendWithFieldValue<Omit<Notification, 'id'>> = {
         category: 'Order',
-
         type: 'user-Application for Refund',
         imageType: 'image',
         image: orderItems.at(0)?.image,
@@ -153,17 +141,11 @@ export const createOrderNotifications = async ({ orderId, orderData, status }: C
       };
       bigBatch.set(userNotificationRef, userNotificationData);
 
-      // construct the admin's notification
-      const userFullName = combineFNameAndLName({
-        firstName: userFirstName,
-        lastName: userLastName,
-        fallbackName: 'Anonymous user',
-      });
-
       const adminNotificationData: ExtendWithFieldValue<Omit<Notification, 'id'>> = {
         category: 'Order',
         type: 'admin-Application for Refund',
-        userFullName,
+        userFirstName,
+        userLastName,
         image: userAvatar,
         imageType: 'avatar',
         orderId,

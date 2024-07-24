@@ -1,5 +1,3 @@
-import { AddToCartRecord } from './record/AddToCartRecord';
-
 export interface DailyStatistic {
   // order related
   revenueToday?: number;
@@ -125,8 +123,6 @@ export interface DailyStatistic {
   addToCartItemCount11DayAgo?: number;
   addToCartItemCount12DayAgo?: number;
   addToCartItemCount13DayAgo?: number;
-
-  addToCartRecords?: AddToCartRecord[];
 
   // user related
   firstTimeVisitorCountToday?: number;

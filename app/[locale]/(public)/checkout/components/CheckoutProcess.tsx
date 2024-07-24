@@ -13,7 +13,7 @@ interface CheckoutProcessProps {}
 
 const CheckoutProcess = ({}: CheckoutProcessProps) => {
   // const { clientSecret, pendingOrder, error, placeOrder } = useInitPayment();
-  const { placeOrder, error, pendingOrder } = usePaypal();
+  const { placeOrder, error, pendingOrder, paypalOrderId } = usePaypal();
 
   return (
     <div className="pb-20">
@@ -29,7 +29,9 @@ const CheckoutProcess = ({}: CheckoutProcessProps) => {
         </div>
         <div className="md:col-span-5">
           {pendingOrder === undefined && <OrderPlacementForm placeOrder={placeOrder} error={error} />}
-          {pendingOrder !== undefined && <CheckoutForm pendingOrder={pendingOrder} paymentMethod="paypal" />}
+          {pendingOrder !== undefined && paypalOrderId !== undefined && (
+            <CheckoutForm paypalOrderId={paypalOrderId} pendingOrder={pendingOrder} paymentMethod="paypal" />
+          )}
         </div>
       </div>
     </div>

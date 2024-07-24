@@ -24,7 +24,7 @@ const UserOrderTable = ({ displayOrders, isLoading, orders, error, mode }: UserO
 
   return (
     <div className="space-y-4">
-      <div className="max-h-[650px] overflow-scroll scrollbar relative">
+      <div className="relative">
         {isLoading && <LoadingShimmer gradient="white" />}
         <table className="w-full">
           <thead>
