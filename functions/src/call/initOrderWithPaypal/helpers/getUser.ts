@@ -1,4 +1,4 @@
-import { HttpsError } from 'firebase-functions/v1/auth';
+import { HttpsError } from 'firebase-functions/v2/https';
 import { UserData } from '../../../models/user/UserData';
 import { db } from '../../../admin';
 

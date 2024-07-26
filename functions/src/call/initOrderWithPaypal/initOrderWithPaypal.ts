@@ -1,5 +1,4 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
-
 import { getCartItems } from './helpers/getCartItems';
 import { validateCartItems } from './helpers/validateCartItems';
 import { calculateTotalAmount } from './helpers/calculateTotalAmount';
@@ -12,6 +11,7 @@ import { District } from '../../types/District';
 import { Region } from '../../types/Region';
 import { logger } from 'firebase-functions/v1';
 import { createPaypalOrder } from '../../paypal/api/createPaypalOrder';
+import { validateOrderPlacement } from './helpers/validateOrderPlacement';
 
 interface Request {
   formData: OrderPlacementFormData;
@@ -34,6 +34,7 @@ interface OrderPlacementFormData {
   addressRemark?: string;
   storeName?: string;
   storePhoneNumber?: string;
+  storeBusinessHours?: string;
   deliveryOptionId: string;
   deliveryOptionNameZH: string;
   deliveryOptionNameEN: string;
@@ -44,7 +45,7 @@ interface OrderPlacementFormData {
   deliveryOptionDeliveryProviderEN?: string;
   deliveryOptionEstimatedTimeZH?: string;
   deliveryOptionEstimatedTimeEN?: string;
-  deliveryOptionDeliverySchema?: number;
+  deliveryOptionFreeDeliveryThreshold?: number;
 }
 
 export const initOrderWithPaypal = onCall<Request, Promise<Response>>(async (request) => {
@@ -56,6 +57,8 @@ export const initOrderWithPaypal = onCall<Request, Promise<Response>>(async (req
     const userId = userAuth.uid;
 
     const { formData } = request.data;
+
+    validateOrderPlacement({ orderPlacementData: formData });
 
     const {
       couponCodes,

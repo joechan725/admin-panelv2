@@ -56,7 +56,8 @@ import { onUpdateSalesRecord } from './db/saleRecord/onUpdateSalesRecord';
 export { onCreateSalesRecord, onUpdateSalesRecord };
 
 import { onUpdateComment } from './db/comment/onUpdateComment';
-export { onUpdateComment };
+import { onDeleteComment } from './db/comment/onDeleteComment';
+export { onUpdateComment, onDeleteComment };
 
 import { onCreateReply } from './db/reply/onCreateReply';
 import { onUpdateReply } from './db/reply/onUpdateReply';
@@ -76,7 +77,8 @@ export { onCreateUser, onUpdateUser };
 
 import { onCreateAddress } from './db/user/address/onCreateAddress';
 import { onUpdateAddress } from './db/user/address/onUpdateAddress';
-export { onCreateAddress, onUpdateAddress };
+import { onDeleteAddress } from './db/user/address/onDeleteAddress';
+export { onCreateAddress, onUpdateAddress, onDeleteAddress };
 
 import { onCreateCartItem } from './db/user/cartItem/onCreateCartItem';
 import { onDeleteCartItem } from './db/user/cartItem/onDeleteCartItem';

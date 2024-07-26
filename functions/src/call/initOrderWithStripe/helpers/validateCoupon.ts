@@ -1,4 +1,4 @@
-import { HttpsError } from 'firebase-functions/v1/auth';
+import { HttpsError } from 'firebase-functions/v2/https';
 import { removeEmptyFieldFormObject } from '../../../lib/helpers/object/removeEmptyFieldFormObject';
 import { PrivateCouponData } from '../../../models/coupon/PrivateCouponData';
 import { PrivateCouponListData } from '../../../models/coupon/PrivateCouponListData';

@@ -5,6 +5,7 @@ import { updateCommentStatistic } from './helpers/updateCommentStatistic';
 import { CommentData } from '../../models/comment/CommentData';
 import { addDeletedComment } from './helpers/addDeletedComment';
 import { updateCommentedOrderItem } from './helpers/updateCommentedOrderItem';
+import { validateComment } from './helpers/validateComment';
 
 export const onUpdateComment = functions.firestore
   .document('comments/{commentId}')
@@ -14,8 +15,15 @@ export const onUpdateComment = functions.firestore
     const commentSnapAfter = change.after;
     const commentSnapBefore = change.before;
 
+    const commentRef = commentSnapAfter.ref;
+
     const commentDataAfter = commentSnapAfter.data() as CommentData;
     const commentDataBefore = commentSnapBefore.data() as CommentData;
+
+    const { isValid } = await validateComment({ commentData: commentDataAfter, commentRef });
+    if (!isValid) {
+      return;
+    }
 
     const { productId, userId, orderId } = commentDataAfter;
 

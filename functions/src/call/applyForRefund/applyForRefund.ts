@@ -7,6 +7,7 @@ import { Image } from '../../models/Image';
 import { OrderData } from '../../models/order/OrderData';
 import { db } from '../../admin';
 import { logger } from 'firebase-functions/v1';
+import { validateApplyRefund } from './helpers/validateApplyRefund';
 
 interface FormData {
   refundReason: string;
@@ -28,6 +29,9 @@ export const applyForRefund = onCall<Request, Promise<Response>>(async (request)
     const { data, auth } = request;
     const { formData, images, orderId, queryCode } = data;
     const { refundReason } = formData;
+
+    validateApplyRefund({ formData, images });
+
     const userId = auth?.uid;
     const orderRef = db.collection('orders').doc(orderId);
     const orderSnap = await orderRef.get();

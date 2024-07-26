@@ -1,4 +1,4 @@
-import { HttpsError } from 'firebase-functions/v1/auth';
+import { HttpsError } from 'firebase-functions/v2/https';
 import { CartItemData } from '../../../models/user/cartItem/CartItemData';
 import { ProductListData } from '../../../models/product/ProductListData';
 import { ProductData } from '../../../models/product/ProductData';

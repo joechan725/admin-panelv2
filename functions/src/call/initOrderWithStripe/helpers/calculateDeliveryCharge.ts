@@ -1,4 +1,4 @@
-import { HttpsError } from 'firebase-functions/v1/auth';
+import { HttpsError } from 'firebase-functions/v2/https';
 import { removeFieldsFormObject } from '../../../lib/helpers/object/removeFieldsFormObject';
 import { DeliveryOptionData } from '../../../models/deliveryOption/DeliveryOptionData';
 import { PrivateDeliveryOptionData } from '../../../models/deliveryOption/PrivateDeliveryOptionData';
