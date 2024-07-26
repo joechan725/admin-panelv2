@@ -1,6 +1,6 @@
 import { SmartBar as SmartBarModal } from '@/models/smartBar/SmartBar';
 import { useLocale } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 interface SmartBarProps {
   smartBar: SmartBarModal;

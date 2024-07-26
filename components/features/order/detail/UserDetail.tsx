@@ -1,6 +1,6 @@
 import AvatarShow from '@/components/ui/image/AvatarShow';
 import { Order } from '@/models/order/Order';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 import UserRole from '@/components/ui/UserRole';
 import { useLanguage } from '@/lib/hooks/language/useLanguage';
 

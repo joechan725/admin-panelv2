@@ -2,7 +2,7 @@
 
 import toast, { Toast } from 'react-hot-toast';
 import AvatarShow from '@/components/ui/image/AvatarShow';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/navigation';
 import { Notification } from '@/models/user/notification/Notification';
 import ImageShow from '../image/ImageShow';
 import { useEffect, useState } from 'react';

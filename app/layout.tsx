@@ -1,6 +1,7 @@
 'use client';
 
 import { defaultLocale, locales } from '@/i18n/config';
+// The usePathname, redirect are not imported from @/navigation intentionally
 import { usePathname, redirect } from 'next/navigation';
 
 interface RootLayoutProps {

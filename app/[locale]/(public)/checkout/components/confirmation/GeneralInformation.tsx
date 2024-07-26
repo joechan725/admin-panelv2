@@ -2,7 +2,7 @@ import Clock from '@/components/icon/Clock';
 import { formatDate } from '@/lib/helpers/date/formatDate';
 import { Order } from '@/models/order/Order';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 interface GeneralInformationProps {
   order: Order;

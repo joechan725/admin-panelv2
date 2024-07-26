@@ -1,7 +1,8 @@
 'use client';
 
 import { AnimatePresence } from 'framer-motion';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from '@/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import PopUpModal from '@/components/ui/popup/PopUpModal';
 import ApplyRefundForm from '../form/ApplyRefundForm';

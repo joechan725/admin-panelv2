@@ -1,5 +1,5 @@
 import { Comment } from '@/models/comment/Comment';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 import HoverPopup from '@/components/ui/popup/HoverPopup';
 import { formatDate } from '@/lib/helpers/date/formatDate';
 import ImageShow from '@/components/ui/image/ImageShow';

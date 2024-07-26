@@ -6,7 +6,7 @@ import { splitNewLine } from '@/lib/helpers/string/splitNewLine';
 import { useLanguage } from '@/lib/hooks/language/useLanguage';
 import { Reply } from '@/models/reply/Reply';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 interface ReplyItemProps {
   reply: Reply;

@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/navigation';
 import { useState } from 'react';
 import LoadEditCommentForm from '@/components/features/comment/form/LoadEditCommentForm';
 import PopUpModal from '@/components/ui/popup/PopUpModal';

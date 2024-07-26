@@ -1,6 +1,6 @@
 import HoriNavItemList from './HoriNavItemList';
 import { getPublicNavLinks } from './getPublicNavLinks';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 import NotificationButton from '@/components/features/notification/NotificationButton';
 import HeaderAvatar from './HeaderAvatar';
 import CartButton from '@/components/features/cart/CartButton';

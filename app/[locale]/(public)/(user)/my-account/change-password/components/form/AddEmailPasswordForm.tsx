@@ -9,7 +9,7 @@ import { registerSchema, RegisterSchema } from '@/schemas/user/registerSchema';
 import { useSessionStore } from '@/stores/useSessionStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserInfo } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import AddPasswordStatement from './AddPasswordStatement';
 import ProviderVerifyStatement from './ProviderVerifyStatement';

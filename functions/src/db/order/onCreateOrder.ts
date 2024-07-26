@@ -8,6 +8,7 @@ import { createOrderNotifications } from './helpers/createOrderNotifications';
 import { updateDeliveryOptionRecord } from './helpers/updateDeliveryOptionRecord';
 import { updateOrderList } from './helpers/updateOrderList';
 import { OrderData } from '../../models/order/OrderData';
+import { sendOrderMessageToDiscord } from './helpers/sendOrderMessageToDiscord';
 
 export const onCreateOrder = functions.firestore.document('orders/{orderId}').onCreate(async (snapshot, context) => {
   const orderData = snapshot.data() as OrderData;
@@ -37,5 +38,8 @@ export const onCreateOrder = functions.firestore.document('orders/{orderId}').on
 
     // Send the notification
     await createOrderNotifications({ orderId, orderData, status: 'Paid' });
+
+    // Send discord notification
+    await sendOrderMessageToDiscord({ orderId, orderData, status: 'Paid' });
   }
 });

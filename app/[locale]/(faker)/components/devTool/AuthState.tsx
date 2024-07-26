@@ -4,9 +4,9 @@ import { useSessionStore } from '@/stores/useSessionStore';
 import clsx from 'clsx/lite';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import LeftArrow from '../../../../components/icon/LeftArrow';
+import LeftArrow from '@/components/icon/LeftArrow';
 import { formatDate } from '@/lib/helpers/date/formatDate';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 const AuthState = () => {
   const { status, user, isAdmin, fireAuthError, isLoading, isLoggingIn } = useSessionStore((state) => ({

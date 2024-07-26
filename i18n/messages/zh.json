@@ -223,7 +223,8 @@
     "outOfStock": "抱歉,{productName}目前缺貨。",
     "buyNow": "立即購買",
     "remove": "移除",
-    "addToCart": "添加到購物車"
+    "addToCart": "添加到購物車",
+    "addProducts": "新增商品"
   },
   "Cart": {
     "title": "我的購物車 {totalQuantity, plural, =0 {} other {（#項）}}",
@@ -235,7 +236,8 @@
     "outOfStock": "抱歉，{productName}目前缺貨。",
     "notEnoughStock": "抱歉，{productName}只剩下{stock}件。",
     "moveToWishlist": "移至願望清單",
-    "remove": "移除"
+    "remove": "移除",
+    "addProducts": "新增商品"
   },
   "Selector": {
     "cartSelectorTitle": "將產品加入用戶購物車",

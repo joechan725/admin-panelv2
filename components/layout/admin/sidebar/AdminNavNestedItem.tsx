@@ -2,7 +2,7 @@ import Radio from '@/components/form/Radio';
 import { removeExtraSpaces } from '@/lib/helpers/string/removeExtraSpaces';
 import clsx from 'clsx/lite';
 import { Link } from '@/navigation';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/navigation';
 
 interface AdminNavNestedItemProps {
   nestedNavLink: {

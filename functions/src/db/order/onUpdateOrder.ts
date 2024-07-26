@@ -8,6 +8,7 @@ import { createOrderNotifications } from './helpers/createOrderNotifications';
 import { updateDeliveryOptionRecord } from './helpers/updateDeliveryOptionRecord';
 import { updateOrderList } from './helpers/updateOrderList';
 import { OrderData } from '../../models/order/OrderData';
+import { sendOrderMessageToDiscord } from './helpers/sendOrderMessageToDiscord';
 
 export const onUpdateOrder = functions.firestore.document('orders/{orderId}').onUpdate(async (change, context) => {
   const orderSnapBefore = change.before;
@@ -24,6 +25,8 @@ export const onUpdateOrder = functions.firestore.document('orders/{orderId}').on
   if (orderDataBefore.status !== orderDataAfter.status) {
     // Send the notification
     await createOrderNotifications({ orderId, orderData: orderDataAfter, status: orderDataAfter.status });
+    // Send discord notification
+    await sendOrderMessageToDiscord({ orderId, orderData: orderDataAfter, status: orderDataAfter.status });
     // update the processing order count
     await updateOrderAggregator({ statusBefore: orderDataBefore.status, statusAfter: orderDataAfter.status });
   }

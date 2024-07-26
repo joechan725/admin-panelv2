@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/navigation';
 import AdminNavItemList from './AdminNavItemList';
 import StoreFront from '@/components/icon/StoreFront';
 import LeftArrow from '@/components/icon/LeftArrow';

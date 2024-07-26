@@ -223,7 +223,8 @@
     "outOfStock": "Sorry, {productName} is currently out of stock.",
     "buyNow": "Buy now",
     "remove": "Remove",
-    "addToCart": "addToCart"
+    "addToCart": "addToCart",
+    "addProducts": "Add Products"
   },
   "Cart": {
     "title": "My Cart {totalQuantity, plural, =0 {} =1 {(1 item)} other {(# items)}}",
@@ -235,7 +236,8 @@
     "outOfStock": "Sorry, {productName} is currently out of stock.",
     "notEnoughStock": "Sorry, only {stock, plural, =0 {0 unit} =1 {1 unit} other {# units}} of {productName} are available.",
     "moveToWishlist": "Move to wishlist",
-    "remove": "Remove"
+    "remove": "Remove",
+    "addProducts": "Add Products"
   },
   "Selector": {
     "cartSelectorTitle": "Add products to user's cart",

@@ -3,7 +3,7 @@
 import { useEmail } from '@/lib/hooks/email/useEmail';
 import { promotionSchema, PromotionSchema } from '@/schemas/promotionSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNotification } from '@/lib/hooks/notification/useNotification';
 import { usePromotion } from '@/lib/hooks/promotion/usePromotion';

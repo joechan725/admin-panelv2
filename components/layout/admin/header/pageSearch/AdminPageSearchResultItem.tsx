@@ -1,5 +1,5 @@
 import ChevronRight from '@/components/icon/ChevronRight';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 export interface NavLink {
   title: string;

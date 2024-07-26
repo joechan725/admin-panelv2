@@ -4,7 +4,7 @@ import Bar3 from '@/components/icon/Bar3';
 import StoreFront from '@/components/icon/StoreFront';
 import PopUpLeftBar from '@/components/ui/popup/PopUpLeftBar';
 import { AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 import { useState } from 'react';
 import { getPublicNavLinks } from './getPublicNavLinks';
 import VertNavItemList from './VertNavItemList';

@@ -4,7 +4,7 @@ import LightBorder from '@/components/layout/container/LightBorder';
 import { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 interface Params {
   locale: string;
