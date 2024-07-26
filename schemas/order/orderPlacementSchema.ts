@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { regionSchema } from '../regionSchema';
+import { districtSchema } from '../districtSchema';
 
 export const orderPlacementSchema = z
   .object({
@@ -6,27 +8,8 @@ export const orderPlacementSchema = z
     isPickUp: z.coerce.boolean(),
     // delivery address
     deliveryAddressId: z.string().optional(),
-    deliveryRegion: z.union([z.literal('Hong Kong Island'), z.literal('Kowloon'), z.literal('New Territories')]),
-    deliveryDistrict: z.union([
-      z.literal('Central and Western District'),
-      z.literal('Eastern District'),
-      z.literal('Southern District'),
-      z.literal('Wan Chai District'),
-      z.literal('Kowloon City District'),
-      z.literal('Kwun Tong District'),
-      z.literal('Sham Shui Po District'),
-      z.literal('Wong Tai Sin District'),
-      z.literal('Yau Tsim Mong District'),
-      z.literal('Islands District'),
-      z.literal('Kwai Tsing District'),
-      z.literal('North District'),
-      z.literal('Sai Kung District'),
-      z.literal('Sha Tin District'),
-      z.literal('Tai Po District'),
-      z.literal('Tsuen Wan District'),
-      z.literal('Tuen Mun District'),
-      z.literal('Yuen Long District'),
-    ]),
+    deliveryRegion: regionSchema,
+    deliveryDistrict: districtSchema,
     deliveryDetailAddress: z.string().min(1, 'required'),
     contactName: z.string().min(1, 'required'),
     contactPhoneNumber: z.string().min(8, 'phoneNumber8Digit').max(8, 'phoneNumber8Digit'),

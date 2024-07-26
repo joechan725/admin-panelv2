@@ -35,7 +35,7 @@ interface OrderPlacementFormData {
   deliveryOptionDeliveryProviderEN?: string;
   deliveryOptionEstimatedTimeZH?: string;
   deliveryOptionEstimatedTimeEN?: string;
-  deliveryOptionDeliverySchema?: number;
+  deliveryOptionFreeDeliveryThreshold?: number;
 }
 
 export const initOrderWithPaypal = httpsCallable<Request, Response>(functions, 'initOrderWithPaypal');

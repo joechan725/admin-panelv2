@@ -17,7 +17,7 @@ import { StatusHistory } from '@/models/order/StatusHistory';
 import { OrderInformationSchema } from '@/schemas/order/orderInformationSchema';
 import { OrderRefundSchema } from '@/schemas/order/orderRefundSchema';
 import { OrderStatusSchema } from '@/schemas/order/orderStatusSchema';
-import { ApplyRefundSchema } from '@/schemas/order/refundApplicationSchema';
+import { ApplyRefundSchema } from '@/schemas/order/applyRefundSchema';
 import { arrayUnion, FieldValue, increment, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { useToast } from '../toast/useToast';

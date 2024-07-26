@@ -1,28 +1,11 @@
 import { z } from 'zod';
+import { districtSchema } from './districtSchema';
+import { regionSchema } from './regionSchema';
 
 export const addressSchema = z
   .object({
-    region: z.union([z.literal('Hong Kong Island'), z.literal('Kowloon'), z.literal('New Territories')]),
-    district: z.union([
-      z.literal('Central and Western District'),
-      z.literal('Eastern District'),
-      z.literal('Southern District'),
-      z.literal('Wan Chai District'),
-      z.literal('Kowloon City District'),
-      z.literal('Kwun Tong District'),
-      z.literal('Sham Shui Po District'),
-      z.literal('Wong Tai Sin District'),
-      z.literal('Yau Tsim Mong District'),
-      z.literal('Islands District'),
-      z.literal('Kwai Tsing District'),
-      z.literal('North District'),
-      z.literal('Sai Kung District'),
-      z.literal('Sha Tin District'),
-      z.literal('Tai Po District'),
-      z.literal('Tsuen Wan District'),
-      z.literal('Tuen Mun District'),
-      z.literal('Yuen Long District'),
-    ]),
+    region: regionSchema,
+    district: districtSchema,
     detailAddress: z.string().min(1, 'required'),
     contactName: z.string().min(1, 'required'),
     contactPhoneNumber: z.string().min(8, 'phoneNumber8Digit').max(8, 'phoneNumber8Digit'),

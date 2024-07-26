@@ -4,7 +4,7 @@ import ErrorTranslation from '@/components/form/ErrorTranslation';
 import TextareaInput from '@/components/form/TextareaInput';
 import { useOrder } from '@/lib/hooks/order/useOrder';
 import { ImageInput } from '@/models/ImageInput';
-import { applyRefundSchema, ApplyRefundSchema } from '@/schemas/order/refundApplicationSchema';
+import { applyRefundSchema, ApplyRefundSchema } from '@/schemas/order/applyRefundSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useParams, useSearchParams } from 'next/navigation';
