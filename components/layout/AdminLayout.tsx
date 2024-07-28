@@ -15,7 +15,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <AdminSidebar />
         </div>
         <ToggleAdminSideBar />
-        <div className="flex-1 max-h-screen bg-slate-100 px-8 scrollbar overflow-y-auto">
+        <div className="flex-1 max-h-screen bg-admin-bg px-8 scrollbar overflow-y-auto">
           <AdminPageContainer>
             <AdminHeaderSuspense />
             <div className="mt-8 h-full">{children}</div>

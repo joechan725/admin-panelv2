@@ -24,6 +24,9 @@ const config: Config = {
           bg: colors.slate[100],
           text: colors.gray[500],
         },
+        admin: {
+          bg: colors.slate[100],
+        },
         link: colors.sky[500],
         danger: colors.red[500],
         success: colors.green[500],
