@@ -10,6 +10,7 @@ import { useSessionStore } from '@/stores/useSessionStore';
 import { serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { useToast } from '../toast/useToast';
+import { revalidateProductPage } from '@/actions/revalidate/revalidateProductPage';
 
 interface CreateReplyParameters {
   productId: string;
@@ -22,6 +23,19 @@ interface EditReplyParameters {
   replyId: string;
   formData: ReplySchema;
   images: ImageInput[];
+  productId: string;
+}
+
+interface RemoveReplyParameters {
+  replyId: string;
+  productId: string;
+}
+
+interface RemoveRepliesParameters {
+  ids: {
+    replyId: string;
+    productId: string;
+  }[];
 }
 
 export const useReply = () => {
@@ -99,6 +113,7 @@ export const useReply = () => {
         updatedAt: serverTimestamp(),
       };
       await addReply({ replyData });
+      revalidateProductPage({ productIds: [productId] });
       toastSuccess('updated');
       return true;
     } catch (error) {
@@ -110,7 +125,7 @@ export const useReply = () => {
     }
   };
 
-  const editReply = async ({ replyId, formData, images }: EditReplyParameters) => {
+  const editReply = async ({ replyId, formData, images, productId }: EditReplyParameters) => {
     if (images.length > 3) {
       toastError('maximum3ImagesAllowed');
       setError('maximum3ImagesAllowed');
@@ -130,6 +145,7 @@ export const useReply = () => {
         updatedAt: serverTimestamp(),
       };
       await updateReply({ replyId, replyFirestoreData: updateReplyData });
+      revalidateProductPage({ productIds: [productId] });
       toastSuccess('updated');
       return true;
     } catch (error) {
@@ -141,7 +157,7 @@ export const useReply = () => {
     }
   };
 
-  const removeReply = async (replyId: string) => {
+  const removeReply = async ({ replyId, productId }: RemoveReplyParameters) => {
     setIsWriting(true);
     setError(undefined);
 
@@ -151,32 +167,41 @@ export const useReply = () => {
         deletedAt: serverTimestamp(),
       };
       await updateReply({ replyId, replyFirestoreData: updateReplyData });
+      revalidateProductPage({ productIds: [productId] });
       toastSuccess('deleted');
+      return true;
     } catch (error) {
       toastError('unexpectedError');
       setError('unexpectedError');
+      return false;
     } finally {
       setIsWriting(false);
     }
   };
 
-  const removeReplies = async (replyIds: string[]) => {
+  const removeReplies = async ({ ids }: RemoveRepliesParameters) => {
     setIsWriting(true);
     setError(undefined);
 
     try {
-      for (let i = 0; i < replyIds.length; i++) {
-        const replyId = replyIds[i];
+      const productIds: string[] = [];
+      for (let i = 0; i < ids.length; i++) {
+        const idObject = ids[i];
+        const { productId, replyId } = idObject;
+        productIds.push(productId);
         const updateReplyData: UpdateReplyFirestoreData = {
           updatedAt: serverTimestamp(),
           deletedAt: serverTimestamp(),
         };
         await updateReply({ replyId, replyFirestoreData: updateReplyData });
       }
+      revalidateProductPage({ productIds });
       toastSuccess('deleted');
+      return true;
     } catch (error) {
       toastError('unexpectedError');
       setError('unexpectedError');
+      return false;
     } finally {
       setIsWriting(false);
     }

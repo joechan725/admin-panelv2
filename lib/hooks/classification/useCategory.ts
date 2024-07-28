@@ -7,7 +7,7 @@ import { removeEmptyFieldFormObject } from '@/lib/helpers/objects/removeEmptyFie
 import { Category } from '@/models/classification/category/Category';
 import { serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
-import { revalidateProductPageById } from '@/actions/revalidate/revalidateProductPageById';
+import { revalidateProductsPage } from '@/actions/revalidate/revalidateProductsPage';
 import { useSessionStore } from '@/stores/useSessionStore';
 import { CategorySchema } from '@/schemas/categorySchema';
 import { useToast } from '../toast/useToast';
@@ -76,7 +76,7 @@ export const useCategory = () => {
 
       await addCategory(filteredCategoryData);
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('created');
       return true;
     } catch (error) {
@@ -102,7 +102,7 @@ export const useCategory = () => {
 
       await updateCategory({ categoryData: filteredCategoryData, categoryId });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('updated');
       return true;
     } catch (error) {
@@ -124,7 +124,7 @@ export const useCategory = () => {
       };
       await updateCategory({ categoryData, categoryId });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('deleted');
       return true;
     } catch (error) {
@@ -148,7 +148,7 @@ export const useCategory = () => {
         await updateCategory({ categoryData, categoryId: categoryIds[i] });
       }
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('deleted');
       return true;
     } catch (error) {

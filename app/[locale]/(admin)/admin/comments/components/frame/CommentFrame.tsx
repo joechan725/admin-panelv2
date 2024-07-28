@@ -9,14 +9,19 @@ import SearchQueryBarSuspense from '@/components/search/SearchQueryBarSuspense';
 
 interface CommentFrameProps {}
 
+type IdObject = { productId: string; commentId: string };
+
 const CommentFrame = ({}: CommentFrameProps) => {
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const handleSelect = (commentId: string) => {
-    if (selectedIds.includes(commentId)) {
-      setSelectedIds((prevIds) => prevIds.filter((prevId) => prevId !== commentId));
+  const [selectedIds, setSelectedIds] = useState<IdObject[]>([]);
+  const handleSelect = (newIdObject: IdObject) => {
+    const { commentId, productId } = newIdObject;
+    if (selectedIds.includes({ commentId, productId })) {
+      setSelectedIds((prevIds) =>
+        prevIds.filter((idObject) => idObject.commentId === commentId && idObject.productId === productId)
+      );
       return;
     }
-    setSelectedIds((prevIds) => [...prevIds, commentId]);
+    setSelectedIds((prevIds) => [...prevIds, newIdObject]);
   };
   const handleClearIds = () => {
     setSelectedIds([]);

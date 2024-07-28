@@ -5,18 +5,30 @@ import UserRole from '@/components/ui/UserRole';
 import { splitNewLine } from '@/lib/helpers/string/splitNewLine';
 import { useLanguage } from '@/lib/hooks/language/useLanguage';
 import { Reply } from '@/models/reply/Reply';
-import { useTranslations } from 'next-intl';
 import { Link } from '@/navigation';
+import ReplyDeleteButton from './ReplyDeleteButton';
+import EditReplyLink from './EditReplyLink';
 
 interface ReplyItemProps {
   reply: Reply;
 }
 
 const ReplyItem = ({ reply }: ReplyItemProps) => {
-  const t = useTranslations('Comment.adminList');
   const { convertUserName } = useLanguage();
 
-  const { userId, userRole, userAvatar, userEmail, userFirstName, userLastName, images, title, content } = reply;
+  const {
+    id,
+    userId,
+    userRole,
+    userAvatar,
+    userEmail,
+    userFirstName,
+    userLastName,
+    images,
+    title,
+    content,
+    commentId,
+  } = reply;
 
   const userName = convertUserName({
     firstName: userFirstName,
@@ -24,7 +36,7 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
   });
 
   return (
-    <div className="ml-4">
+    <div className="ml-4 relative">
       <Link href={`/admin/users/${userId}`} className="group hover:opacity-85 active:opacity-70">
         <div className="flex items-center gap-4">
           <AvatarShow sizeClassName="size-8" image={userAvatar} />
@@ -52,6 +64,12 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
               <ImageShow key={image.id} image={image} sizeClassName="size-8" />
             </HoverPopup>
           ))}
+        </div>
+      </div>
+      <div className="absolute right-2 top-2">
+        <div className="flex gap-4 items-center">
+          <EditReplyLink commentId={commentId} replyId={id} />
+          <ReplyDeleteButton reply={reply} />
         </div>
       </div>
     </div>

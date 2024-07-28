@@ -5,28 +5,27 @@ import Trash from '@/components/icon/Trash';
 import IconButton from '@/components/ui/button/IconButton';
 import HoverPopup from '@/components/ui/popup/HoverPopup';
 import PopUpModal from '@/components/ui/popup/PopUpModal';
-import { useComment } from '@/lib/hooks/comment/useComment';
-import { Comment } from '@/models/comment/Comment';
+import { useReply } from '@/lib/hooks/reply/useReply';
+import { Reply } from '@/models/reply/Reply';
 import { AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-interface CommentDeleteButtonProps {
-  comment: Comment;
+interface ReplyDeleteButtonProps {
+  reply: Reply;
 }
 
-const CommentDeleteButton = ({ comment }: CommentDeleteButtonProps) => {
-  const tComment = useTranslations('Comment.adminList');
+const ReplyDeleteButton = ({ reply }: ReplyDeleteButtonProps) => {
   const t = useTranslations('Delete');
 
-  const { id, title, productId } = comment;
+  const { id, title, productId } = reply;
 
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const { isWriting, removeComment } = useComment();
+  const { isWriting, removeReply } = useReply();
 
   const handleDelete = async () => {
-    const res = await removeComment({ commentId: id, productId });
+    const res = await removeReply({ replyId: id, productId });
     if (res) {
       setIsDeleting(false);
     }
@@ -36,7 +35,7 @@ const CommentDeleteButton = ({ comment }: CommentDeleteButtonProps) => {
     <>
       <HoverPopup message={t('delete')}>
         <IconButton type="button" onClick={() => setIsDeleting(true)} disabled={isWriting} theme="danger">
-          <Trash sizeClassName="size-5" />
+          <Trash sizeClassName="size-4" />
         </IconButton>
       </HoverPopup>
       <AnimatePresence>
@@ -50,9 +49,7 @@ const CommentDeleteButton = ({ comment }: CommentDeleteButtonProps) => {
             onClose={() => setIsDeleting(false)}
           >
             <div className="space-y-1">
-              <div className="font-semibold text-primary-text">
-                {t('confirmation', { name: tComment('indicator') })}
-              </div>
+              <div className="font-semibold text-primary-text">{t('confirmation', { name: t('reply') })}</div>
               <div className="font-medium text-secondary-text">{title}</div>
               <div className="text-danger font-bold">{t('caution')}</div>
             </div>
@@ -68,4 +65,4 @@ const CommentDeleteButton = ({ comment }: CommentDeleteButtonProps) => {
   );
 };
 
-export default CommentDeleteButton;
+export default ReplyDeleteButton;

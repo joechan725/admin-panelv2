@@ -6,10 +6,13 @@ import { searchAndOrderComments } from './searchAndOrderComments';
 import CommentTable from './CommentTable';
 import { useLocale } from 'next-intl';
 
+type IdObject = { productId: string; commentId: string };
+
 interface LoadCommentsProps {
-  onSelect?: (commentId: string) => void;
-  selectedIds?: string[];
+  onSelect?: (idObject: IdObject) => void;
+  selectedIds?: IdObject[];
 }
+
 const LoadComments = ({ onSelect, selectedIds }: LoadCommentsProps) => {
   const locale = useLocale();
 

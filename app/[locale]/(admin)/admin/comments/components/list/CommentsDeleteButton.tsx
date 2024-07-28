@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 interface CommentsDeleteButtonProps {
-  selectedIds: string[];
+  selectedIds: { productId: string; commentId: string }[];
   onDelete?: () => void;
 }
 
@@ -21,7 +21,7 @@ const CommentsDeleteButton = ({ selectedIds, onDelete }: CommentsDeleteButtonPro
   const { isWriting, removeComments } = useComment();
 
   const handleDelete = async () => {
-    const res = await removeComments(selectedIds);
+    const res = await removeComments({ ids: selectedIds });
     if (res) {
       if (onDelete) {
         onDelete();

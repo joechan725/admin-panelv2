@@ -9,11 +9,10 @@ import CommentForm from './CommentForm';
 interface CreateCommentFormProps {
   commentId: string;
   productId: string;
-  orderId: string;
   onSuccess?: () => void;
 }
 
-const CreateCommentForm = ({ orderId, productId, commentId, onSuccess }: CreateCommentFormProps) => {
+const CreateCommentForm = ({ productId, commentId, onSuccess }: CreateCommentFormProps) => {
   const [images, setImages] = useState<ImageInput[]>([]);
 
   const {
@@ -32,7 +31,6 @@ const CreateCommentForm = ({ orderId, productId, commentId, onSuccess }: CreateC
       formData,
       images,
       productId,
-      orderId,
       commentId,
     });
     if (res && onSuccess) {

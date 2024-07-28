@@ -29,9 +29,10 @@ const EditReplyForm = ({ reply, onSuccess }: EditReplyFormProps) => {
 
   const { isWriting, error, editReply } = useReply();
 
+  const { id, productId } = reply;
+
   const handleEditComment: SubmitHandler<ReplySchema> = async (formData) => {
-    const { id } = reply;
-    const res = await editReply({ replyId: id, formData, images });
+    const res = await editReply({ replyId: id, formData, images, productId });
     if (res === true && onSuccess) {
       onSuccess();
     }

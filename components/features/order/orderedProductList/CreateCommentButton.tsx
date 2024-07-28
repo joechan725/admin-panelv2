@@ -9,12 +9,11 @@ import CreateCommentForm from '../../comment/form/CreateCommentForm';
 import IconButton from '@/components/ui/button/IconButton';
 
 interface CreateCommentButtonProps {
-  orderId: string;
   productId: string;
   commentId: string;
 }
 
-const CreateCommentButton = ({ orderId, productId, commentId }: CreateCommentButtonProps) => {
+const CreateCommentButton = ({ productId, commentId }: CreateCommentButtonProps) => {
   const [isShowButton, setIsShowButton] = useState(true);
   const [isCommenting, setIsCommenting] = useState(false);
 
@@ -41,12 +40,7 @@ const CreateCommentButton = ({ orderId, productId, commentId }: CreateCommentBut
             backdrop
             onClose={() => setIsCommenting(false)}
           >
-            <CreateCommentForm
-              orderId={orderId}
-              productId={productId}
-              commentId={commentId}
-              onSuccess={handleSuccess}
-            />
+            <CreateCommentForm productId={productId} commentId={commentId} onSuccess={handleSuccess} />
           </PopUpModal>
         )}
       </AnimatePresence>

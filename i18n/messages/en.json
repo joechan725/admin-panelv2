@@ -1200,6 +1200,7 @@
     "product": "product",
     "statusHistory": "status history",
     "comment": "comment",
+    "reply": "reply",
     "remove": "Remove",
     "updateTheProductStockAlso": "Update the product stock also?"
   },

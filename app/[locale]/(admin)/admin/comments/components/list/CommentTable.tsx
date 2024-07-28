@@ -11,9 +11,11 @@ import { Comment } from '@/models/comment/Comment';
 import { useTranslations } from 'next-intl';
 import ErrorTranslation from '@/components/form/ErrorTranslation';
 
+type IdObject = { productId: string; commentId: string };
+
 interface CommentTableProps {
-  onSelect?: (commentId: string) => void;
-  selectedIds?: string[];
+  onSelect?: (idObject: IdObject) => void;
+  selectedIds?: IdObject[];
   isLoading: boolean;
   error?: string;
   displayComments: Comment[];
@@ -49,12 +51,10 @@ const CommentTable = ({
             <Th>{t('actions')}</Th>
           </TrHead>
         </thead>
-        {isLoading && <CommentSkeleton />}
-        {!isLoading && (
-          <tbody>
-            <CommentList comments={displayComments} onSelect={onSelect} selectedIds={selectedIds} />
-          </tbody>
-        )}
+        <tbody>
+          {isLoading && <CommentSkeleton />}
+          {!isLoading && <CommentList comments={displayComments} onSelect={onSelect} selectedIds={selectedIds} />}
+        </tbody>
       </table>
       {(!privateComments || privateComments.length === 0) && (
         <div className="p-2 text-sm font-medium text-secondary-text">{t('noItems')}</div>

@@ -33,7 +33,7 @@ const EditCommentForm = ({ comment, onSuccess }: EditCommentFormProps) => {
 
   const handleEditComment: SubmitHandler<CommentSchema> = async (formData) => {
     const { id } = comment;
-    const res = await editComment({ commentId: id, formData, images });
+    const res = await editComment({ productId: comment.productId, commentId: id, formData, images });
     if (res && onSuccess) {
       onSuccess();
     }

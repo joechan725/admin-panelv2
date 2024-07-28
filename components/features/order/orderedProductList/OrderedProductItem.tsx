@@ -94,7 +94,7 @@ const OrderedProductItem = ({
         !commentedProductIds.includes(productId) &&
         commentId !== undefined && (
           <div className="absolute right-2 top-2">
-            <CreateCommentButton orderId={orderId} productId={productId} commentId={commentId} />
+            <CreateCommentButton productId={productId} commentId={commentId} />
           </div>
         )}
     </div>

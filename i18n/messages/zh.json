@@ -1200,6 +1200,7 @@
     "product": "產品",
     "statusHistory": "訂單狀態",
     "comment": "評論",
+    "reply": "回覆",
     "remove": "移除",
     "updateTheProductStockAlso": "同時更新產品庫存？"
   },

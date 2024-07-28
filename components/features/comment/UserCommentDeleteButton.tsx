@@ -18,14 +18,14 @@ interface UserCommentDeleteButtonProps {
 const UserCommentDeleteButton = ({ comment }: UserCommentDeleteButtonProps) => {
   const t = useTranslations('Delete');
 
-  const { id, title } = comment;
+  const { id, title, productId } = comment;
 
   const [isDeleting, setIsDeleting] = useState(false);
 
   const { isLoading, removeComment } = useComment();
 
   const handleDelete = async () => {
-    const res = await removeComment(id);
+    const res = await removeComment({ commentId: id, productId });
     if (res) {
       setIsDeleting(false);
     }

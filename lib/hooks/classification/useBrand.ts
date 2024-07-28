@@ -1,4 +1,4 @@
-import { revalidateProductPageById } from '@/actions/revalidate/revalidateProductPageById';
+import { revalidateProductsPage } from '@/actions/revalidate/revalidateProductsPage';
 import { addBrand, AddBrandData } from '@/firebase/api/classification/brand/addBrand';
 import { getBrand } from '@/firebase/api/classification/brand/getBrand';
 import { getBrands } from '@/firebase/api/classification/brand/getBrands';
@@ -76,7 +76,7 @@ export const useBrand = () => {
 
       await addBrand(filteredBrandData);
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('created');
       return true;
     } catch (error) {
@@ -102,7 +102,7 @@ export const useBrand = () => {
 
       await updateBrand({ brandData: filteredBrandData, brandId });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('updated');
       return true;
     } catch (error) {
@@ -124,7 +124,7 @@ export const useBrand = () => {
       };
       await updateBrand({ brandData, brandId });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('deleted');
       return true;
     } catch (error) {
@@ -148,7 +148,7 @@ export const useBrand = () => {
         await updateBrand({ brandData, brandId: brandIds[i] });
       }
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('deleted');
       return true;
     } catch (error) {

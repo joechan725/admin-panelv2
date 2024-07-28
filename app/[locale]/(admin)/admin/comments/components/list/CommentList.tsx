@@ -1,10 +1,12 @@
 import { Comment } from '@/models/comment/Comment';
 import CommentItem from './CommentItem';
 
+type IdObject = { productId: string; commentId: string };
+
 interface CommentListProps {
   comments: Comment[];
-  onSelect?: (commentId: string) => void;
-  selectedIds?: string[];
+  onSelect?: (idObject: IdObject) => void;
+  selectedIds?: IdObject[];
 }
 
 const CommentList = ({ comments, onSelect, selectedIds }: CommentListProps) => {
@@ -16,7 +18,7 @@ const CommentList = ({ comments, onSelect, selectedIds }: CommentListProps) => {
         key={comment.id}
         comment={comment}
         onSelect={onSelect}
-        isSelect={selectedIds && selectedIds.includes(comment.id)}
+        isSelect={selectedIds && selectedIds.includes({ commentId: comment.id, productId: comment.productId })}
       />
     ))
   );

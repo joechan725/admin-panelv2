@@ -1,4 +1,4 @@
-import { revalidateProductPageById } from '@/actions/revalidate/revalidateProductPageById';
+import { revalidateProductsPage } from '@/actions/revalidate/revalidateProductsPage';
 import { handleImagesUpload } from '@/firebase/api/image/handleImagesUpload';
 import { addProduct, AddProductFirestoreData } from '@/firebase/api/product/addProduct';
 import { getProduct } from '@/firebase/api/product/getProduct';
@@ -115,7 +115,7 @@ export const useProduct = () => {
 
       const productId = await addProduct(productFirestoreData);
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [productId] });
+      revalidateProductsPage({ idTokenResult, productIds: [productId] });
       toastSuccess('created');
       return true;
     } catch (error) {
@@ -149,7 +149,7 @@ export const useProduct = () => {
 
       await updateProduct({ productId, productFirestoreData });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [productId] });
+      revalidateProductsPage({ idTokenResult, productIds: [productId] });
       toastSuccess('updated');
       return true;
     } catch (error) {
@@ -173,7 +173,7 @@ export const useProduct = () => {
       };
       await updateProduct({ productId: product.id, productFirestoreData });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [product.id] });
+      revalidateProductsPage({ idTokenResult, productIds: [product.id] });
       toastSuccess(prevIsPublic ? 'hided' : 'published');
       return true;
     } catch (error) {
@@ -196,7 +196,7 @@ export const useProduct = () => {
       };
       await updateProduct({ productId, productFirestoreData });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [productId] });
+      revalidateProductsPage({ idTokenResult, productIds: [productId] });
       toastSuccess('deleted');
       return true;
     } catch (error) {
@@ -221,7 +221,7 @@ export const useProduct = () => {
       }
       toastSuccess('deleted');
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds });
+      revalidateProductsPage({ idTokenResult, productIds });
       return true;
     } catch (error) {
       toastError('unexpectedError');

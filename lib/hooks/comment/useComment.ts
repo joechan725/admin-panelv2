@@ -10,11 +10,11 @@ import { useSessionStore } from '@/stores/useSessionStore';
 import { serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { useToast } from '../toast/useToast';
+import { revalidateProductPage } from '@/actions/revalidate/revalidateProductPage';
 
 interface CreateCommentParameters {
   formData: CommentSchema;
   images: ImageInput[];
-  orderId: string;
   productId: string;
   commentId: string;
 }
@@ -23,6 +23,19 @@ interface EditCommentParameters {
   commentId: string;
   formData: CommentSchema;
   images: ImageInput[];
+  productId: string;
+}
+
+interface RemoveCommentParameters {
+  commentId: string;
+  productId: string;
+}
+
+interface RemoveCommentsParameters {
+  ids: {
+    commentId: string;
+    productId: string;
+  }[];
 }
 
 export const useComment = () => {
@@ -62,7 +75,7 @@ export const useComment = () => {
     }
   };
 
-  const createComment = async ({ orderId, productId, commentId, formData, images }: CreateCommentParameters) => {
+  const createComment = async ({ productId, commentId, formData, images }: CreateCommentParameters) => {
     if (!user) {
       toastError('unexpectedError');
       setError('unexpectedError');
@@ -89,6 +102,7 @@ export const useComment = () => {
         updatedAt: serverTimestamp(),
       });
       await updateComment({ commentId, commentFirestoreData: commentData });
+      revalidateProductPage({ productIds: [productId] });
       toastSuccess('created');
       return true;
     } catch (error) {
@@ -100,7 +114,7 @@ export const useComment = () => {
     }
   };
 
-  const editComment = async ({ commentId, formData, images }: EditCommentParameters) => {
+  const editComment = async ({ productId, commentId, formData, images }: EditCommentParameters) => {
     if (images.length > 3) {
       toastError('maximum3ImagesAllowed');
       setError('maximum3ImagesAllowed');
@@ -119,6 +133,7 @@ export const useComment = () => {
         updatedAt: serverTimestamp(),
       };
       await updateComment({ commentId, commentFirestoreData: updateCommentData });
+      revalidateProductPage({ productIds: [productId] });
       toastSuccess('updated');
       return true;
     } catch (error) {
@@ -130,7 +145,7 @@ export const useComment = () => {
     }
   };
 
-  const removeComment = async (commentId: string) => {
+  const removeComment = async ({ commentId, productId }: RemoveCommentParameters) => {
     setIsWriting(true);
     setError(undefined);
 
@@ -140,6 +155,7 @@ export const useComment = () => {
         deletedAt: serverTimestamp(),
       };
       await updateComment({ commentId, commentFirestoreData: updateCommentData });
+      revalidateProductPage({ productIds: [productId] });
       toastSuccess('deleted');
       return true;
     } catch (error) {
@@ -151,19 +167,23 @@ export const useComment = () => {
     }
   };
 
-  const removeComments = async (commentIds: string[]) => {
+  const removeComments = async ({ ids }: RemoveCommentsParameters) => {
     setIsWriting(true);
     setError(undefined);
 
     try {
-      for (let i = 0; i < commentIds.length; i++) {
-        const commentId = commentIds[i];
+      const productIds: string[] = [];
+      for (let i = 0; i < ids.length; i++) {
+        const idObject = ids[i];
+        const { commentId, productId } = idObject;
+        productIds.push(productId);
         const updateCommentData: UpdateCommentFirestoreData = {
           updatedAt: serverTimestamp(),
           deletedAt: serverTimestamp(),
         };
         await updateComment({ commentId, commentFirestoreData: updateCommentData });
       }
+      revalidateProductPage({ productIds });
       toastSuccess('deleted');
       return true;
     } catch (error) {

@@ -1,4 +1,4 @@
-import { revalidateProductPageById } from '@/actions/revalidate/revalidateProductPageById';
+import { revalidateProductsPage } from '@/actions/revalidate/revalidateProductsPage';
 import { addCollection, AddCollectionData } from '@/firebase/api/classification/collection/addCollection';
 import { getCollection } from '@/firebase/api/classification/collection/getCollection';
 import { getCollections } from '@/firebase/api/classification/collection/getCollections';
@@ -76,7 +76,7 @@ export const useCollection = () => {
 
       await addCollection(filteredCollectionData);
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('created');
       return true;
     } catch (error) {
@@ -102,7 +102,7 @@ export const useCollection = () => {
 
       await updateCollection({ collectionData: filteredCollectionData, collectionId });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('updated');
       return true;
     } catch (error) {
@@ -124,7 +124,7 @@ export const useCollection = () => {
       };
       await updateCollection({ collectionData, collectionId });
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('deleted');
       return true;
     } catch (error) {
@@ -148,7 +148,7 @@ export const useCollection = () => {
         await updateCollection({ collectionData, collectionId: collectionIds[i] });
       }
       const idTokenResult = await userFireAuthData?.getIdTokenResult();
-      revalidateProductPageById({ idTokenResult, productIds: [] });
+      revalidateProductsPage({ idTokenResult, productIds: [] });
       toastSuccess('deleted');
       return true;
     } catch (error) {

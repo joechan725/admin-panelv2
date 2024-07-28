@@ -16,9 +16,11 @@ import { useLocale, useTranslations } from 'next-intl';
 import { formatDate } from '@/lib/helpers/date/formatDate';
 import { useLanguage } from '@/lib/hooks/language/useLanguage';
 
+type IdObject = { productId: string; commentId: string };
+
 interface CommentItemProps {
   comment: Comment;
-  onSelect?: (commentId: string) => void;
+  onSelect?: (idObject: IdObject) => void;
   isSelect?: boolean;
 }
 
@@ -61,7 +63,7 @@ const CommentItem = ({ comment, onSelect, isSelect }: CommentItemProps) => {
           <input
             type="checkbox"
             checked={isSelect}
-            onClick={() => onSelect(id)}
+            onClick={() => onSelect({ commentId: id, productId })}
             className="size-4 text-blue-600 bg-gray-100 border-gray-300 rounded-md focus:ring-blue-500 focus:ring"
           />
         </Td>

@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useRouter } from '@/navigation';
 import { useState } from 'react';
 import PopUpModal from '@/components/ui/popup/PopUpModal';
-import LoadEditReplyForm from '../../../../../../../components/features/comment/form/LoadEditReplyForm';
+import LoadEditReplyForm from '@/components/features/comment/form/LoadEditReplyForm';
 
 interface CreateReplyModalProps {}
 
