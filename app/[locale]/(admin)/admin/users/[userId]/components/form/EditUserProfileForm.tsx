@@ -94,24 +94,28 @@ const EditUserProfileForm = ({ user }: EditUserProfileFormProps) => {
           <ErrorTranslation error={error} align="right" />
           <div className="flex gap-4">
             <ImageInput sizeClassName="size-44" setImage={setAvatar} disabled={isPending} image={avatar} />
-            <div>
-              <div className="flex gap-2 flex-1">
-                <TextInput
-                  title={t('firstName')}
-                  register={register}
-                  disabled={isPending}
-                  registerName="firstName"
-                  type="text"
-                  errors={errors}
-                />
-                <TextInput
-                  title={t('lastName')}
-                  register={register}
-                  disabled={isPending}
-                  registerName="lastName"
-                  type="text"
-                  errors={errors}
-                />
+            <div className="flex-1">
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <TextInput
+                    title={t('firstName')}
+                    register={register}
+                    disabled={isPending}
+                    registerName="firstName"
+                    type="text"
+                    errors={errors}
+                  />
+                </div>
+                <div className="flex-1">
+                  <TextInput
+                    title={t('lastName')}
+                    register={register}
+                    disabled={isPending}
+                    registerName="lastName"
+                    type="text"
+                    errors={errors}
+                  />
+                </div>
               </div>
               <TextInput
                 title={t('phoneNumber')}

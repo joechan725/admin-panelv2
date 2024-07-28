@@ -42,6 +42,7 @@ interface GenerateFakeOrderParameters {
   users: User[];
   deliveryOptions: DeliveryOption[];
   coupons: Coupon[];
+  orderId: string;
 }
 
 export const generateFakeOrder = async ({
@@ -49,6 +50,7 @@ export const generateFakeOrder = async ({
   users,
   deliveryOptions,
   coupons,
+  orderId,
 }: GenerateFakeOrderParameters): Promise<OrderData> => {
   const randomUser = users[faker.number.int({ min: 0, max: users.length - 1 })];
   const {
@@ -70,7 +72,7 @@ export const generateFakeOrder = async ({
   const orderItems: OrderItem[] = [];
 
   for (let i = 0; i < faker.number.int({ min: 1, max: 10 }); i++) {
-    const orderItem = await generateFakeOrderItem({ products, user: randomUser });
+    const orderItem = await generateFakeOrderItem({ products, user: randomUser, orderId });
     orderItems.push(orderItem);
   }
 

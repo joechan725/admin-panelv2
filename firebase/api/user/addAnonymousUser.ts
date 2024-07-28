@@ -9,8 +9,6 @@ export const addAnonymousUser = async (userCredential: UserCredential) => {
     role: 'anonymous',
     isAdmin: false,
     isAnonymous: user.isAnonymous,
-    orderCount: 0,
-    totalSpent: 0,
     emailVerified: false,
     providerId: user.providerId,
     createdAt: serverTimestamp(),

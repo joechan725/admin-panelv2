@@ -1,3 +1,4 @@
+import AgeVerificationModal from '@/components/features/AgeVerification/AgeVerificationModal';
 import PublicLayoutComponent from '@/components/layout/PublicLayout';
 import { unstable_setRequestLocale } from 'next-intl/server';
 
@@ -10,7 +11,12 @@ interface PublicLayoutProps {
 
 const PublicLayout = ({ children, params: { locale } }: PublicLayoutProps) => {
   unstable_setRequestLocale(locale);
-  return <PublicLayoutComponent>{children}</PublicLayoutComponent>;
+  return (
+    <>
+      <AgeVerificationModal />
+      <PublicLayoutComponent>{children}</PublicLayoutComponent>
+    </>
+  );
 };
 
 export default PublicLayout;

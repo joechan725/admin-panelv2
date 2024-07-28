@@ -1,10 +1,7 @@
 import { onRequest } from 'firebase-functions/v2/https';
-import { getPendingOrder } from './helpers/getPendingOrder';
-import { addOrder } from './helpers/addOrder';
-import { emptyCartItems } from './helpers/emptyCartItems';
 import { stripe, webhookSecret } from '../../stripe/config';
-import { sendOrderConfirmationEmail } from './helpers/sendOrderConfirmationEmail';
 import { handleRefundUpdate } from './helpers/handleRefundUpdate';
+import { updatePendingOrder } from './helpers/updatePendingOrder';
 
 // Reference: https://dev.to/perennialautodidact/connecting-stripe-webhooks-to-firebase-cloud-functions-on-localhost-using-localtunnel-55o9#stripe-event-cloud-function
 export const stripeWebhook = onRequest({ cors: [/stripe\.com$/] }, async (req, res) => {
@@ -28,23 +25,12 @@ export const stripeWebhook = onRequest({ cors: [/stripe\.com$/] }, async (req, r
         const charge = event.data.object;
 
         // get the order id from metadata
-        const userId = charge.metadata?.userId;
         const pendingOrderId = charge.metadata?.pendingOrderId;
 
-        // get the pending order
-        const pendingOrderData = await getPendingOrder(pendingOrderId);
-
         // create the order
-        await addOrder({ pendingOrderId, pendingOrderData, charge });
-
-        // send an order confirmation email
-        await sendOrderConfirmationEmail({ orderId: pendingOrderId, orderData: pendingOrderData });
-
-        // empty user's cart items
-        await emptyCartItems(userId);
+        await updatePendingOrder({ pendingOrderId, charge });
 
         res.json({ received: true });
-
         return;
       } catch (error) {
         if (error instanceof Error) {
@@ -52,6 +38,7 @@ export const stripeWebhook = onRequest({ cors: [/stripe\.com$/] }, async (req, r
           return;
         }
         res.status(400).send(`Webhook Error: unexpected error`);
+        return;
       }
     }
 
@@ -65,6 +52,7 @@ export const stripeWebhook = onRequest({ cors: [/stripe\.com$/] }, async (req, r
           return;
         }
         res.status(400).send(`Webhook Error: unexpected error`);
+        return;
       }
     }
 

@@ -43,6 +43,9 @@ import { onCreateOrder } from './db/order/onCreateOrder';
 import { onUpdateOrder } from './db/order/onUpdateOrder';
 export { onCreateOrder, onUpdateOrder };
 
+import { onUpdatePendingOrder } from './db/pendingOrder/onUpdatePendingOrder';
+export { onUpdatePendingOrder };
+
 import { onCreateProduct } from './db/product/onCreateProduct';
 import { onUpdateProduct } from './db/product/onUpdateProduct';
 export { onCreateProduct, onUpdateProduct };

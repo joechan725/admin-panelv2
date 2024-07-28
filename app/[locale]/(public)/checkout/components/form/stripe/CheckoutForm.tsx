@@ -9,6 +9,7 @@ import PayPalPayment from './PayPalPayment';
 import StripeProvider from './StripeProvider';
 import StripePayment from './StripePayment';
 import PayPalProvider from './PayPalProvider';
+import PolicyStatement from './PolicyStatement';
 
 type CheckoutFormProps = StripeCheckoutFormProps | PaypalCheckoutFormProps;
 
@@ -116,6 +117,7 @@ const CheckoutForm = ({ paymentMethod, clientSecret, pendingOrder, paypalOrderId
             <PayPalPayment paypalOrderId={paypalOrderId} />
           </PayPalProvider>
         )}
+        <PolicyStatement />
       </LightBorder>
     </div>
   );

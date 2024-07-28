@@ -16,11 +16,13 @@ interface AddCommentData
 interface GenerateFakeOrderItemParameters {
   products: Product[];
   user: User;
+  orderId: string;
 }
 
 export const generateFakeOrderItem = async ({
   products,
   user,
+  orderId,
 }: GenerateFakeOrderItemParameters): Promise<OrderItem> => {
   const randomProduct = products[faker.number.int({ min: 0, max: products.length - 1 })];
 
@@ -59,6 +61,7 @@ export const generateFakeOrderItem = async ({
   const commentsRef = collection(db, '/comments');
 
   const commentData: AddCommentData = removeEmptyFieldFormObject({
+    orderId,
     boughtQuantity: quantity,
     productId,
     productNameZH: nameZH,

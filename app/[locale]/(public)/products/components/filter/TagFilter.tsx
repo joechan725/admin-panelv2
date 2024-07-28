@@ -43,7 +43,7 @@ const TagFilter = ({ tags, href, title }: TagFilterProps) => {
                   'px-2 py-0.5 border rounded text-xs',
                   isSelected
                     ? 'border bg-primary-bg text-white'
-                    : 'transition-all border-primary-bg/60 text-primary-text hover:bg-primary-bg/70'
+                    : 'transition-all border-primary-bg/60 text-primary-text hover:text-white hover:bg-primary-bg/85'
                 )}
                 onClick={() => handleToggle(tag.tag)}
               >

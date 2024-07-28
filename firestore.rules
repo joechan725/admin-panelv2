@@ -17,18 +17,110 @@ service cloud.firestore {
   function isPublic() {
     return resource.data.isPublic == true;
   }
+  function createOnly(fields) {
+    return request.resource.data.keys().hasOnly(fields);
+  }
+  function notCreate(fields) {
+    return (!request.resource.data.keys().hasAny(fields));
+  }
+  function updateOnly(fields) {
+    return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields);
+  }
+  function notUpdate(fields) {
+    return (!request.resource.data.diff(resource.data).affectedKeys().hasAny(fields));
+  }
+  function isValidImage(data) {
+    return data.get('id', '') is string
+      && data.get('url', '') is string
+      && data.get('alt', '') is string;
+  }
+  function isValidUser(data) {
+    return data.get('firstName', '') is string
+      && data.get('lastName', '') is string
+      && data.get('username', '') is string
+      && data.get('email', '') is string
+      && data.get('gender', 'NotWilling') in ['Men', 'Women', 'NotWilling']
+      && data.get('phoneNumber', '') is string
+      && isValidImage(data.get('avatar', {}))
+      && data.get('subscribeToPromotion', true) is bool
+      && data.get('isAdmin', true) is bool
+      && data.get('isAnonymous', true) is bool
+      && data.get('role', 'anonymous') in ['anonymous', 'user', 'admin']
+      && data.get('emailVerified', true) is bool
+      && data.get('providerId', '') is string;
+  }
+  function isValidAddress(data) {
+    return data.get('remark', '') is string
+      && data.get('region', '') is string
+      && data.get('district', '') is string
+      && data.get('detailAddress', '') is string
+      && data.get('contactName', '') is string
+      && data.get('contactPhoneNumber', '') is string
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp;
+  }
+  function isValidCartItem(data) {
+    return data.get('productId', '') is string
+      && data.get('nameZH', '') is string
+      && data.get('nameEN', '') is string
+      && data.get('descriptionZH', '') is string
+      && data.get('descriptionEN', '') is string
+      && isValidImage(data.get('image', {}))
+      && data.get('sellingPrice', 0) is number
+      && data.get('markedPrice', 0) is number
+      && data.get('stock', 0) is number
+      && data.get('collectionId', '') is string
+      && data.get('collectionNameZH', '') is string
+      && data.get('collectionNameEN', '') is string
+      && data.get('brandId', '') is string
+      && data.get('brandNameZH', '') is string
+      && data.get('brandNameEN', '') is string
+      && data.get('categoryId', '') is string
+      && data.get('categoryNameZH', '') is string
+      && data.get('categoryNameEN', '') is string
+      && data.get('commentCount', 0) is number
+      && data.get('rating', 0) is number
+      && data.get('quantity', 0) is number
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp;
+  }
+  function isValidWishlistItem(data) {
+    return data.get('productId', '') is string
+      && data.get('nameZH', '') is string
+      && data.get('nameEN', '') is string
+      && data.get('descriptionZH', '') is string
+      && data.get('descriptionEN', '') is string
+      && isValidImage(data.get('image', {}))
+      && data.get('sellingPrice', 0) is number
+      && data.get('markedPrice', 0) is number
+      && data.get('stock', 0) is number
+      && data.get('collectionId', '') is string
+      && data.get('collectionNameZH', '') is string
+      && data.get('collectionNameEN', '') is string
+      && data.get('brandId', '') is string
+      && data.get('brandNameZH', '') is string
+      && data.get('brandNameEN', '') is string
+      && data.get('categoryId', '') is string
+      && data.get('categoryNameZH', '') is string
+      && data.get('categoryNameEN', '') is string
+      && data.get('commentCount', 0) is number
+      && data.get('rating', 0) is number
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp;
+  }
 
   match /databases/{database}/documents {
     match /users/{userId} {
       allow read: if isSelf(userId) || isAdmin();
-      allow create, update: if isSelf(userId) || isAdmin();
+      allow create: if (isSelf(userId) || isAdmin())
+        && createOnly(['firstName', 'lastName', 'username', 'email', 'gender', 'phoneNumber', 'avatar', 'subscribeToPromotion', 'isAdmin', 'isAnonymous', 'role', 'emailVerified', 'providerData', 'providerId', 'dateOfBirth', 'createdAt', 'registeredAt', 'updatedAt', 'lastLoggedInAt'])
+        && notCreate(['totalSpent', 'orderCount', 'totalDiscountAmount', 'couponUsedCount'])
+        && isValidUser(request.resource.data);
+      allow update: if (isSelf(userId) || isAdmin())
+        && updateOnly(['firstName', 'lastName', 'username', 'email', 'gender', 'phoneNumber', 'avatar', 'subscribeToPromotion', 'isAdmin', 'isAnonymous', 'role', 'emailVerified', 'providerData', 'providerId', 'dateOfBirth', 'createdAt', 'registeredAt', 'updatedAt', 'lastLoggedInAt'])
+        && notUpdate(['totalSpent', 'orderCount', 'totalDiscountAmount', 'couponUsedCount'])
+        && isValidUser(request.resource.data);
       allow delete: if false;
-
-      match /pendingOrders/{pendingOrderId} {
-        allow read: if isSelf(userId) || isAdmin();
-        allow create, update: if isAdmin();
-        allow delete: if false;
-      }
 
       match /notifications/{notificationId} {
         allow read: if isSelf(userId) || isAdmin();
@@ -38,18 +130,34 @@ service cloud.firestore {
 
       match /addresses/{addressId} {
         allow read: if isSelf(userId) || isAdmin();
-        allow create, update: if isSelf(userId) || isAdmin();
+        allow create: if (isSelf(userId) || isAdmin())
+          && createOnly(['remark', 'region', 'district', 'detailAddress', 'contactName', 'contactPhoneNumber', 'createdAt', 'updatedAt', 'deletedAt'])
+          && isValidAddress(request.resource.data);
+        allow update: if (isSelf(userId) || isAdmin())
+          && updateOnly(['remark', 'region', 'district', 'detailAddress', 'contactName', 'contactPhoneNumber', 'createdAt', 'updatedAt', 'deletedAt'])
+          && isValidAddress(request.resource.data);
         allow delete: if false;
       }
 
       match /cartItems/{cartItemId} {
         allow read: if isSelf(userId) || isAdmin();
-        allow write: if isSelf(userId) || isAdmin();
+        allow create: if (isSelf(userId) || isAdmin())
+          && createOnly(['productId', 'nameZH', 'nameEN', 'descriptionZH', 'descriptionEN', 'image', 'sellingPrice', 'markedPrice', 'stock', 'collectionId', 'collectionNameZH', 'collectionNameEN', 'brandId', 'brandNameZH', 'brandNameEN', 'categoryId', 'categoryNameZH', 'categoryNameEN', 'commentCount', 'rating', 'quantity', 'createdAt', 'updatedAt'])
+        allow update: if (isSelf(userId) || isAdmin())
+          && updateOnly(['productId', 'nameZH', 'nameEN', 'descriptionZH', 'descriptionEN', 'image', 'sellingPrice', 'markedPrice', 'stock', 'collectionId', 'collectionNameZH', 'collectionNameEN', 'brandId', 'brandNameZH', 'brandNameEN', 'categoryId', 'categoryNameZH', 'categoryNameEN', 'commentCount', 'rating', 'quantity', 'createdAt', 'updatedAt'])
+          && isValidCartItem(request.resource.data);
+        allow delete: if isSelf(userId) || isAdmin();
       }
 
       match /wishlistItems/{cartItemId} {
         allow read: if isSelf(userId) || isAdmin();
-        allow write: if isSelf(userId) || isAdmin();
+        allow create: if (isSelf(userId) || isAdmin()) 
+          && createOnly(['productId', 'nameZH', 'nameEN', 'descriptionZH', 'descriptionEN', 'image', 'sellingPrice', 'markedPrice', 'stock', 'collectionId', 'collectionNameZH', 'collectionNameEN', 'brandId', 'brandNameZH', 'brandNameEN', 'categoryId', 'categoryNameZH', 'categoryNameEN', 'commentCount', 'rating', 'createdAt', 'updatedAt'])
+          && isValidWishlistItem(request.resource.data);
+        allow update: if (isSelf(userId) || isAdmin()) 
+          && updateOnly(['productId', 'nameZH', 'nameEN', 'descriptionZH', 'descriptionEN', 'image', 'sellingPrice', 'markedPrice', 'stock', 'collectionId', 'collectionNameZH', 'collectionNameEN', 'brandId', 'brandNameZH', 'brandNameEN', 'categoryId', 'categoryNameZH', 'categoryNameEN', 'commentCount', 'rating', 'createdAt', 'updatedAt'])
+          && isValidWishlistItem(request.resource.data);
+        allow delete: if isSelf(userId) || isAdmin();
       }
 
       match /orderLists/{listId} {
@@ -76,10 +184,12 @@ service cloud.firestore {
     match /comments/{commentId} {
       allow read: if true;
       allow create: if isAdmin();
-      allow update: if isOwner() || isAdmin();
+      allow update: if (isOwner() || isAdmin())
+        && updateOnly(['title', 'content', 'images', 'rating', 'published', 'createdAt', 'updatedAt'])
+        && notUpdate(['orderId', 'productId', 'productNameZH', 'productNameEN', 'productDescriptionZH', 'productDescriptionEN', 'productImage', 'boughtQuantity', 'userId', 'userFirstName', 'userLastName', 'userEmail', 'userAvatar', 'userRole', 'replies']);
       allow delete: if false;
     }
-        
+
     match /replies/{replyId} {
       allow read: if true;
       allow create, update: if isAdmin();
@@ -119,11 +229,17 @@ service cloud.firestore {
     }
 
     match /orders/{orderId} {
-      allow read: if isOwner()
-        || isAdmin();
+      allow read: if isOwner() || isAdmin();
       allow create: if isAdmin();
       allow update: if isAdmin();
       allow delete: if false;
+    }
+
+    match /pendingOrders/{pendingOrderId} {
+        allow read: if isOwner() || isAdmin();
+        allow create: if isAdmin();
+        allow update: if isAdmin();
+        allow delete: if false;
     }
 
     match /privateOrderLists/{listId} {

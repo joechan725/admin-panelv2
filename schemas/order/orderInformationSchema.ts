@@ -33,8 +33,7 @@ export const orderInformationSchema = z
     deliveryOptionFreeDeliveryThreshold: z.coerce
       .number()
       .multipleOf(0.01, 'tooManyDecimalPlace')
-      .nonnegative('shallNotBeNegative')
-      .transform((value) => (value === 0 ? undefined : value)),
+      .nonnegative('shallNotBeNegative'),
   })
   .refine(
     ({ deliveryRegion, deliveryDistrict }) => {

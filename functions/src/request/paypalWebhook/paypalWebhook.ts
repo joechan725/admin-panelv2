@@ -1,9 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https';
 import { verifySignature } from '../../paypal/api/verifySignature';
-import { emptyCartItems } from './helpers/emptyCartItems';
-import { sendOrderConfirmationEmail } from './helpers/sendOrderConfirmationEmail';
-import { addOrder } from './helpers/addOrder';
-import { getPendingOrder } from './helpers/getPendingOrder';
+import { updatePendingOrder } from './helpers/updatePendingOrder';
 
 export const paypalWebhook = onRequest(async (req, res) => {
   if (req.method === 'POST') {
@@ -25,20 +22,11 @@ export const paypalWebhook = onRequest(async (req, res) => {
       const createdAtDataString = resource.create_time;
 
       const pendingOrderId = customId;
-      // get the pending order
-      const pendingOrderData = await getPendingOrder(pendingOrderId);
-      const { userId } = pendingOrderData;
+      // update the pending order
+      await updatePendingOrder({ pendingOrderId, amountCaptured, amountCapturedCurrent, createdAtDataString });
 
-      // create the order
-      await addOrder({ pendingOrderId, pendingOrderData, amountCaptured, amountCapturedCurrent, createdAtDataString });
-
-      // send an order confirmation email
-      await sendOrderConfirmationEmail({ orderId: pendingOrderId, orderData: pendingOrderData });
-
-      // empty user's cart items
-      await emptyCartItems(userId);
-
-      res.json({ received: true });
+      res.status(200).json({ received: true });
+      return;
     }
 
     res.status(200).json({ received: true });

@@ -59,9 +59,5 @@ export const generateFakeUser = (): UserData => {
     registeredAt: !isAnonymous ? serverTimestamp() : undefined,
     updatedAt: serverTimestamp(),
     lastLoggedInAt: serverTimestamp(),
-    totalSpent: faker.datatype.boolean() ? faker.number.int({ min: 100, max: 10000 }) : undefined,
-    orderCount: faker.datatype.boolean() ? faker.number.int({ min: 1, max: 100 }) : undefined,
-    totalDiscountAmount: faker.datatype.boolean() ? faker.number.int({ min: 10, max: 1000 }) : undefined,
-    couponUsedCount: faker.datatype.boolean() ? faker.number.int({ min: 1, max: 50 }) : undefined,
   });
 };

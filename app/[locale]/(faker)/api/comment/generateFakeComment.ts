@@ -15,7 +15,6 @@ export const generateFakeComment = (orderId: string): CommentData => {
 
   return removeEmptyFieldFormObject({
     title,
-    orderId,
     content: faker.lorem.paragraphs(2),
     images: Array.from({ length: faker.number.int({ min: 0, max: 5 }) }, () => generateFakeImage(title)),
     rating: faker.number.int({ min: 1, max: 5 }) as CommentData['rating'],

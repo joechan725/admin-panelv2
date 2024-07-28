@@ -16,8 +16,11 @@ interface PopUpModalProps {
   className?: string;
   ring?: 'slate' | 'stone' | 'sky' | 'gray' | 'none';
   backdrop: boolean;
+  blurBackdrop?: boolean;
   onClose: () => void;
   closeButton?: boolean;
+  backdropAnimation?: boolean;
+  modalAnimation?: boolean;
 }
 
 const PopUpModal = ({
@@ -29,6 +32,9 @@ const PopUpModal = ({
   className,
   ring = 'slate',
   backdrop = true,
+  blurBackdrop = false,
+  backdropAnimation = true,
+  modalAnimation = true,
   onClose,
   closeButton = false,
 }: PopUpModalProps) => {
@@ -82,19 +88,22 @@ const PopUpModal = ({
     <div className="fixed w-screen h-screen inset-0 flex justify-center items-center z-[99]">
       {/* Backdrop */}
       <motion.div
-        className={clsx('fixed w-screen h-screen inset-0 z-[99]', backdrop && 'bg-black/65')}
+        className={clsx(
+          'fixed w-screen h-screen inset-0 z-[99]',
+          backdrop && blurBackdrop ? 'backdrop-blur-xl' : 'bg-black/65'
+        )}
         ref={ref}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        initial={backdropAnimation ? { opacity: 0 } : undefined}
+        animate={backdropAnimation ? { opacity: 1 } : undefined}
+        exit={backdropAnimation ? { opacity: 0 } : undefined}
+        transition={backdropAnimation ? { duration: 0.3 } : undefined}
       />
       {/* Modal */}
       <motion.div
-        initial={{ y: 60, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -60, opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        initial={modalAnimation ? { y: 60, opacity: 0 } : undefined}
+        animate={modalAnimation ? { y: 0, opacity: 1 } : undefined}
+        exit={modalAnimation ? { y: -60, opacity: 0 } : undefined}
+        transition={modalAnimation ? { duration: 0.3 } : undefined}
         className={clsx(
           'z-[100]',
           scrollbar && 'overflow-y-auto scrollbar max-h-[calc(100vh-36px)]',

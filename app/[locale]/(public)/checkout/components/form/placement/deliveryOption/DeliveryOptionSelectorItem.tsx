@@ -50,15 +50,12 @@ const DeliveryOptionSelectorItem = ({
     setValue('deliveryOptionNameEN', nameEN);
     setValue('deliveryOptionDescriptionZH', descriptionZH ?? '');
     setValue('deliveryOptionDescriptionEN', descriptionEN ?? '');
-    setValue('deliveryOptionDeliveryCharge', deliveryCharge ?? '');
+    setValue('deliveryOptionDeliveryCharge', deliveryCharge ?? 0);
     setValue('deliveryOptionDeliveryProviderZH', deliveryProviderZH ?? '');
     setValue('deliveryOptionDeliveryProviderEN', deliveryProviderEN ?? '');
     setValue('deliveryOptionEstimatedTimeZH', estimatedTimeZH ?? '');
     setValue('deliveryOptionEstimatedTimeEN', estimatedTimeEN ?? '');
-    setValue(
-      'deliveryOptionFreeDeliveryThreshold',
-      (freeDeliveryThreshold ?? '') as OrderPlacementSchema['deliveryOptionFreeDeliveryThreshold']
-    );
+    setValue('deliveryOptionFreeDeliveryThreshold', freeDeliveryThreshold ?? 0);
     setValue('isPickUp', isPickUp);
     if (isPickUp) {
       setValue('deliveryAddressId', '');

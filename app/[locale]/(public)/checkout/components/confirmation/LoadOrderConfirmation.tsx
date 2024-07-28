@@ -1,10 +1,10 @@
 'use client';
 
 import ErrorTranslation from '@/components/form/ErrorTranslation';
-import OrderConfirmationSkeleton from './OrderConfirmationSkeleton';
-import { useOrderListener } from '@/lib/hooks/order/useOrderListener';
-import { useParams } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import OrderConfirmation from './OrderConfirmation';
+import { usePendingOrderListener } from '@/lib/hooks/order/usePendingOrderListener';
+import LoadingSpin from '@/components/loading/LoadingSpin';
 
 interface LoadOrderConfirmationProps {}
 
@@ -13,17 +13,34 @@ const LoadOrderConfirmation = ({}: LoadOrderConfirmationProps) => {
 
   const { orderId } = params;
 
-  const { order, error, isLoading } = useOrderListener(orderId);
+  const { pendingOrder, error, isLoading } = usePendingOrderListener(orderId);
 
   if (isLoading) {
-    return <OrderConfirmationSkeleton />;
+    return (
+      <div className="mt-20">
+        <LoadingSpin theme="secondary" layout="global" />
+      </div>
+    );
+  }
+
+  if (!pendingOrder) {
+    notFound();
+  }
+
+  const isPaid = pendingOrder.isPaid;
+  if (!isPaid) {
+    return (
+      <div className="mt-20">
+        <LoadingSpin theme="secondary" layout="global" />
+      </div>
+    );
   }
 
   if (error) {
     return <ErrorTranslation error={error} />;
   }
 
-  return order && <OrderConfirmation order={order} />;
+  return pendingOrder && <OrderConfirmation order={pendingOrder} />;
 };
 
 export default LoadOrderConfirmation;

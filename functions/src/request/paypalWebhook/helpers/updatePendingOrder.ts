@@ -1,28 +1,22 @@
-import * as admin from 'firebase-admin';
-
 import { ExtendWithFieldValue } from '../../../types/ExtendWithFieldValue';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 import { StatusHistoryData } from '../../../models/order/StatusHistoryData';
 import { OrderData } from '../../../models/order/OrderData';
-import { addComments } from './addComments';
+import { db } from '../../../admin';
 
-interface AddOrderParameters {
+interface updatePendingOrderParameters {
   pendingOrderId: string;
-  pendingOrderData: OrderData;
   createdAtDataString: string;
   amountCaptured: string;
   amountCapturedCurrent: string;
 }
 
-const db = admin.firestore();
-
-export const addOrder = async ({
+export const updatePendingOrder = async ({
   pendingOrderId,
-  pendingOrderData,
   createdAtDataString,
   amountCaptured,
   amountCapturedCurrent,
-}: AddOrderParameters) => {
+}: updatePendingOrderParameters) => {
   const newStatusHistory: StatusHistoryData = {
     id: crypto.randomUUID(),
     status: 'Paid',
@@ -30,31 +24,24 @@ export const addOrder = async ({
     updatedAt: Timestamp.fromDate(new Date(createdAtDataString)),
   };
 
-  const newStatusHistories = [...pendingOrderData.statusHistories, newStatusHistory];
-
   try {
-    // add comments for each order items
-    const orderItems = await addComments({ pendingOrderData, pendingOrderId });
-
     // create the order
-    const newOrder: ExtendWithFieldValue<OrderData> = {
-      ...pendingOrderData,
-      orderItems: orderItems,
+    const updateOrder: Partial<ExtendWithFieldValue<OrderData>> = {
       status: 'Paid',
       isPaid: true,
       updatedAt: FieldValue.serverTimestamp(),
       paidAt: Timestamp.fromDate(new Date(createdAtDataString)),
-      statusHistories: newStatusHistories,
+      statusHistories: FieldValue.arrayUnion(newStatusHistory),
       amountCaptured: +amountCaptured,
       amountCapturedCurrent: amountCapturedCurrent,
     };
 
     // prepare
-    const orderRef = db.collection('orders').doc(pendingOrderId);
+    const pendingOrderRef = db.collection('pendingOrders').doc(pendingOrderId);
 
     // update
-    await orderRef.set(newOrder);
+    await pendingOrderRef.set(updateOrder, { merge: true });
   } catch (error) {
-    throw new Error('Failed added order');
+    throw new Error('Failed update pending order');
   }
 };

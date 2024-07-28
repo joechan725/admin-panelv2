@@ -1,6 +1,5 @@
 import LoadingSpin from '@/components/loading/LoadingSpin';
 import { PaymentElement } from '@stripe/react-stripe-js';
-import PolicyStatement from './PolicyStatement';
 import { useConfirmPayment } from '@/lib/hooks/stripe/useConfirmPayment';
 import { StripePaymentElementOptions } from '@stripe/stripe-js';
 import { useTranslations } from 'next-intl';
@@ -33,7 +32,6 @@ const StripePayment = ({ pendingOrderId }: StripePaymentProps) => {
       >
         {isLoading ? <LoadingSpin theme="white" layout="local" sizeClassName="size-6" /> : t('payNow')}
       </button>
-      <PolicyStatement />
       {/* Show any error or success messages */}
       {message && <div className="font-medium text-tertiary-text pt-3 text-center">{t(message)}</div>}
     </form>

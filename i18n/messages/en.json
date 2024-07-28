@@ -144,7 +144,9 @@
       "notEnoughStock": "Sorry, only {stock, plural, =0 {0 unit} =1 {1 unit} other {# units}} of product are available",
       "productAlreadyInWishlist": "The product already is your wishlist",
       "actionsTooQuickly": "You are attempting too many actions too quickly. Please try again later.",
-      "accountAlreadyExists": "Account already exists"
+      "accountAlreadyExists": "Account already exists",
+      "invalidRegion": "Please enter a region",
+      "invalidDistrict": "Please enter a district"
     }
   },
   "Language": {
@@ -501,19 +503,18 @@
       "total": "Total: "
     },
     "checkoutForm": {
-      "uploadProofOfPayment": "Upload Proof of Payment",
-      "description": "Use 'Faster Payment Service' to scan the QR code below or enter the FPS ID '113399927' to make payment, then upload the proof of payment.",
       "place": "Place the order",
       "paymentSucceeded": "Payment Succeeded!",
       "paymentProcessing": "Your payment is processing.",
       "paymentNotSuccessful": "Your payment was not successful, please try again.",
       "somethingWentWrong": "Something went wrong.",
-      "policyStatementPart1": "* By clicking the \"Place the order\" button, you agree to our ",
+      "policyStatementPart1": "* By clicking the \"Pay Now\" button, you agree to our ",
       "privacyPolicy": "Privacy Policy",
       "and1": ", ",
       "termsOfService": "Terms of Service",
       "and2": ", and ",
-      "returnAndExchangePolicy": "Return and Exchange Policy"
+      "returnAndExchangePolicy": "Return and Exchange Policy",
+      "loading": "Loading..."
     },
     "confirmation": {
       "thankYou": "Thank you!",
@@ -1311,5 +1312,11 @@
     "or": "or",
     "browseImage": "Browse Image",
     "pickAnImage": "Pick an Image"
+  },
+  "AgeVerification": {
+    "title": "Age Verification",
+    "description": "You must be 18 years old or over to access this website.",
+    "confirm": "I am over 18",
+    "deny": "I am under 18"
   }
 }

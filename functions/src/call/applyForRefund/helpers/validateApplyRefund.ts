@@ -14,10 +14,10 @@ interface ValidityApplyRefundParameters {
  * @param formData - The order refund application data
  * @param images - The images associated with the refund application
  *
- * @returns The promise of void
+ * @returns void
  */
 
-export const validateApplyRefund = async ({ formData, images }: ValidityApplyRefundParameters) => {
+export const validateApplyRefund = ({ formData, images }: ValidityApplyRefundParameters) => {
   try {
     // Check the applyRefund type
     applyRefundSchema.parse(formData);

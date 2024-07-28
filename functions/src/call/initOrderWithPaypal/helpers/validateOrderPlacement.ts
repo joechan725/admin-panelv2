@@ -10,10 +10,10 @@ interface ValidityOrderPlacementParameters {
  *
  * @param orderPlacementData - The order placement form data
  *
- * @returns The promise of void
+ * @returns void
  */
 
-export const validateOrderPlacement = async ({ orderPlacementData }: ValidityOrderPlacementParameters) => {
+export const validateOrderPlacement = ({ orderPlacementData }: ValidityOrderPlacementParameters) => {
   try {
     // Check the orderPlacement type
     orderPlacementSchema.parse(orderPlacementData);
